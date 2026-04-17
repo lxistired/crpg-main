@@ -1,0 +1,140 @@
+{
+  "elapsed_sec": 103.0,
+  "ok": 22,
+  "fail": 0,
+  "cost_usd": 1.54,
+  "results": [
+    {
+      "id": "m01_eye_in_eye_ecu",
+      "status": "ok",
+      "elapsed": 37.1,
+      "attempts": 2
+    },
+    {
+      "id": "m02_eye_in_feet_ecu",
+      "status": "ok",
+      "elapsed": 35.2,
+      "attempts": 2
+    },
+    {
+      "id": "m03_nails_in_hand_ecu",
+      "status": "ok",
+      "elapsed": 31.6,
+      "attempts": 1
+    },
+    {
+      "id": "m04_nails_in_eye_ecu",
+      "status": "ok",
+      "elapsed": 30.4,
+      "attempts": 1
+    },
+    {
+      "id": "m05_earring_in_ear_cu",
+      "status": "ok",
+      "elapsed": 29.9,
+      "attempts": 1
+    },
+    {
+      "id": "m06_earring_in_feet_ecu",
+      "status": "ok",
+      "elapsed": 35.2,
+      "attempts": 1
+    },
+    {
+      "id": "m07_pantyhose_in_leg_ecu",
+      "status": "ok",
+      "elapsed": 33.9,
+      "attempts": 1
+    },
+    {
+      "id": "m08_pantyhose_in_cu_face",
+      "status": "ok",
+      "elapsed": 38.3,
+      "attempts": 2
+    },
+    {
+      "id": "m09_pantyhose_in_full_body",
+      "status": "ok",
+      "elapsed": 30.8,
+      "attempts": 1
+    },
+    {
+      "id": "m10_toes_in_feet_ecu",
+      "status": "ok",
+      "elapsed": 31.8,
+      "attempts": 1
+    },
+    {
+      "id": "m11_toes_in_cu_face",
+      "status": "ok",
+      "elapsed": 34.9,
+      "attempts": 1
+    },
+    {
+      "id": "m12_toes_in_fb_barefoot",
+      "status": "ok",
+      "elapsed": 26.9,
+      "attempts": 1
+    },
+    {
+      "id": "k01_allattrs_eye_ecu",
+      "status": "ok",
+      "elapsed": 27.0,
+      "attempts": 1
+    },
+    {
+      "id": "k02_allattrs_cu_face",
+      "status": "ok",
+      "elapsed": 28.3,
+      "attempts": 1
+    },
+    {
+      "id": "k03_allattrs_ms_waist",
+      "status": "ok",
+      "elapsed": 38.9,
+      "attempts": 1
+    },
+    {
+      "id": "k04_allattrs_full_body",
+      "status": "ok",
+      "elapsed": 36.4,
+      "attempts": 1
+    },
+    {
+      "id": "z01_noattrs_full_body",
+      "status": "ok",
+      "elapsed": 30.6,
+      "attempts": 1
+    },
+    {
+      "id": "g01_gated_eye_ecu",
+      "status": "ok",
+      "elapsed": 29.2,
+      "attempts": 1
+    },
+    {
+      "id": "g02_gated_cu_face",
+      "status": "ok",
+      "elapsed": 28.7,
+      "attempts": 1
+    },
+    {
+      "id": "g03_gated_ms_waist",
+      "status": "ok",
+      "elapsed": 32.1,
+      "attempts": 1
+    },
+    {
+      "id": "g04_gated_full_body",
+      "status": "ok",
+      "elapsed": 39.5,
+      "attempts": 1
+    },
+    {
+      "id": "g05_gated_fb_barefoot",
+      "status": "ok",
+      "elapsed": 27.5,
+      "attempts": 1
+    }
+  ]
+}
