@@ -1,0 +1,216 @@
+{
+  "story_id": "su_wan_interrogation_noir",
+  "planner_version": "stage1-planner-v2-medium-heavy-manual",
+  "inherit_global_visual_dna_from": "stage1-shot-list.json",
+  "design_philosophy": "Medium shot dominant (75%). ECU/insert = 0 (extreme scarcity, not even 1 Hitchcock focal). Every shot must be a readable scene: person + environment + action. No isolated body fragments.",
+  "scope_nodes": ["act1_start", "act1_choice", "branchA2_scene1", "branchB_scene1", "branchB_scene2"],
+
+  "shot_list_per_node": [
+    {
+      "node_id": "act1_start",
+      "style_preamble_variant": "act1_noir_interrogation",
+      "shots": [
+        {
+          "shot_id": "v2_act1_start_01",
+          "shot_type": "establishing_wide",
+          "purpose": "审讯室空间 + 两人对坐 silhouette：建立空间 + 权力对峙",
+          "aspect_ratio": "19.5:9",
+          "use_anchor": false,
+          "characters_in_frame": ["su_wan_silhouette", "lin_ze_silhouette"],
+          "shot_level_motifs": ["venetian blinds diagonal crimson light bars", "one-way observation mirror on far wall", "brushed steel interrogation table center", "Chinese signage on wall", "two seated silhouettes across the table facing each other"],
+          "director_note": "Wide shot with two silhouettes across the table. No face detail, both bodies implied. Establishes power geometry through composition."
+        },
+        {
+          "shot_id": "v2_act1_start_02",
+          "shot_type": "medium_shot",
+          "purpose": "Su Wan 坐在审讯桌对面 —— 人+环境+动作一体化的故事性 medium",
+          "aspect_ratio": "16:9",
+          "use_anchor": true,
+          "characters_in_frame": ["su_wan_full"],
+          "shot_level_motifs": ["Su Wan seated across steel interrogation table in tight black pencil skirt and sheer black seamed stockings, legs crossed, one hand resting on tabletop, head slightly tilted", "venetian blind crimson light bars falling across her upper body and the table surface", "empty chair opposite her (Lin Ze's position, off-frame)", "one-way mirror panel visible behind her", "Chinese wall signage in background softly out of focus"],
+          "director_note": "This is the story-bearing shot. Medium captures her body language, outfit, face, and the interrogation space simultaneously. Not a body fragment."
+        },
+        {
+          "shot_id": "v2_act1_start_03",
+          "shot_type": "medium_shot",
+          "purpose": "Lin Ze 对面坐 + 两人关系交代：the observer becomes the observed",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_full", "su_wan_back_shoulder"],
+          "shot_level_motifs": ["Lin Ze seated at steel table holding a manila folder, rumpled off-white shirt with loosened charcoal tie", "Su Wan's back and shoulder soft in foreground", "venetian blind light crossing between them", "Lin Ze's gaze not on the folder but flickering toward her"],
+          "director_note": "Medium two-shot with depth. Shows the inversion: Lin Ze reading the folder but looking at Su Wan. Story is legible without a close-up."
+        },
+        {
+          "shot_id": "v2_act1_start_04",
+          "shot_type": "medium_close_up",
+          "purpose": "Lin Ze 反应 + 周围环境暗示：caught-looking 的 McKee turning point (唯一的 MCU)",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_chest_up"],
+          "shot_level_motifs": ["Lin Ze chest-up with jaw tension, Adam's apple swallowing once, gaze averting upward and forcing back down, mouth closed", "one-way mirror reflecting Su Wan's figure faint in background bokeh", "crimson neon bar of light crossing upper frame edge", "warm desk lamp rim-light on his shoulder"],
+          "director_note": "Chest-up MCU, not ECU. Face visible but surrounded by context (mirror reflection + lamp + light). This is the one emotional peak shot. Mouth MUST stay closed — specify 'lips sealed, no teeth, no tongue'."
+        }
+      ]
+    },
+
+    {
+      "node_id": "act1_choice",
+      "style_preamble_variant": "act1_noir_interrogation",
+      "shots": [
+        {
+          "shot_id": "v2_act1_choice_01",
+          "shot_type": "medium_shot",
+          "purpose": "走廊对峙：Lin Ze 前景握手机 + Su Wan 远处等 —— 空间即心理",
+          "aspect_ratio": "19.5:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_full", "su_wan_distant"],
+          "shot_level_motifs": ["midnight Chinese police precinct corridor with flickering fluorescent tubes", "Lin Ze mid-ground in rumpled shirt and tie, gripping a vibrating phone with glowing screen", "Su Wan at far end of corridor waiting, back-to-camera, pencil skirt and stockings silhouetted, one hand on wall", "amber emergency lamp at corridor end casting warm glow on her", "linoleum floor reflecting the light"],
+          "director_note": "Deep-space medium shot: near-foreground + deep background in single frame. The distance IS the psychological stake. No inserts needed — the full story is in this one frame."
+        },
+        {
+          "shot_id": "v2_act1_choice_02",
+          "shot_type": "medium_shot",
+          "purpose": "Lin Ze 侧身 + 撕裂身份的视觉隐喻：corridor light split vs face",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_full"],
+          "shot_level_motifs": ["Lin Ze standing still in corridor mid-frame, phone glowing in one hand at hip level, other hand loose at side", "corridor fluorescent tubes overhead splitting light across his body — cool institutional white on one side, warm amber from emergency lamp on the other", "Su Wan's silhouette faintly visible far in background (soft focus)", "linoleum floor reflecting both light sources"],
+          "director_note": "Full body medium shot with split-lighting making the internal division visible without a close-up on face. The entire figure carries the story."
+        }
+      ]
+    },
+
+    {
+      "node_id": "branchA2_scene1",
+      "style_preamble_variant": "act2_intimate_morning",
+      "shots": [
+        {
+          "shot_id": "v2_branchA2_scene1_01",
+          "shot_type": "medium_shot",
+          "purpose": "浴室镜前 Su Wan 取 U 盘：双重性通过镜子自然表达",
+          "aspect_ratio": "3:2",
+          "use_anchor": true,
+          "characters_in_frame": ["su_wan_torso_up", "su_wan_reflection"],
+          "shot_level_motifs": ["small high-floor Chinese apartment bathroom at 5 AM", "round bathroom mirror swung open on hidden hinge revealing wall cavity with waterproof pouch", "Su Wan torso-up at mirror, hand retrieving the pouch, other hand on the frame edge", "her reflection visible in the mirror at a slight angle (double self)", "white ceramic tiles, single bare bulb above sink", "neon Chinese megacity skyline through rain-streaked window behind her"],
+          "director_note": "Medium shot showing her, her reflection, AND the environment simultaneously. The mirror doubles her — no separate insert of the USB stick needed, the drive is in her hand in this frame."
+        },
+        {
+          "shot_id": "v2_branchA2_scene1_02",
+          "shot_type": "medium_shot",
+          "purpose": "两人整理文件 + 床/地板 staging：共犯关系的 domestic 具象化",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["su_wan_full", "lin_ze_full"],
+          "shot_level_motifs": ["Su Wan sitting cross-legged on bed or floor spreading documents, wearing an unbuttoned man's white shirt over her skirt, stockinged legs tucked", "Lin Ze seated on floor/edge of bed beside her reading a page from the stack, damp shirt sleeves rolled", "USB drive on the bedspread between them", "dawn window light cool blue behind them, warm bedside lamp warm amber on documents", "neon city fragments through rain-streaked window"],
+          "director_note": "Full two-shot domestic medium. Shows the partnership, the papers, the post-crisis intimacy — all without ECU. Class D guarantee: she is seated, legs visible with Layered Garment (skirt hem + small skin gap + top band visible at natural seated pose)."
+        },
+        {
+          "shot_id": "v2_branchA2_scene1_03",
+          "shot_type": "medium_close_up",
+          "purpose": "Lin Ze 意识到无路可退 —— 私奔场景的唯一 MCU",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_chest_up", "su_wan_soft_background"],
+          "shot_level_motifs": ["Lin Ze chest-up holding a stack of papers, cool bathroom fluorescent light on his face (no warm noir refuge)", "Su Wan visible soft-focus in background doing something with the documents", "white tile background behind him", "his gaze fixed downward at the document text not at her"],
+          "director_note": "MCU not ECU. Background context (Su Wan + tiles) makes the scene readable. The cool clinical light vs warm interrogation light is the style change signal. Mouth closed, jaw tension only."
+        }
+      ]
+    },
+
+    {
+      "node_id": "branchB_scene1",
+      "style_preamble_variant": "act2_nightclub_backstage",
+      "shots": [
+        {
+          "shot_id": "v2_branchB_scene1_01",
+          "shot_type": "medium_shot",
+          "purpose": "后台三人同框 + 梅姐点烟 + 褪色壁纸 —— 一张图说完'glamour is a mask'",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["meijie_full", "su_wan_full", "lin_ze_doorway"],
+          "shot_level_motifs": ["upscale Chinese nightclub dressing room backstage, faded rose floral wallpaper peeling near ceiling", "Meijie in emerald silk cheongsam seated at vanity, lighting a slender cigarette between closed lips (her signature activates — she IS in frame)", "Su Wan standing beside the vanity, pencil skirt and stockings, one hand on vanity edge, body angled toward Meijie", "Lin Ze at doorway looking uncomfortable, hand on jamb", "vanity mirror with ring of bulbs as key light, magenta and gold stage lights bleeding through far doorway behind Lin Ze", "Chinese nightclub signage visible through far doorway"],
+          "director_note": "One big medium shot containing ALL three characters, the power dynamic, the backstage vs front-of-house contrast, and the cigarette signature — no need to split into coverage. Meijie IS in frame so cigarette is legal."
+        },
+        {
+          "shot_id": "v2_branchB_scene1_02",
+          "shot_type": "medium_shot",
+          "purpose": "Lin Ze 接收真相 + Meijie 在场 + 墙纸壁灯 context —— MCU 但有环境",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_chest_up", "meijie_soft_background"],
+          "shot_level_motifs": ["Lin Ze chest-up in faded-rose wallpapered backstage, jaw tension visible, gaze directed at Meijie off-right-frame", "Meijie visible soft-focus in background near vanity mirror, her cigarette smoke curling (legal because she IS still in frame)", "vanity bulb ring casting warm amber on the wallpaper behind him", "far magenta club light bleeding in at frame edge"],
+          "director_note": "Chest-up MCU with Meijie in the background. Cigarette smoke in frame is legal because Meijie is there. No Class E contamination. Mouth closed."
+        }
+      ]
+    },
+
+    {
+      "node_id": "branchB_scene2",
+      "style_preamble_variant": "act2_monitor_revelation",
+      "shots": [
+        {
+          "shot_id": "v2_branchB_scene2_01",
+          "shot_type": "medium_shot",
+          "purpose": "Lin Ze 看 CRT + Su Wan 在旁 + 监控画面：整个揭露时刻一张图说清",
+          "aspect_ratio": "16:9",
+          "use_anchor": false,
+          "characters_in_frame": ["lin_ze_full", "su_wan_partial"],
+          "shot_level_motifs": ["dark backstage office, old boxy CRT monitor on desk as sole light source casting blue-white across the scene", "Lin Ze seated at the desk leaning toward the monitor, one hand gripping the chair back, the other at his mouth (closed, lips sealed)", "Su Wan behind him soft-focus, one hand on his shoulder, also watching the screen", "surveillance footage visible on screen: a blurred figure of a man in his 50s, timestamp overlay five years prior", "cables and electronics in dim grey-green background"],
+          "director_note": "Single medium shot captures: the revelation (screen), the tremor (his grip), the witness (her presence), the era (CRT + surveillance). No inserts or ECUs. Mouth closed — specify hand at mouth but lips sealed."
+        },
+        {
+          "shot_id": "v2_branchB_scene2_02",
+          "shot_type": "medium_close_up",
+          "purpose": "Su Wan 见证 Lin Ze 崩溃 —— 非控制，关切 register 的 MCU",
+          "aspect_ratio": "16:9",
+          "use_anchor": true,
+          "characters_in_frame": ["su_wan_chest_up", "lin_ze_back_head"],
+          "shot_level_motifs": ["Su Wan chest-up bathed in CRT monitor blue-white edge glow from off-frame-left", "Lin Ze's back-of-head and shoulder soft-focus foreground right (she is watching him)", "half-lidded eyes tracking his face, corner of mouth sealed — not twitching, this is concern not control", "dark backstage desaturated grey-green behind her", "hand reaching slightly toward his shoulder"],
+          "director_note": "MCU with Lin Ze's back-of-head in foreground for context. Not an isolated reaction CU — the shot shows WHO she is watching and HOW she is reaching out. Use anchor for face identity lock."
+        }
+      ]
+    }
+  ],
+
+  "cover_shot_per_node": {
+    "act1_start": "v2_act1_start_04",
+    "act1_choice": "v2_act1_choice_01",
+    "branchA2_scene1": "v2_branchA2_scene1_03",
+    "branchB_scene1": "v2_branchB_scene1_02",
+    "branchB_scene2": "v2_branchB_scene2_01"
+  },
+
+  "budget_summary": {
+    "total_shots": 12,
+    "node_density": {
+      "act1_start": 4,
+      "act1_choice": 2,
+      "branchA2_scene1": 3,
+      "branchB_scene1": 2,
+      "branchB_scene2": 2
+    },
+    "shot_type_distribution": {
+      "establishing_wide": 1,
+      "medium_shot": 8,
+      "medium_close_up": 3,
+      "ecu_or_insert": 0
+    },
+    "shot_type_percentages": {
+      "medium_shot": "67%",
+      "medium_close_up": "25%",
+      "establishing": "8%",
+      "ecu_insert_detail": "0%"
+    },
+    "expected_image_cost_usd_realtime": 0.84,
+    "expected_image_cost_usd_batch": 0.42
+  },
+
+  "notes_to_specifier": [
+    "Every shot is a readable scene: person + environment + action in one frame.",
+    "NO isolated body fragments. Even medium_close_up includes environment context (mirror reflection, background character, wallpaper, light source).",
+    "Class D (Layered Garment) only needed when Su Wan legs are prominently in frame — which is NONE of these v2 shots (all are full-body medium or chest-up MCU).",
+    "Class E (cigarette) only in branchB_scene1 where Meijie is in frame.",
+    "Mouth closed on all faces — specify lips sealed, no teeth, no tongue.",
+    "Anchor image_url reuse from round 1 pipeline-simulation (anchor_00.png)."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "shots": [
+    {
+      "shot_id": "branchB_scene2_01",
+      "node_id": "branchB_scene2",
+      "prompt": "Shot on 35mm pushed in shadows with scan-line texture on monitor face. Tight medium focal, near-claustrophobic. CRT monitor as sole key light source—harsh blue-white fill with no warm balance. Dark backstage office with minimal ambient. Palette: CRT blue-white dominant, everything else desaturated grey-green. Minimal volumetric haze. Gregory Crewdson suspended moment crossed with Saul Leiter color intrusion. Photorealistic.\n\nCandid documentary still, not staged. Present-continuous verbs. Specific physical tells only: half-raised brow, pressed lips, dilated pupils, corner-of-eye glance, jaw tension, lower lip pressing inward, nostril flare, chin drop, Adam's apple swallowing once, knuckles whitening, slow blink hold. Never use interpretive emotion words. Body language: weight shift, hands mid-gesture, gaze directed at an object or middle distance. Strict anatomy: all mouths stay closed; lips sealed; no teeth; no mouth interior. ECU anatomy hygiene. Shot Design: one shot does one thing.\n\nPOV shot fixed on monitor screen. CRT monitor dominates frame center. Screen interior: a man in his 50s, blurred surveillance footage quality, mid-frame, face partially readable through scan lines—timestamp overlay in lower corner reading a date five years prior. Figure on screen moving slightly, as if caught mid-conversation or gesture, indistinct but recognizable as a living moment. Hands at bottom frame edge barely visible, fingers curled in grip on table edge. Dark backstage office surroundings in desaturated grey-green, cables and electronics in dim background. Monitor blue-white light pooling outward into the darkness. Backstage ambient minimal, underlit.\n\nCaptured as if shot by Gregory Crewdson viewing a revelation through a barrier of cold light.",
+      "aspect_ratio": "16:9",
+      "resolution": "2k",
+      "model": "grok-imagine-image-pro",
+      "use_anchor": false,
+      "characters_in_frame": []
+    },
+    {
+      "shot_id": "branchB_scene2_02",
+      "node_id": "branchB_scene2",
+      "prompt": "Shot on 35mm pushed in shadows with scan-line texture on monitor face. Tight medium focal, near-claustrophobic. CRT monitor as sole key light source—harsh blue-white fill with no warm balance. Dark backstage office with minimal ambient. Palette: CRT blue-white dominant, everything else desaturated grey-green. Minimal volumetric haze. Gregory Crewdson suspended moment crossed with Saul Leiter color intrusion. Photorealistic.\n\nCandid documentary still, not staged. Present-continuous verbs. Specific physical tells only: knuckles whitening, micro-tremor visible in tension, fingers slightly splayed, jaw tension, Adam's apple swallowing once. Never use interpretive emotion words. Body language: weight shift, hands mid-gesture, gaze directed at an object or middle distance. Strict anatomy: all mouths stay closed; lips sealed; no teeth; no mouth interior. ECU anatomy hygiene: body fragment in relaxed natural resting position, standard proportions. Shot Design: one shot does one thing.\n\nLin Ze character: Chinese man, mid 30s. Hand only in this frame—no face, no torso, no other body part. The hand is the entire subject.\n\nLin Ze's hand gripping chair back, knuckles whitening from tension. Micro-tremor visible in the knuckle tension—not shaking violently, but tension seismograph measuring internal breaking point. Fingers slightly splayed, grip tightening. CRT monitor blue-white light grazing across the hand surface from frame-left, creating shadow valleys in palm and knuckle ridges. Dark backstage ambient behind the hand. No other body parts visible. Hand only, extreme close-up. Hand anatomy: palm creases, knuckle definition, cuticles, skin texture visible. Pale East Asian skin tone.\n\nCaptured as if shot by Nan Goldin documenting the physical tell of emotional collapse.",
+      "aspect_ratio": "2:3",
+      "resolution": "2k",
+      "model": "grok-imagine-image-pro",
+      "use_anchor": false,
+      "characters_in_frame": ["lin_ze_hand_only"]
+    },
+    {
+      "shot_id": "branchB_scene2_03",
+      "node_id": "branchB_scene2",
+      "prompt": "Shot on 35mm pushed in shadows with scan-line texture on monitor face. Tight medium focal, near-claustrophobic. CRT monitor as sole key light source—harsh blue-white fill with no warm balance. Dark backstage office with minimal ambient. Palette: CRT blue-white dominant, everything else desaturated grey-green, occasional burgundy accent. Minimal volumetric haze. Gregory Crewdson suspended moment crossed with Saul Leiter color intrusion. Photorealistic.\n\nCandid documentary still, not staged. Present-continuous verbs. Specific physical tells only: half-lidded eyes, corner-of-mouth sealed not twitching (different register than interrogation: concern not control), eyes tracking Lin Ze off-frame, slow blink hold. Never use interpretive emotion words like composed, mysterious, sensual, seductive, predatory, amused, alluring. Body language: weight shift, hands mid-gesture, gaze directed at an object or middle distance. Strict anatomy: all mouths stay closed; lips sealed; no teeth; no mouth interior. Shot Design: one shot does one thing.\n\nSu Wan character: Chinese woman, 28 years old, shoulder-length straight black hair parted on the side, thin sharp eyebrows, almond-shaped eyes with dark irises, pale fair skin with cool undertone, slender 170cm frame. Minimal makeup, red lipstick.\n\nSu Wan's face bathed in monitor blue-white edge glow from off-frame, dark backstage ambient behind her. Eyes half-lidded, tracking toward Lin Ze who is off-frame right. Corner of mouth sealed—not twitching—this is a different register than interrogation. This is the witnessing register, not the watcher register. Her eyes are reading his breakdown. Mouth sealed. Skin pale and cool-toned, catching the blue-white light. Face in near-sharp focus, background underlit and desaturated grey-green. Monitor blue-white light creates hard edge glow at the frame-right side of her face. She hears the crack in his voice and reads it in his face. Present-continuous: she is part of the same revelation he is experiencing—both bathed in the monitor's cold light.\n\nCaptured as if shot by Saul Leiter, where color and composition carry emotional weight. She is lit by truth, not desire.",
+      "aspect_ratio": "16:9",
+      "resolution": "2k",
+      "model": "grok-imagine-image-pro",
+      "use_anchor": true,
+      "characters_in_frame": ["su_wan_face"]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "total_sec": 73.9,
+  "shots": [
+    {
+      "shot_id": "v2_act1_start_01",
+      "status": "ok",
+      "bytes": 5558820,
+      "elapsed": 36.0,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_act1_start_02",
+      "status": "ok",
+      "bytes": 5289387,
+      "elapsed": 42.3,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_act1_start_03",
+      "status": "ok",
+      "bytes": 5717850,
+      "elapsed": 41.9,
+      "attempt": 2
+    },
+    {
+      "shot_id": "v2_act1_start_04",
+      "status": "ok",
+      "bytes": 5549147,
+      "elapsed": 44.4,
+      "attempt": 2
+    },
+    {
+      "shot_id": "v2_act1_choice_01",
+      "status": "ok",
+      "bytes": 6264131,
+      "elapsed": 37.3,
+      "attempt": 2
+    },
+    {
+      "shot_id": "v2_act1_choice_02",
+      "status": "ok",
+      "bytes": 5506301,
+      "elapsed": 40.8,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_branchA2_scene1_01",
+      "status": "ok",
+      "bytes": 5746612,
+      "elapsed": 47.2,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_branchA2_scene1_02",
+      "status": "ok",
+      "bytes": 6171162,
+      "elapsed": 34.5,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_branchA2_scene1_03",
+      "status": "ok",
+      "bytes": 6123854,
+      "elapsed": 28.0,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_branchB_scene1_01",
+      "status": "ok",
+      "bytes": 5675832,
+      "elapsed": 32.6,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_branchB_scene1_02",
+      "status": "ok",
+      "bytes": 5899657,
+      "elapsed": 21.7,
+      "attempt": 2
+    },
+    {
+      "shot_id": "v2_branchB_scene2_01",
+      "status": "ok",
+      "bytes": 5888954,
+      "elapsed": 29.3,
+      "attempt": 1
+    },
+    {
+      "shot_id": "v2_branchB_scene2_02",
+      "status": "ok",
+      "bytes": 5405728,
+      "elapsed": 32.0,
+      "attempt": 1
+    }
+  ],
+  "ok": 13,
+  "fail": 0
+}

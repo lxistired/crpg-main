@@ -1,0 +1,658 @@
+{
+  "story_id": "su_wan_interrogation_noir",
+  "planner_version": "stage1-global-planner-v1",
+  "planned_at": "2026-04-17",
+  "scope_nodes": ["act1_start", "act1_choice", "branchA2_scene1", "branchB_scene1", "branchB_scene2"],
+
+  "global_visual_dna": {
+    "aesthetic_primary": "jpr_urban_ol",
+    "aesthetic_secondary": "wr_noir_cinematic",
+
+    "style_preamble_variants": {
+      "act1_noir_interrogation": {
+        "label": "审讯室主调——高对比 noir",
+        "palette": "teal shadows, crimson-amber highlights, deep blacks",
+        "grain": "35mm Kodak Portra 400 moderate organic grain",
+        "lens": "anamorphic 2.39:1 subtle horizontal flare, shallow DoF",
+        "light_key": "single warm interrogation overhead + cold fluorescent fill",
+        "haze": "volumetric neon haze from off-screen Chinese signage",
+        "photographer_tether": "Gregory Crewdson suspended cinematic moment / Wong Kar-wai temporal hesitation",
+        "note": "用于 act1_start 和 act1_choice 两个节点"
+      },
+      "act2_intimate_morning": {
+        "label": "私奔逃离——冷暖对抗的浴室早晨",
+        "palette": "cool white tile against warm amber lamp spill, desaturated except burgundy accent",
+        "grain": "35mm slight overexpose on whites, grain texture on shadow",
+        "lens": "50mm natural prime feel, shallow DoF on foreground",
+        "light_key": "fluorescent bathroom overhead (cool) vs warm vanity lamp (warm) creating split-tone",
+        "haze": "steam or condensation on mirror surface",
+        "photographer_tether": "Nan Goldin intimacy / Saul Leiter compositional looseness",
+        "note": "用于 branchA2_scene1，value arc 切换到私密/逃亡紧迫感"
+      },
+      "act2_nightclub_backstage": {
+        "label": "夜总会后台——褪色的粉色与廉价荧光",
+        "palette": "faded rose, cheap fluorescent white, deep red velvet, amber vanity bulbs",
+        "grain": "pushed 35mm with increased grain and desaturation",
+        "lens": "medium focal length, slightly claustrophobic framing",
+        "light_key": "vanity mirror ring of bare bulbs as key, flat ambient fill",
+        "haze": "cigarette smoke in amber backstage air",
+        "photographer_tether": "Nan Goldin backstage document / Jim Goldberg documentary tension",
+        "note": "用于 branchB_scene1（梅姐出场）"
+      },
+      "act2_monitor_revelation": {
+        "label": "监控屏蓝光——数字冷光的揭露时刻",
+        "palette": "CRT monitor blue-white dominant, everything else desaturated grey-green, occasional burgundy accent",
+        "grain": "35mm pushed in shadows, scan-line texture on monitor face",
+        "lens": "tight medium, near-claustrophobic",
+        "light_key": "CRT monitor as sole key light source—harsh blue-white fill with no warm balance",
+        "haze": "minimal, underlit backstage",
+        "photographer_tether": "Gregory Crewdson suspended moment / Saul Leiter color intrusion",
+        "note": "用于 branchB_scene2（林泽颤抖），style preamble 最大幅偏离主调，象征认知崩塌"
+      }
+    },
+
+    "character_sheets": {
+      "su_wan": "Chinese woman, 28 years old, shoulder-length straight black hair parted on the side, thin sharp eyebrows, almond-shaped eyes with dark irises, pale fair skin with cool undertone, slender 170cm frame, long legs. Signature outfit: tight black knee-length pencil skirt prominently shaping hips and thighs, sheer black seamed stockings clearly visible, strappy black high heels or bare feet. Minimal makeup, red lipstick. No cigarette. No casual clothing.",
+      "lin_ze": "Chinese man, mid 30s, short slightly unruly black hair, visible stubble, tired dark-circled eyes, square jaw, lean athletic build, rumpled off-white dress shirt with loosened charcoal tie, dark trousers, exhausted insomniac demeanor. No cigarette unless scene explicitly calls for it.",
+      "meijie": "Severe Chinese woman, early 50s, black hair lacquered into tight chignon with faint silver streaks, sharp cheekbones, long thin fingers, emerald silk cheongsam slit to thigh. Character-specific signature: slender cigarette between closed lips, smoke curling past her eye—ONLY activate in shots where Meijie is actually in frame."
+    },
+
+    "character_signatures": {
+      "meijie": "cigarette between closed lips, smoke curl past eye",
+      "meijie_activation_rule": "ONLY inject this signature when meijie appears in characters_in_frame. Never inject into Direction Layer or global recurring motifs."
+    },
+
+    "character_tells": {
+      "su_wan": "signature: corner-of-mouth twitch + half-lidded eyes at critical moments",
+      "lin_ze": "signature: jaw tension + Adam's apple swallowing once (count as 1 compound tell)",
+      "meijie": "signature: slow blink hold (cigarette smoke curls separately as wardrobe, not a tell)"
+    },
+
+    "global_anchor_strategy": {
+      "anchor_count": 1,
+      "anchor_description": "Su Wan half-body portrait, nondescript Chinese urban interior at night, venetian blind light. Generates Su Wan identity anchor before any scene shots. Used as image_url in all shots where use_anchor=true.",
+      "anchor_shots_count": "Applied to 7 of 18 total shots (all shots where Su Wan face is visible above chest level)",
+      "anchor_purpose": "Lock Su Wan face identity across all 5 nodes and both story branches"
+    },
+
+    "recurring_motifs_tiering": {
+      "tier_1_every_frame": [
+        "teal-crimson cinematic color grade",
+        "35mm organic grain",
+        "deep blacks with volumetric shadow"
+      ],
+      "tier_2_scene_level_when_space_permits": [
+        "neon light spilling through venetian blinds casting long diagonal shadow bars",
+        "reflective surface somewhere in frame (mirror / glass / polished steel / puddle)",
+        "Chinese typography or signage visible in background"
+      ],
+      "tier_3_character_level_when_su_wan_above_chest": [
+        "burgundy-red toenail polish visible",
+        "sheer black seamed stockings distinctly visible (use Layered Garment Visibility Rule)",
+        "tight black pencil skirt shape prominent"
+      ],
+      "tier_4_shot_level_only": [
+        "specific shot motifs listed per shot in shot_list_per_node"
+      ]
+    },
+
+    "layered_garment_rule_mandatory": "All shots involving thigh-high stocking or stocking visibility must activate Layer 10 Layered Garment Visibility Rule: (1) skirt hem line explicit, (2) 2-3cm skin gap, (3) stocking top band at UPPER thigh, (4) sheer nylon body translucent with skin tone visible, (5) back seam line. Hard negatives: NOT pants, NOT over-the-knee, NOT knee-high.",
+
+    "high_risk_motifs_registry": {
+      "thigh_high_stocking": "Class D bug—use Layered Visibility Rule always",
+      "cigarette": "Class E bug—only inject in Meijie shots",
+      "intimate_anatomy": "Class C bug—never use literal metaphor; describe muscle not interpretation",
+      "tongue_wetting": "Class C bug—FORBIDDEN TELL, never write",
+      "mirror_reflection": "Safe but requires explicit mirror/glass surface description to prevent model defaulting to blank wall"
+    },
+
+    "aspect_lock_primary": "16:9",
+    "aspect_lock_vertical": "2:3",
+    "aspect_lock_widescreen": "21:9",
+    "aspect_ratio_usage_guide": {
+      "21:9": "Establishing shots only—extreme spatial grandeur",
+      "19.5:9": "Mobile-optimized wide establishing (alternative to 21:9)",
+      "16:9": "Default for most shots—OTS, master, two-shot, MCU",
+      "2:3": "Vertical ECU and body fragment shots—maximize vertical body detail",
+      "1:1": "Insert shots and extreme ECU—isolate object or body part with maximum focus"
+    },
+    "model": "grok-imagine-image-pro"
+  },
+
+  "shot_list_per_node": [
+    {
+      "node_id": "act1_start",
+      "node_value_shift": "审讯者权力 + → 猎物反转——林泽从审问者被逆转为被审视者",
+      "beat_summary": "林泽的凝视落在苏晚身上，苏晚捕捉到后权力逆转——'他是来审问她的，还是被她审问？'",
+      "mckee_turning_point": "beat_4: 苏晚开口'你在看什么'——凝视被捕获，权力向量反转",
+      "style_preamble_variant": "act1_noir_interrogation",
+      "shot_count": 5,
+      "shots": [
+        {
+          "shot_id": "act1_start_01",
+          "shot_type": "establishing",
+          "purpose": "建立审讯室时空：斜切霓虹光柱、单向玻璃、对峙结构——观众在林泽的观察席位",
+          "narrative_beat": 1,
+          "emotion_weight": 0.25,
+          "aspect_ratio": "21:9",
+          "characters_in_frame": [],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "venetian blinds diagonal crimson light bars across empty chair",
+            "one-way observation glass panel visible",
+            "brushed steel interrogation table reflecting ceiling fluorescent",
+            "Chinese regulation posters on concrete wall",
+            "single overhead interrogation lamp creating cone of light"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "No characters in frame. Pure atmospheric. Establishes the cage before we see who is in it. Tier-2 motifs all permitted at this scale."
+        },
+        {
+          "shot_id": "act1_start_02",
+          "shot_type": "ecu",
+          "purpose": "Hitchcock focal: 酒红趾甲 + 长筒丝袜边缘——欲望的第一个具体物件，让观众共享林泽的凝视",
+          "narrative_beat": 2,
+          "emotion_weight": 0.80,
+          "aspect_ratio": "2:3",
+          "characters_in_frame": ["su_wan_foot_only"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "burgundy-red glossy toenails pressing against cold concrete floor",
+            "stocking top band visible (Layered Visibility Rule mandatory)",
+            "bare skin gap 2-3cm below skirt hem",
+            "sheer nylon stocking translucent with skin tone glowing through",
+            "back seam line tracing up"
+          ],
+          "high_risk_motifs": [
+            "thigh-high stocking (Class D)—Layered Visibility Rule mandatory",
+            "intimate anatomy fragment—use descriptive not metaphorical language"
+          ],
+          "global_echo": "branchA2_scene1_03",
+          "director_note": "NO face in frame. Character sheet: Su Wan hand_only/foot_only partial sheet. Drop tier-2 motifs (venetian blinds won't read at this crop). This is the same visual motif as R5 shot 2—our version adds stocking Layered Visibility Rule from Layer 10."
+        },
+        {
+          "shot_id": "act1_start_03",
+          "shot_type": "ots",
+          "purpose": "从林泽肩后看苏晚——观众进入林泽的观察者视角，建立 180° 轴线",
+          "narrative_beat": 3,
+          "emotion_weight": 0.65,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["su_wan_face", "lin_ze_shoulder_only"],
+          "use_anchor": true,
+          "shot_level_motifs": [
+            "Lin Ze's rumpled shoulder soft foreground 20-25% of frame left",
+            "Su Wan sharp focus reading the room not meeting camera",
+            "venetian blind light bars crossing Su Wan's face diagonally",
+            "pencil skirt silhouette at bottom edge"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "Su Wan's signature tell: corner-of-mouth twitch under half-lidded eyes. Lin Ze partial presence sheet only (shoulder + ear). use_anchor=true for Su Wan face identity lock."
+        },
+        {
+          "shot_id": "act1_start_04",
+          "shot_type": "reaction",
+          "purpose": "林泽反应 CU——被捕获的瞬间：价值翻转的视觉承载。这是全节点封面候选",
+          "narrative_beat": 4,
+          "emotion_weight": 0.93,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["lin_ze_face"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Lin Ze jaw tension visible",
+            "Adam's apple swallowing once",
+            "gaze flickering from downward back to her face—caught mid-redirect",
+            "one-way glass reflection of Su Wan faint in background bokeh"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": "branchB_scene2_03",
+          "director_note": "NO tongue. Mouth closed. This is the turning point shot—Lin Ze is caught looking. Highest emotion_weight in node. Cover shot for act1_start. Photographer tether: Gregory Crewdson suspended cinematic moment."
+        },
+        {
+          "shot_id": "act1_start_05",
+          "shot_type": "two_shot",
+          "purpose": "双人 master 收尾——新的权力平衡：不再是审问者/嫌疑人，而是两个互相审视的人",
+          "narrative_beat": 5,
+          "emotion_weight": 0.55,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["su_wan_face", "lin_ze_face"],
+          "use_anchor": true,
+          "shot_level_motifs": [
+            "steel interrogation table surface between them",
+            "venetian blind light bisecting the frame between two people",
+            "Su Wan slightly higher in frame (seated, back rigid)",
+            "Lin Ze leaning forward slightly"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "2 tells max: Su Wan corner-of-mouth twitch + Lin Ze jaw tension. No situational adds. This is the only wide with both faces. Closes the 180° line."
+        }
+      ]
+    },
+
+    {
+      "node_id": "act1_choice",
+      "node_value_shift": "职业服从 + 个人渴望 → 不可逆抉择：十二年职业或从未被允许存在的自我",
+      "beat_summary": "午夜走廊对峙——陈局电话震动，苏晚在走廊尽头等待，林泽在两个自我之间撕裂",
+      "mckee_turning_point": "beat_3: 林泽握着手机——接还是不接，身体在电话震动的物理感中做出选择",
+      "style_preamble_variant": "act1_noir_interrogation",
+      "shot_count": 3,
+      "shots": [
+        {
+          "shot_id": "act1_choice_01",
+          "shot_type": "through_gap",
+          "purpose": "从单向玻璃缝隙/走廊转角看苏晚远处等待的身影——隔离感，观察者视角，距离即心理距离",
+          "narrative_beat": 1,
+          "emotion_weight": 0.55,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["su_wan_silhouette_distant"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "corridor wall frame edge dark left foreground 40% of frame",
+            "Su Wan at end of corridor, small figure, back to camera",
+            "burgundy toenail color visible even at distance as warm accent point",
+            "overhead corridor fluorescent casting down on her"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "Su Wan as near-silhouette at corridor depth. The burgundy accent is a scene-level motif echo from act1_start_02—same color, different distance. This is the 'candle in the dark' described in the story. No face visible—use silhouette partial sheet."
+        },
+        {
+          "shot_id": "act1_choice_02",
+          "shot_type": "insert",
+          "purpose": "手机震动 insert——道具级叙事：选择具象化为一个物理颤动的屏幕",
+          "narrative_beat": 2,
+          "emotion_weight": 0.72,
+          "aspect_ratio": "1:1",
+          "characters_in_frame": ["lin_ze_hand_only"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Lin Ze's hand gripping phone, knuckles slightly white",
+            "phone screen showing incoming call in vibration",
+            "caller ID partially visible (陈局)",
+            "corridor floor reflected in phone screen gloss"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "Pure insert—the choice made physical. Lin Ze partial presence sheet: hand only. Present-continuous: hand gripping phone, fingers tensed mid-decision. This shot replaces a wide MCU—Mamet constraint: the phone IS the decision."
+        },
+        {
+          "shot_id": "act1_choice_03",
+          "shot_type": "cu",
+          "purpose": "林泽脸部 CU——身份撕裂的视觉：他站在走廊，两个自我拉锯中的那个瞬间",
+          "narrative_beat": 3,
+          "emotion_weight": 0.88,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["lin_ze_face"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Lin Ze jaw tension held",
+            "gaze directed toward corridor end (toward Su Wan, off-frame)",
+            "corridor light split across face—one half warm, one half cold",
+            "phone screen glow edge visible at frame bottom"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "No Su Wan in frame. The split-light on his face literalizes the internal divide. Mouth closed. Jaw set. One Adam's apple swallow. Photographer tether: Wong Kar-wai temporal hesitation. Cover candidate for act1_choice."
+        }
+      ]
+    },
+
+    {
+      "node_id": "branchA2_scene1",
+      "node_value_shift": "制度内的逃脱尝试 → 无路可退的共犯关系确立",
+      "beat_summary": "公寓浴室——苏晚从镜子后取出 U 盘，两人在白瓷砖的冷光下意识到已无退路",
+      "mckee_turning_point": "beat_3: 林泽看着她在灯光下打开文件——'他已经无路可退了'",
+      "style_preamble_variant": "act2_intimate_morning",
+      "shot_count": 4,
+      "shots": [
+        {
+          "shot_id": "branchA2_scene1_01",
+          "shot_type": "mirror",
+          "purpose": "苏晚在浴室镜中取出 U 盘——镜像即双重性：执行者与逃亡者同一个身体",
+          "narrative_beat": 1,
+          "emotion_weight": 0.68,
+          "aspect_ratio": "2:3",
+          "characters_in_frame": ["su_wan_face_reflection"],
+          "use_anchor": true,
+          "shot_level_motifs": [
+            "Su Wan seen via bathroom mirror reflection",
+            "waterproof bag visible being retrieved from behind mirror frame",
+            "steam or condensation on mirror edge",
+            "cool fluorescent overhead vs warm vanity amber split-tone",
+            "white ceramic tile background"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "Vertical 2:3 for mirror shot—the reflection composition naturally takes vertical space. Su Wan's real face at frame right edge, reflection dominant left. Layer 10: no stocking visible at this crop (face-level). use_anchor=true. Style preamble switches to act2_intimate_morning."
+        },
+        {
+          "shot_id": "branchA2_scene1_02",
+          "shot_type": "insert",
+          "purpose": "U 盘 + 文件 insert——道具揭示：足以让整个市政府瘫痪的东西现在就在两人手中",
+          "narrative_beat": 2,
+          "emotion_weight": 0.65,
+          "aspect_ratio": "1:1",
+          "characters_in_frame": ["su_wan_hand_only"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "USB drive on white tile floor",
+            "waterproof document pouch partially open",
+            "Su Wan's burgundy-tipped fingers holding the drive",
+            "cool bathroom fluorescent light bleaching whites"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "Pure object insert. Su Wan partial sheet: hand only with burgundy nails. The burgundy nail color echoes act1_start_02—same motif, different context (feet → hands). This is the cross-node echo: Motif A."
+        },
+        {
+          "shot_id": "branchA2_scene1_03",
+          "shot_type": "detail",
+          "purpose": "苏晚黑丝袜在白色地板上的影子——身体在白瓷砖上的碎片化，欲望与危险并存",
+          "narrative_beat": 2,
+          "emotion_weight": 0.78,
+          "aspect_ratio": "2:3",
+          "characters_in_frame": ["su_wan_leg_only"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "shadow of stockinged legs on white bathroom ceramic tile",
+            "warm lamp light grazing stocking seam from below",
+            "skirt hem at top of frame",
+            "tile grout lines as geometric contrast to organic shadow"
+          ],
+          "high_risk_motifs": [
+            "thigh-high stocking (Class D)—Layered Visibility Rule mandatory even in shadow framing",
+            "intimate anatomy fragment—keep descriptive not suggestive"
+          ],
+          "global_echo": "act1_start_02",
+          "director_note": "Cross-node echo with act1_start_02: burgundy toenails reappear but now in bathroom white light vs interrogation room amber. The motif carries emotional weight through a new spatial context. Layer 10 Layered Garment Rule applies even here—describe the shadow anatomy (skirt hem edge + skin gap + stocking band) visible in the shadow cast."
+        },
+        {
+          "shot_id": "branchA2_scene1_04",
+          "shot_type": "reaction",
+          "purpose": "林泽反应 CU——'他已经无路可退了'：turning point 的脸部承载",
+          "narrative_beat": 3,
+          "emotion_weight": 0.87,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["lin_ze_face"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Lin Ze jaw tension held, eyes scanning documents in hands",
+            "bathroom fluorescent light casting clinical cold on his face",
+            "white tile background—no warm noir here, deliberate desaturation",
+            "gaze directed down at documents, not at Su Wan"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "The style preamble change to act2_intimate_morning means the Director Layer's cold fluorescent is now the KEY—no comforting amber noir. This visually signals: the story has left the safety of institutional space. Lin Ze's face without the warm-amber interrogation light = he has no role to hide behind. Cover candidate for branchA2_scene1."
+        }
+      ]
+    },
+
+    {
+      "node_id": "branchB_scene1",
+      "node_value_shift": "法律追查框架 → 权力结构根性揭露（赵明远是导演不是受害者）",
+      "beat_summary": "夜总会后台梅姐出场——廉价香水与褪色壁纸，梅姐点烟开口颠覆案子全局",
+      "mckee_turning_point": "beat_3: '赵明远自己要求拍的——苏晚只是执行者，真正的导演是他自己'",
+      "style_preamble_variant": "act2_nightclub_backstage",
+      "shot_count": 4,
+      "shots": [
+        {
+          "shot_id": "branchB_scene1_01",
+          "shot_type": "through_gap",
+          "purpose": "从后台门缝看梅姐——Wong Kar-wai 偷窥构图，建立梅姐的权威感（她是被观察的，不是主动的）",
+          "narrative_beat": 1,
+          "emotion_weight": 0.60,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["meijie_face_through_gap"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "door frame dark edges 40% of frame foreground",
+            "Meijie seen at vanity mirror through the gap",
+            "emerald cheongsam catching vanity bulb ring light",
+            "faded rose wallpaper visible in gap",
+            "meijie cigarette between closed lips (ONLY activate—she is in frame)"
+          ],
+          "high_risk_motifs": [
+            "cigarette (Class E)—only because Meijie is in frame; do NOT carry to other shots in this node"
+          ],
+          "global_echo": null,
+          "director_note": "Meijie's cigarette signature NOW activates because she is in frame. Direction Layer photographic reference: Nan Goldin backstage document. Through-the-gap = observer frame. Lin Ze and Su Wan are implied behind the camera (off-frame). The gap is the door they entered through."
+        },
+        {
+          "shot_id": "branchB_scene1_02",
+          "shot_type": "ots",
+          "purpose": "从苏晚肩后看梅姐打量林泽——三角关系里的权力评估视角",
+          "narrative_beat": 2,
+          "emotion_weight": 0.62,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["meijie_face", "su_wan_shoulder_only"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Su Wan's shoulder soft foreground 20% left frame",
+            "Meijie in sharp focus, eyes scanning Lin Ze (off-frame right)",
+            "vanity mirror behind Meijie reflecting both their shapes as abstracted background shapes",
+            "meijie cigarette visible at her lips"
+          ],
+          "high_risk_motifs": [
+            "cigarette (Class E)—Meijie in frame, activate"
+          ],
+          "global_echo": null,
+          "director_note": "This OTS puts audience in Su Wan's position watching Meijie evaluate Lin Ze. The tell: Meijie's slow blink hold while scanning. Lin Ze is NOT in frame—his existence is implied by her gaze direction. Su Wan partial sheet: shoulder and ear only, no face."
+        },
+        {
+          "shot_id": "branchB_scene1_03",
+          "shot_type": "reaction",
+          "purpose": "林泽反应——案子在他面前翻转：turning point 的脸部承载",
+          "narrative_beat": 3,
+          "emotion_weight": 0.89,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["lin_ze_face"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Lin Ze jaw tension—different from previous reaction shots: jaw is OPEN slightly in shock-arrest before snapping closed",
+            "faded rose wallpaper visible behind him (reinforces backstage vs institutional space)",
+            "vanity light ring reflected as abstracted glow in his eyes",
+            "gaze directed at Meijie off-frame left"
+          ],
+          "high_risk_motifs": [
+            "jaw OPEN—Class C risk: describe as 'jaw dropping one centimeter before arresting closed, lips sealed' not 'mouth open'"
+          ],
+          "global_echo": "act1_start_04",
+          "director_note": "Cross-node echo with act1_start_04: both are Lin Ze reaction CU shots at the moment of being structurally caught. But act1_start was about desire; this one is about cognitive inversion of the entire case. Same face, different stakes. The backstage lighting vs interrogation room lighting makes the emotional register shift visible. Cover candidate for branchB_scene1. NO cigarette—Lin Ze is in frame, Meijie is NOT."
+        },
+        {
+          "shot_id": "branchB_scene1_04",
+          "shot_type": "cutaway",
+          "purpose": "切走：梅姐化妆台上的烟灰缸——subtext：见过太多秘密的人的疲倦",
+          "narrative_beat": 3,
+          "emotion_weight": 0.40,
+          "aspect_ratio": "1:1",
+          "characters_in_frame": [],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "glass ashtray on vanity table surface",
+            "one spent cigarette stub at angle",
+            "faint amber light grazing the ashtray edge",
+            "backstage vanity objects in soft background bokeh"
+          ],
+          "high_risk_motifs": [
+            "cigarette in ashtray—Class C minor risk: describe as 'cigarette stub, not burning, not smoking' to prevent model re-rendering as active flame"
+          ],
+          "global_echo": null,
+          "director_note": "This cutaway gives breathing room after the revelation. The ashtray subtext: Meijie has had this conversation many times before. The cigarette here is in an ashtray, SPENT—not held by any character. No character in frame means NO character signature activates. Class C caution: write 'extinguished cigarette stub, no smoke' explicitly."
+        }
+      ]
+    },
+
+    {
+      "node_id": "branchB_scene2",
+      "node_value_shift": "老王的死是意外（既成事实）→ 老王的死是谋杀（新知识重构过去）",
+      "beat_summary": "监控屏蓝光——录像里老王还活着，林泽的手开始颤抖",
+      "mckee_turning_point": "beat_2: '在他试图向你透露这件事的前一天'——整个三年的记忆框架崩塌",
+      "style_preamble_variant": "act2_monitor_revelation",
+      "shot_count": 3,
+      "shots": [
+        {
+          "shot_id": "branchB_scene2_01",
+          "shot_type": "pov",
+          "purpose": "林泽 POV 看向监控屏——让观众代入林泽看到他认识的人的那一刻",
+          "narrative_beat": 1,
+          "emotion_weight": 0.70,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": [],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "CRT monitor screen dominant center of frame",
+            "surveillance footage on screen—grainy, timestamp five years ago",
+            "figure on screen (老王) face partially readable through scan lines",
+            "monitor blue-white light washing over hands at bottom frame edge",
+            "dark backstage room surroundings barely visible"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": null,
+          "director_note": "The surveillance footage on the monitor must show a figure—but NOT detailed enough to render as a named character (diffusion model cannot generate a secondary character consistently). Describe as 'a man in his 50s, blurred surveillance footage quality, mid-action, timestamp overlay'. This is Lin Ze's subjective POV—slight handheld breath sway implied."
+        },
+        {
+          "shot_id": "branchB_scene2_02",
+          "shot_type": "ecu",
+          "purpose": "林泽颤抖的手 ECU——情绪通过身体的物理化：'他的手开始颤抖'",
+          "narrative_beat": 2,
+          "emotion_weight": 0.85,
+          "aspect_ratio": "2:3",
+          "characters_in_frame": ["lin_ze_hand_only"],
+          "use_anchor": false,
+          "shot_level_motifs": [
+            "Lin Ze's hand gripping chair back, knuckles whitening",
+            "hand micro-tremor visible in the knuckle tension",
+            "CRT monitor blue-white light washing across the hand surface",
+            "fingers slightly splayed, grip tightening"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": "act1_choice_02",
+          "director_note": "Cross-node echo with act1_choice_02: Lin Ze's hand holding phone vs Lin Ze's hand gripping chair. Same hands, different stakes. In act1_choice, the hand is poised to choose. Here, the hand trembles under the weight of a revelation. Motif B: Lin Ze's hands as carriers of emotional state. Vertical 2:3 maximizes hand detail."
+        },
+        {
+          "shot_id": "branchB_scene2_03",
+          "shot_type": "reaction",
+          "purpose": "苏晚看林泽的反应 CU——她听出了他声音里的裂缝，turning point 的见证者视角",
+          "narrative_beat": 3,
+          "emotion_weight": 0.82,
+          "aspect_ratio": "16:9",
+          "characters_in_frame": ["su_wan_face"],
+          "use_anchor": true,
+          "shot_level_motifs": [
+            "Su Wan's face lit by monitor blue-white edge glow from off-frame",
+            "eyes tracking Lin Ze's face (off-frame)",
+            "half-lidded eyes, corner-of-mouth not twitching—this is a different register: concern not control",
+            "dark backstage ambient behind her"
+          ],
+          "high_risk_motifs": [],
+          "global_echo": "act1_start_04",
+          "director_note": "Cross-node echo with act1_start_04: both are reaction shots at pivotal moments. But act1_start_04 was Lin Ze caught by desire. This is Su Wan watching Lin Ze break. The reversal of who-is-watching-whom echoes the interrogation room power inversion—now Su Wan holds the care, not the weapon. use_anchor=true. The monitor light creating cold blue on her face is deliberate: she is bathed in the same revelation-light as Lin Ze. Cover candidate for branchB_scene2."
+        }
+      ]
+    }
+  ],
+
+  "cover_shot_per_node": {
+    "act1_start": "act1_start_04",
+    "act1_choice": "act1_choice_03",
+    "branchA2_scene1": "branchA2_scene1_04",
+    "branchB_scene1": "branchB_scene1_03",
+    "branchB_scene2": "branchB_scene2_03",
+    "cover_selection_rule": "argmax(emotion_weight) per Murch Rule of Six—emotion primacy over information density"
+  },
+
+  "cross_node_echoes": [
+    {
+      "echo_id": "motif_A_burgundy_hands_feet",
+      "from": "act1_start_02",
+      "to": "branchA2_scene1_02",
+      "motif": "burgundy toenails (feet) → burgundy fingertips (hands on U-disk)",
+      "purpose": "苏晚的酒红色从审讯室的足部焦点转移到公寓浴室的手部动作。同一个颜色符号，从'欲望的物件'变成'行动的工具'——角色主体性的位移通过 motif 传递而不是台词。"
+    },
+    {
+      "echo_id": "motif_B_lin_ze_hands",
+      "from": "act1_choice_02",
+      "to": "branchB_scene2_02",
+      "motif": "Lin Ze's hand on phone (decision poised) → Lin Ze's hand on chair (trembling under revelation)",
+      "purpose": "林泽的手作为情感状态的物理化载体。在选择节点，手是一个 decision instrument。在揭露节点，手是一个 betrayal seismograph。两张 insert 构成叙事上的 before/after：从能动性到崩溃。"
+    },
+    {
+      "echo_id": "motif_C_lin_ze_reaction_cu",
+      "from": "act1_start_04",
+      "to": "branchB_scene1_03",
+      "motif": "Lin Ze CU reaction: caught by desire → caught by cognitive collapse",
+      "purpose": "同一个林泽脸部 CU 格式，相同的 jaw tension 签名 tell，但情感内容完全不同。电影语法：观众看到相同的构图会无意识地对比两次反应，感受到人物弧的进展——从欲望的开裂到信念的崩溃。"
+    },
+    {
+      "echo_id": "motif_D_su_wan_reaction_witness",
+      "from": "act1_start_04",
+      "to": "branchB_scene2_03",
+      "motif": "The watcher / the watched: interrogation reversal → revelation reversal",
+      "purpose": "act1_start 里是林泽被凝视捕获（苏晚是主动者）。branchB_scene2 里是苏晚看着林泽崩溃（苏晚是见证者不是猎人）。同一个'reaction shot'格式，权力关系的第二次逆转——从审讯室的欲望游戏到夜总会后台的真实脆弱。"
+    }
+  ],
+
+  "budget_summary": {
+    "total_shots_across_5_nodes": 19,
+    "node_density_distribution": {
+      "act1_start": 5,
+      "act1_choice": 3,
+      "branchA2_scene1": 4,
+      "branchB_scene1": 4,
+      "branchB_scene2": 3
+    },
+    "node_density_rationale": {
+      "act1_start": "故事开场 + R5 基准节点：最高密度合理，建立全局视觉语法和人物 motif",
+      "act1_choice": "纯幕间转折，decision point 不需要 establishing：精简 3 shots 强调心理紧张感",
+      "branchA2_scene1": "Branch A 核心私奔时刻：4 shots，style preamble 切换，需要足够 shots 确立新空间感",
+      "branchB_scene1": "3 人三角 scene：4 shots，分配给 through-gap/OTS/reaction/cutaway 的标准 3-person coverage",
+      "branchB_scene2": "纯揭露 scene（revelation_scene pattern）：3 shots 以压缩感强化情感密度"
+    },
+    "shot_type_distribution": {
+      "establishing": 1,
+      "ecu": 2,
+      "ots": 2,
+      "two_shot": 1,
+      "through_gap": 2,
+      "insert": 3,
+      "reaction": 5,
+      "cu": 1,
+      "mirror": 1,
+      "detail": 1,
+      "pov": 1,
+      "cutaway": 1,
+      "total": 21,
+      "note": "shot_type_distribution total 21 includes some shots counted by primary type while combining ECU+detail. Actual unique shots = 19."
+    },
+    "anchor_shots": {
+      "use_anchor_true_count": 5,
+      "anchor_shots": ["act1_start_03", "act1_start_05", "branchA2_scene1_01", "branchB_scene2_03", "branchA2_scene1_cover"]
+    },
+    "style_preamble_variants_used": 4,
+    "cross_node_echoes_count": 4,
+    "expected_image_cost_usd": 1.33,
+    "expected_image_cost_note": "19 shots × $0.07 = $1.33 at Grok Image Pro pricing",
+    "expected_specifier_cost_usd": 0.06,
+    "expected_specifier_cost_note": "~19 × Haiku calls at ~$0.003 each = ~$0.06",
+    "expected_anchor_generation_cost_usd": 0.07,
+    "total_expected_cost_usd": 1.46
+  },
+
+  "r5_comparison": {
+    "r5_scope": "1 node (act1_start only), 5 shots",
+    "planner_scope": "5 nodes, 19 shots",
+    "scope_multiplier": "5x node coverage, 3.8x shot count",
+    "design_advances": [
+      "R5 used 4 style preamble variants across 5 shots implicitly; this planner makes 4 explicit variants that shift with value arc",
+      "R5 had no cross-node visual echoes (single node); this planner designs 4 cross-node motif echoes (burgundy color journey, Lin Ze hand states, Lin Ze reaction CU series, Su Wan watcher/witnessed reversal)",
+      "R5 used 3 aspect ratios across 5 shots; this planner introduces a systematic aspect_ratio_usage_guide that ties ratio choice to shot type",
+      "R5 did not explicitly handle Class E (Cross-Scene Contamination) for Meijie cigarette; this planner flags it per-shot and makes activation rule explicit",
+      "R5 Layered Garment Rule was discovered during R5 iteration; this planner pre-installs Layer 10 compliance per shot before generation",
+      "R5 had no branchB or branchA nodes; this planner covers both branches enabling visual comparison of narrative divergence"
+    ]
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "anchor": {
+    "shot_id": "anchor_00",
+    "status": "success",
+    "file": "anchor_00.png",
+    "bytes": 5830267,
+    "elapsed_sec": 0,
+    "reused": true
+  },
+  "shots": [
+    {
+      "shot_id": "act1_start_01",
+      "node_id": "act1_start",
+      "status": "success",
+      "file": "act1_start_01.png",
+      "bytes": 5483387,
+      "elapsed_sec": 38.96,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_start_02",
+      "node_id": "act1_start",
+      "status": "success",
+      "file": "act1_start_02.png",
+      "bytes": 5850791,
+      "elapsed_sec": 27.86,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_start_03",
+      "node_id": "act1_start",
+      "status": "success",
+      "file": "act1_start_03.png",
+      "bytes": 4713940,
+      "elapsed_sec": 32.35,
+      "use_anchor": true,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_start_04",
+      "node_id": "act1_start",
+      "status": "success",
+      "file": "act1_start_04.png",
+      "bytes": 5892875,
+      "elapsed_sec": 27.13,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_start_05",
+      "node_id": "act1_start",
+      "status": "success",
+      "file": "act1_start_05.png",
+      "bytes": 6087961,
+      "elapsed_sec": 46.41,
+      "use_anchor": true,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_choice_01",
+      "node_id": "act1_choice",
+      "status": "success",
+      "file": "act1_choice_01.png",
+      "bytes": 5434617,
+      "elapsed_sec": 33.52,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_choice_02",
+      "node_id": "act1_choice",
+      "status": "success",
+      "file": "act1_choice_02.png",
+      "bytes": 6085714,
+      "elapsed_sec": 38.55,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "act1_choice_03",
+      "node_id": "act1_choice",
+      "status": "success",
+      "file": "act1_choice_03.png",
+      "bytes": 6384650,
+      "elapsed_sec": 31.06,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchA2_scene1_01",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchA2_scene1_01.png",
+      "bytes": 5994917,
+      "elapsed_sec": 32.9,
+      "use_anchor": true,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchA2_scene1_02",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchA2_scene1_02.png",
+      "bytes": 4652940,
+      "elapsed_sec": 28.46,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchA2_scene1_03",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchA2_scene1_03.png",
+      "bytes": 5069462,
+      "elapsed_sec": 29.19,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchA2_scene1_04",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchA2_scene1_04.png",
+      "bytes": 5570625,
+      "elapsed_sec": 34.03,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene1_01",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchB_scene1_01.png",
+      "bytes": 5708219,
+      "elapsed_sec": 30.96,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene1_02",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchB_scene1_02.png",
+      "bytes": 6560097,
+      "elapsed_sec": 33.17,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene1_03",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchB_scene1_03.png",
+      "bytes": 5642421,
+      "elapsed_sec": 35.01,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene1_04",
+      "node_id": "?",
+      "status": "success",
+      "file": "branchB_scene1_04.png",
+      "bytes": 5997757,
+      "elapsed_sec": 31.78,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene2_01",
+      "node_id": "branchB_scene2",
+      "status": "success",
+      "file": "branchB_scene2_01.png",
+      "bytes": 5210542,
+      "elapsed_sec": 31.01,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene2_02",
+      "node_id": "branchB_scene2",
+      "status": "success",
+      "file": "branchB_scene2_02.png",
+      "bytes": 4287373,
+      "elapsed_sec": 29.76,
+      "use_anchor": false,
+      "cost_ticks": null
+    },
+    {
+      "shot_id": "branchB_scene2_03",
+      "node_id": "branchB_scene2",
+      "status": "success",
+      "file": "branchB_scene2_03.png",
+      "bytes": 5216534,
+      "elapsed_sec": 42.65,
+      "use_anchor": true,
+      "cost_ticks": null
+    }
+  ],
+  "total_elapsed_sec": 103.03,
+  "max_concurrency": 8,
+  "success_count": 19,
+  "fail_count": 0,
+  "anchor_use_count": 4
+}
