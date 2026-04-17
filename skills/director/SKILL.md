@@ -42,18 +42,37 @@ For each narrative beat in the story:
    - Emotional moment = 2 shots (close + reverse/insert)
    - Climax / reveal / confrontation = 3-5 shots
 
-3. FOR EACH SHOT:
+3. FOR EACH SHOT (attribute-assembly algorithm):
    a. camera_framing  ← from references/shot-grammar.yaml
    b. pose            ← one sentence (remember: pose does NOT suppress attrs)
    c. wardrobe_state  ← pick ONE from character's wardrobe_states. CONSCIOUS decision.
                         The sheet has no default. Do NOT say "her signature look" —
                         pick a named state that matches the narrative moment.
-   d. VGAI gate       ← filter wardrobe_state.items by framing_region_map[framing]
-                        Keep only items whose anchor is in the framing's visible regions.
-                        Drop the rest. (Do NOT "simplify" or "abbreviate" — drop.)
-   e. assemble prompt:
-      ANIME_PREAMBLE + CHARACTER_BASE + pose + scene_env + framing_directive + injected_attrs
-   f. sanity check:
+
+   d. BUILD ATTRIBUTE CANDIDATE SET:
+      d1. Start empty.
+      d2. Add ALL of character.persistent_grooming (nail polish, tattoos, etc.).
+          These travel with the character across scenes.
+      d3. Add wardrobe_state.items (situational clothing/accessories).
+      d4. Subtract wardrobe_state.removes from candidates (grooming suppressed —
+          e.g., lipstick removed by kissing/showering).
+
+   e. VGAI gate       ← filter candidates by framing_region_map[framing]
+                        Keep attr IFF attr.anchor ∈ visible_regions.
+                        Drop the rest. (Do NOT "simplify" — drop.)
+
+   f. Layering:        if a grooming attr has `visibility_through_hosiery` AND
+                        a wardrobe attr is layered over the same region (e.g.,
+                        stocking_toes over red_toenails anchor:foot), use the
+                        `visibility_through_hosiery` phrasing in the prompt.
+
+   g. Mutex check:     if two surviving attrs are in a mutex_group, pick one
+                        based on shot intent.
+
+   h. assemble prompt:
+      ANIME_PREAMBLE + CHARACTER_BASE + pose + scene_env + framing_directive + filtered_attrs
+
+   i. sanity check:
       - aspect_ratio in Grok's allowed set (see grok-constraints.md)
       - no Dutch angle word
       - no "despite / although / covered by" attempting to suppress an attr
