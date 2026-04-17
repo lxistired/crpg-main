@@ -52,7 +52,7 @@ wardrobe_states:
         value: "sheer black pantyhose covering her legs from waist down"
       - attr: black_stiletto_heels
         anchor: foot
-        value: "black stiletto heels covering her feet (toes hidden inside the shoe)"
+        value: "black stiletto closed-toe pumps on her feet"
     removes: []
 
   - id: home_after_intimate
@@ -67,7 +67,7 @@ wardrobe_states:
         value: "sheer black pantyhose covering her legs from waist down (still on)"
       - attr: stocking_toes
         anchor: foot
-        value: "feet covered in continuous sheer black stocking material"
+        value: "feet in sheer black pantyhose hosiery that continues seamlessly up past the ankle onto the leg above the frame"
     removes: [red_lipstick]
 
   - id: sleeping_at_his_place
@@ -82,7 +82,7 @@ wardrobe_states:
         value: "sheer black pantyhose still on, covering her legs"
       - attr: stocking_toes
         anchor: foot
-        value: "feet covered in continuous sheer black stocking material"
+        value: "feet in sheer black pantyhose hosiery that continues seamlessly up past the ankle onto the leg above the frame"
     removes: [red_lipstick]
 
   - id: bathing

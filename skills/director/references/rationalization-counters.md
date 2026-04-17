@@ -17,6 +17,16 @@ These cascade across anchor regions and force the model to paint wrong things. *
 | `visible as a hint of color through` | Same | Same |
 | `covered by shirt` / `hidden under coat` | Mode 6: model opens the cover | Drop the attribute |
 
+## Rule: cross-anchor continuity cues for layered garments
+
+> When an attribute covers multiple body regions and VGAI-gates one out (e.g., `leg_pantyhose` at anchor:leg is dropped for a feet_ecu shot that keeps only `stocking_toes` at anchor:foot), the remaining attr must **state its continuity above the frame**, or the model interprets it as a localized garment (pantyhose → ankle sock).
+>
+> **Rationalization to avoid:** "The feet_ecu doesn't show legs so I only mention stocking on foot." → Model renders an ankle sock.
+>
+> **Fix:** In `stocking_toes.value`, include positive fact: `"feet in sheer black pantyhose hosiery that continues seamlessly up past the ankle onto the leg above the frame"`. States continuity factually without using "NOT ankle sock" negation.
+>
+> **Generalizable:** Whenever a wardrobe item spans ≥2 body regions and VGAI drops the connective region, the surviving region's value needs a "continues past the frame" cue. Applies to: pantyhose/tights, long gloves (hand vs arm), turtleneck (neck vs torso), etc.
+
 ## Rule: no absolute negations
 
 > In attribute `value` fields, every word must be a positive factual statement about what IS, not what IS NOT.
