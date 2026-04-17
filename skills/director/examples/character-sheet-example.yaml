@@ -1,0 +1,71 @@
+# Minimal example character sheet — GENERIC, not tied to any specific project.
+#
+# Character: Kai — a fictional bartender in a sci-fi noir setting.
+# Purpose: demonstrate the schema in a minimal populated form.
+
+id: kai
+
+base:
+  - "mid-30s"
+  - "mixed-heritage"
+  - "close-cropped silver hair"
+  - "olive skin"
+  - "pale grey eyes with thin scar through left brow"
+  - "lean angular jaw"
+
+persistent_grooming:
+  - attr: left_brow_scar
+    anchor: face
+    value: "thin pale scar running vertical through the left eyebrow"
+    removable_by: []
+
+  - attr: left_forearm_tattoo
+    anchor: hand
+    sub_anchor: forearm_visible
+    value: "small inked constellation tattoo on the inside of the left forearm"
+    removable_by: []
+
+wardrobe_states:
+
+  - id: working_the_bar
+    context: "On shift behind the bar, professional public-facing."
+    items:
+      - attr: black_apron
+        anchor: torso
+        value: "black canvas bartending apron over a plain white t-shirt"
+        neckline_hint: "black apron strap visible at collarbone"
+      - attr: dark_jeans
+        anchor: leg
+        value: "dark indigo work jeans"
+      - attr: black_boots
+        anchor: foot
+        value: "scuffed black leather work boots"
+    removes: []
+
+  - id: off_duty_home
+    context: "At home alone, end of shift, relaxed."
+    items:
+      - attr: loose_grey_tee
+        anchor: torso
+        value: "soft worn grey t-shirt, untucked"
+        neckline_hint: "soft cotton crew neckline"
+      - attr: sweatpants
+        anchor: leg
+        value: "faded black cotton sweatpants"
+      - attr: bare_feet
+        anchor: foot
+        value: "bare feet"
+    removes: []
+
+mutex_groups:
+  - [black_boots, bare_feet]
+
+# Notes on what this example illustrates:
+# - base contains ONLY identity (no outfit, no nail polish) — clean
+# - persistent_grooming covers body marks (scar, tattoo) that travel across scenes
+# - wardrobe_states are named by CONTEXT ("working_the_bar") not by outfit type
+# - Each attr has ONE anchor; values are positive factual
+# - Mutex group handles shoes-vs-bare
+# - No absolute negations anywhere
+#
+# This is a TEMPLATE, not a recommended character. Replace with your own.

@@ -1,0 +1,69 @@
+# Character Sheet Schema
+#
+# Structural definition for character sheets consumed by the Director skill.
+# This file contains NO example data. For a populated example, see:
+#   examples/character-sheet-example.yaml (generic)
+#   or a project-specific sheet (e.g. projects/<project>/character-sheets/<name>.yaml)
+
+schema:
+  character:
+    id: string                         # snake_case unique id
+
+    base:                              # list of region-independent descriptor fragments
+      - string                         # joined with ", " into every prompt
+
+    persistent_grooming:               # body-state attrs that travel across scenes
+      - attr: string                   # unique attribute id
+        anchor: string                 # face | ear | eye | neck | hand | torso | torso_back | leg | foot
+        value: string                  # positive factual description (NO negations, NO micromanagement)
+        sub_anchor: string             # optional — e.g., foot_top, torso_back_only
+        removable_by: [string]         # metadata: contexts that could suppress (informational only)
+
+    wardrobe_states:                   # situational outfits — pick EXACTLY ONE per shot
+      - id: string                     # e.g., "formal_public", "intimate_home"
+        context: string                # when this state applies narratively
+        items:
+          - attr: string
+            anchor: string
+            value: string              # positive factual description
+            neckline_hint: string      # for face-CU framings when torso is gated out
+            pose_variants:              # optional — angle-specific variants
+              front: string
+              back: string
+              profile: string
+        removes: [string]              # grooming attrs suppressed by this state
+
+    mutex_groups:                      # pairs/sets of attrs that cannot coexist physically
+      - - string
+        - string
+
+# Authoring principles (apply to ANY character sheet for ANY story):
+#
+#   1. base: only region-INDEPENDENT identity (hair/skin/eye/face/age).
+#      NOT clothing, NOT jewelry, NOT makeup — those are state or grooming.
+#
+#   2. persistent_grooming: put persistent body marks / grooming that travel
+#      with the character (nail polish, tattoos, piercings, default makeup
+#      preferences). States can `removes:` them when narratively appropriate
+#      (e.g., `bathing` removes lipstick; kissing removes lipstick).
+#
+#   3. wardrobe_states: name states by NARRATIVE CONTEXT, not by outfit type.
+#      Good: "aboard_the_ship", "after_the_ambush", "intimate_home"
+#      Bad:  "signature", "default", "fancy"
+#
+#   4. One anchor per attr. If an attr covers two regions (e.g., a bodysuit
+#      covering torso+leg), split into two attrs each with single anchor.
+#
+#   5. value text rules: positive factual only. Never use "NOT X",
+#      "not exposed", "never Y". Avoid positional micromanagement
+#      ("on every toe", "at the tips"). Trust the model + the layering
+#      principle.
+#
+#   6. mutex_groups: list physical impossibilities (barefoot + shoes,
+#      pantyhose + bare legs). The Director picks one per shot.
+#
+#   7. pose_variants & neckline_hint are OPTIONAL. Add only when
+#      specific framings cause problems otherwise.
+#
+# The Director skill's attribute-assembly algorithm consumes this structure
+# and outputs final prompts. See SKILL.md for the algorithm.

@@ -1,0 +1,118 @@
+# Su Wan — Character Sheet
+# Project: crpg-noir (Chinese urban noir thriller, anime aesthetic)
+#
+# See skills/director/references/character-sheet-schema.yaml for the schema
+# this populates.
+
+id: su_wan
+
+base:
+  - "28 years old"
+  - "Chinese"
+  - "long straight black hair parted to one side, falling to collarbone"
+  - "fair skin"
+  - "dark brown expressive eyes with long lashes"
+  - "soft jawline"
+
+persistent_grooming:
+  - attr: red_fingernails
+    anchor: hand
+    value: "glossy red fingernail polish"
+    removable_by: []
+
+  - attr: red_toenails
+    anchor: foot
+    sub_anchor: foot_top           # drop only for pure sole / pure heel-from-behind views
+    value: "red toenail polish on her toenails"
+    removable_by: []
+
+  - attr: red_lipstick
+    anchor: face
+    value: "bold red lipstick"
+    removable_by: [showering, intimate_moment, sleeping_long]
+
+wardrobe_states:
+
+  - id: work_formal
+    context: "Public appearances, nightclub work, meeting strangers, thriller beats."
+    items:
+      - attr: jade_earring
+        anchor: ear
+        value: "small jade teardrop earring on her exposed ear"
+        pose_variants:
+          front: "jade teardrop earrings on both ears visible"
+          profile: "jade teardrop earring on the visible ear"
+          back: "jade teardrop earring glinting on her exposed left ear"
+      - attr: black_dress
+        anchor: torso
+        value: "form-fitting black cocktail dress with thin straps"
+        neckline_hint: "thin black dress strap visible at shoulder / dress neckline at bottom of frame"
+      - attr: leg_pantyhose
+        anchor: leg
+        value: "sheer black pantyhose covering her legs from waist down"
+      - attr: black_stiletto_heels
+        anchor: foot
+        value: "black stiletto heels covering her feet (toes hidden inside the shoe)"
+    removes: []
+
+  - id: home_after_intimate
+    context: "In his apartment after an intimate moment, partially dressed in his clothing. Not freshly showered."
+    items:
+      - attr: mens_open_shirt
+        anchor: torso
+        value: "oversized white men's dress shirt, open at chest, sleeves rolled messily"
+        neckline_hint: "white shirt collar soft against her neck"
+      - attr: leg_pantyhose
+        anchor: leg
+        value: "sheer black pantyhose covering her legs from waist down (still on)"
+      - attr: stocking_toes
+        anchor: foot
+        value: "feet covered in continuous sheer black stocking material"
+    removes: [red_lipstick]
+
+  - id: sleeping_at_his_place
+    context: "Curled up asleep at his apartment, morning after. Vulnerable."
+    items:
+      - attr: mens_open_shirt
+        anchor: torso
+        value: "oversized white men's dress shirt, loosely covering her"
+        neckline_hint: "white shirt draped at her shoulder"
+      - attr: leg_pantyhose
+        anchor: leg
+        value: "sheer black pantyhose still on, covering her legs"
+      - attr: stocking_toes
+        anchor: foot
+        value: "feet covered in continuous sheer black stocking material"
+    removes: [red_lipstick]
+
+  - id: bathing
+    context: "In shower or bathtub. Water, steam. Naked."
+    items: []
+    removes: [red_lipstick]
+    # Grooming (red_fingernails, red_toenails) stays — polish is waterproof.
+
+  - id: post_shower_towel
+    context: "Just exited shower. Towel wrapped. Wet hair."
+    items:
+      - attr: white_towel
+        anchor: torso
+        value: "white cotton towel wrapped tight around her chest and torso"
+    removes: [red_lipstick]
+
+  - id: running_action
+    context: "Running, fighting, high-action. Simplified wardrobe."
+    items:
+      - attr: black_dress
+        anchor: torso
+        value: "form-fitting dark clothing allowing free motion"
+      - attr: leg_pantyhose_torn
+        anchor: leg
+        value: "sheer black pantyhose, torn slightly from activity"
+      - attr: stocking_toes
+        anchor: foot
+        value: "feet covered in sheer black stocking material"
+    removes: []
+
+mutex_groups:
+  - [stocking_toes, black_stiletto_heels]
+  - [leg_pantyhose, bare_legs]
