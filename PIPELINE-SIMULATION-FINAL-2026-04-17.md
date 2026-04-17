@@ -108,3 +108,4 @@
 **Session 状态**：
 - `SESSION-STATE-2026-04-17.md`（早前的 session snapshot）
 - `PIPELINE-SIMULATION-FINAL-2026-04-17.md`（本文件）
+FLUX.2 Max verdict: 用户评价彻底不行（see session log 2026-04-17）
