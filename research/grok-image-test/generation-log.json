@@ -1,0 +1,68 @@
+{
+  "model": "grok-imagine-image",
+  "endpoint": "https://api.x.ai/v1/images/generations",
+  "total_cost_usd": 0.1,
+  "total_cost_ticks": 1000000000,
+  "entries": [
+    {
+      "scene_index": 1,
+      "slug": "act1_start",
+      "file": "scene-1-act1_start.png",
+      "bytes": 5496505,
+      "elapsed_sec": 11.39,
+      "cost_ticks": 200000000,
+      "attempts": 1,
+      "revised_prompt": "",
+      "aspect_ratio": "16:9",
+      "status": "success"
+    },
+    {
+      "scene_index": 2,
+      "slug": "act1_choice",
+      "file": "scene-2-act1_choice.png",
+      "bytes": 5827198,
+      "elapsed_sec": 13.79,
+      "cost_ticks": 200000000,
+      "attempts": 1,
+      "aspect_ratio": "19.5:9",
+      "status": "success",
+      "revised_prompt": ""
+    },
+    {
+      "scene_index": 3,
+      "slug": "branchA2_apartment_mirror",
+      "file": "scene-3-branchA2_apartment_mirror.png",
+      "bytes": 5915493,
+      "elapsed_sec": 11.44,
+      "cost_ticks": 200000000,
+      "attempts": 1,
+      "revised_prompt": "",
+      "aspect_ratio": "3:2",
+      "status": "success"
+    },
+    {
+      "scene_index": 4,
+      "slug": "branchB_nightclub_backstage",
+      "file": "scene-4-branchB_nightclub_backstage.png",
+      "bytes": 6361548,
+      "elapsed_sec": 13.07,
+      "cost_ticks": 200000000,
+      "attempts": 1,
+      "revised_prompt": "",
+      "aspect_ratio": "16:9",
+      "status": "success"
+    },
+    {
+      "scene_index": 5,
+      "slug": "branchB_video_reveal",
+      "file": "scene-5-branchB_video_reveal.png",
+      "bytes": 4811825,
+      "elapsed_sec": 10.71,
+      "cost_ticks": 200000000,
+      "attempts": 1,
+      "aspect_ratio": "19.5:9",
+      "status": "success",
+      "revised_prompt": ""
+    }
+  ]
+}

@@ -1,0 +1,965 @@
+# Visual Aesthetic Axes — Taxonomy for crpg adult narrative platform
+# ------------------------------------------------------------------
+# Scope: visual-language classification, NOT explicit-content taxonomy.
+# Each entry describes a distinct aesthetic "dialect" that an AI image
+# generator can target. Categories are orthogonal to narrative content;
+# they describe HOW a scene looks, not WHAT happens in it.
+#
+# Schema:
+#   code, display_name_cn, display_name_en
+#   palette, lighting, composition, texture
+#   typical_subjects, typical_actions, mood
+#   affinity_narrative_genres  (McKee-style narrative codes, see doc)
+#   ai_model_recommendations   (provider-agnostic, 2-3 options)
+#   prompt_template_skeleton
+#   visual_forbidden           (what NOT to include)
+#   reference_works            (public-facing artists/films/magazines
+#                               — aesthetic reference only)
+#   example_prompts
+#   research_confidence        (high / medium / low)
+# ------------------------------------------------------------------
+
+version: "2026-04-17"
+schema_version: 1
+category_count: 6
+entry_count: 24
+
+# =============================================================
+# CATEGORY 1 — Japanese Photorealistic (JP-R)
+# =============================================================
+# Cultural root: JAV industry conventions (1980s AV boom), gravure
+# photography (weekly magazine culture), Japanese cinema "aesthetics
+# of shadow" (Tanizaki, Ozu, Mizoguchi heritage). Visual DNA: muted
+# palette, restrained framing, naturalistic skin, strong subtext.
+# -------------------------------------------------------------
+
+- code: jpr_urban_ol
+  display_name_cn: 日系都市OL风
+  display_name_en: Japanese Urban Office Lady
+  palette: "muted beige, charcoal gray, navy, soft warm window light with occasional cool fluorescent accents; low saturation overall"
+  lighting: "daylight through blinds producing horizontal slat shadows; soft window light; single practical light (desk lamp) at night; subtle fall-off"
+  composition: "medium shot to close-up; centered or rule-of-thirds subject; shallow depth of field (f/1.8-2.8 feel); claustrophobic interior"
+  texture: "fine film grain, smooth skin with subtle pore detail, fabric wrinkle (polyester suit), surface reflections on glass/laminate"
+  typical_subjects: ["woman in office wear", "corporate interior", "hotel room", "stairwell", "parked car interior"]
+  typical_actions: ["composed professional demeanor dissolving into intimacy", "after-hours encounters", "moment of hesitation captured mid-gesture"]
+  mood: "restrained, loaded with subtext, realist, slightly melancholic"
+  affinity_narrative_genres: ["forbidden_affair", "power_dynamic", "routine_with_twist", "secret_life"]
+  ai_model_recommendations:
+    - provider: "civitai/local"
+      model_or_checkpoint: "Beautiful Realistic Asians (BRA) v7 / Japanese Style Realistic (JSR) v2"
+      lora_or_embedding: ["office_lady", "japanese_skin_texture", "window_light"]
+      notes: "BRA lineage is default industry standard for this look; check license (most allow commercial with attribution but NSFW redistribution varies)"
+    - provider: "fal.ai / replicate"
+      model_or_checkpoint: "FLUX dev fine-tune (japanese_realistic) or SDXL base + realistic LoRA"
+      lora_or_embedding: ["jav_style_lighting"]
+      notes: "FLUX has cleaner skin but weaker at JAV-specific framing; SDXL realistic ecosystem is more tuned for this subgenre"
+    - provider: "local SDXL"
+      model_or_checkpoint: "RealVisXL v5 + Asian portrait LoRA"
+      lora_or_embedding: ["ArienMixXL Asian portrait"]
+      notes: "More permissive license; weaker at JAV lighting unless LoRA-guided"
+  prompt_template_skeleton: |
+    A Japanese [age] woman in [office wear detail], [pose/action],
+    [location: corporate office / hotel / apartment interior],
+    [time of day] window light through blinds, shallow depth of field,
+    muted palette, 35mm film grain, photorealistic,
+    cinematic composition, natural skin texture
+  visual_forbidden: ["high-saturation anime colors", "exaggerated anatomy", "Western skin-tone fallback", "stage-lit beauty-dish highlights", "fantasy attire"]
+  reference_works: ["weekly gravure magazines (FRIDAY, FLASH — aesthetic only)", "Hirokazu Kore-eda interior cinematography", "Ryusuke Hamaguchi 'Drive My Car' apartment scenes", "Shunji Iwai early work"]
+  example_prompts:
+    - "Japanese woman late 20s in charcoal pencil skirt suit, unbuttoned collar, seated on edge of hotel bed, evening window light, blinds shadow across face, 35mm, shallow DoF, muted palette"
+    - "Empty Japanese corporate meeting room, fluorescent lights half-off, single figure at window, golden hour spill, film grain"
+  research_confidence: high
+
+- code: jpr_school_jk
+  display_name_cn: 日系学园JK风
+  display_name_en: Japanese School Uniform (JK)
+  palette: "pale cream, sky blue, pine green, soft pink; slightly overexposed highlights on uniform white"
+  lighting: "midday classroom light, sunset through window, hazy afternoon diffusion; rarely harsh"
+  composition: "bright environments, clean lines (desks/lockers), subject-centered; often slightly low angle to preserve innocence framing"
+  texture: "clean school uniform cotton, polished wooden floors, chalk dust atmosphere, light-diffused skin"
+  typical_subjects: ["young adult woman in sailor-style or blazer uniform (legally adult, 18+)", "classroom, hallway, rooftop, train platform"]
+  typical_actions: ["after-school lingering", "post-club-activity quiet moments", "private confession atmosphere"]
+  mood: "nostalgic, bright but with undercurrent tension, nostalgic-pastoral"
+  affinity_narrative_genres: ["coming_of_age", "first_love", "secret_crush", "boundary_transgression"]
+  ai_model_recommendations:
+    - provider: "civitai/local"
+      model_or_checkpoint: "Realistic Vision / Majicmix Realistic + JK uniform LoRA"
+      lora_or_embedding: ["jk_uniform_v2", "japanese_classroom"]
+      notes: "Critical: always gate with adult-age prompt tokens; platform-legal compliance non-negotiable"
+    - provider: "civitai"
+      model_or_checkpoint: "Mistoon Anime (for stylized JK) OR Japanese Style Realistic (for photoreal JK)"
+      lora_or_embedding: ["classroom_lighting"]
+  prompt_template_skeleton: |
+    Japanese adult woman (20s, petite), wearing sailor-collar school uniform,
+    [classroom/rooftop/hallway setting], [time of day] soft light,
+    photorealistic, cinematic Japanese film aesthetic, shallow DoF, film grain
+  visual_forbidden: ["minors / implied minor age", "overly sexualized posing in uniform", "Western high-school aesthetic fallback"]
+  reference_works: ["Makoto Shinkai's photoreal backgrounds (stylistic ref only)", "早見あかり school-era editorials", "Japanese gravure JK-style spreads (adult models only)"]
+  example_prompts:
+    - "Japanese woman 20s in sailor uniform standing on school rooftop at golden hour, wind in hair, soft diffused light, 85mm, photorealistic"
+  research_confidence: medium
+  compliance_note: "All depicted subjects MUST be rendered as unambiguous adults; any uniform-themed content requires adult-age positive prompting"
+
+- code: jpr_housewife
+  display_name_cn: 日系人妻家庭风
+  display_name_en: Japanese Housewife / Domestic Interior
+  palette: "warm beige, pale wood, soft cream, dusty rose; kitchen stainless accents; slight yellow cast from tungsten"
+  lighting: "kitchen window side light, tatami room diffused afternoon, bedroom lamp-light; very soft"
+  composition: "wide-ish interior showing domestic context; subject embedded in environment; doorway framing common; reflected light off wood"
+  texture: "cotton apron, linen curtains, tatami weave, wooden cabinet grain, soft skin with maturity subtlety"
+  typical_subjects: ["30s-40s woman in casual home wear / apron / cardigan", "Japanese kitchen, tatami room, small bedroom, veranda"]
+  typical_actions: ["domestic routine interrupted", "afternoon solitude", "unexpected visitor scenarios"]
+  mood: "warm but confined, domestic-loaded, bittersweet"
+  affinity_narrative_genres: ["forbidden_affair", "midlife_awakening", "domestic_disruption", "longing_in_routine"]
+  ai_model_recommendations:
+    - provider: "civitai/local"
+      model_or_checkpoint: "BRA v7 / Majicmix Realistic + mature_woman LoRA"
+      lora_or_embedding: ["housewife_apron", "japanese_interior_dk"]
+      notes: "Age-appropriate mature-face LoRAs critical; base models often under-age the face"
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + Japanese interior style LoRA"
+  prompt_template_skeleton: |
+    Japanese woman late 30s in cotton apron over pale cardigan,
+    [kitchen / tatami room / bedroom],
+    afternoon window light, warm tungsten accent,
+    photorealistic, film grain, shallow DoF, domestic mood
+  visual_forbidden: ["glamour-lit beauty-dish highlights", "commercial studio background", "youthful idol-face defaults"]
+  reference_works: ["Yasujirō Ozu domestic interiors (composition only)", "NHK morning drama stills", "Japanese interior-design magazines"]
+  example_prompts:
+    - "Japanese woman 38 in pale cardigan and apron, standing at kitchen counter, afternoon window light, wooden interior, photorealistic, 35mm film grain"
+  research_confidence: medium
+
+- code: jpr_jav_studio
+  display_name_cn: JAV摄影棚美学
+  display_name_en: JAV Studio Aesthetic
+  palette: "high-key whites, pale pink, cream, pastel bedsheet colors; some rooms use harsh blue/red neon for hotel genre"
+  lighting: "soft-box flat frontal lighting (characteristic 'no shadow' flat look), occasional key+fill dual-source, colored gel for 'magic mirror' genre"
+  composition: "locked-off wide-to-medium (traditional), or handheld POV; studio set-dressed apartment/hotel/classroom; often shallow DoF with consumer-camcorder softness"
+  texture: "consumer-video softness (historically), now 4K clinical clarity; pastel bedding; plastic-wrapped set decor"
+  typical_subjects: ["set-dressed apartment / hotel / faux office / faux classroom", "AV-style performers centered"]
+  typical_actions: ["extended single-shot static setups", "heavily conventionalized framing"]
+  mood: "clinical-intimate, bright, hyperreal, convention-locked"
+  affinity_narrative_genres: ["staged_scenario", "roleplay_within_story", "industry_setting_meta"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "BRA v7 + 'jav_set' LoRA OR specialized JAV-style checkpoints"
+      lora_or_embedding: ["jav_lighting", "flat_soft_key"]
+      notes: "Warning: this aesthetic is highly convention-locked and fans instantly read it; use deliberately or stay out"
+    - provider: "local SDXL"
+      model_or_checkpoint: "Realistic Vision + soft-box lighting LoRA"
+  prompt_template_skeleton: |
+    Japanese woman, flat soft-box studio lighting, minimal shadows,
+    pastel hotel room / set-dressed apartment,
+    consumer-camcorder softness, pale bedsheet palette, locked-off framing
+  visual_forbidden: ["cinematic dramatic shadows", "natural window light only", "art-photo B&W treatment"]
+  reference_works: ["S1, MOODYZ, SOD studio set designs (conventions only, not content)", "1990s-2010s camcorder-era video aesthetic"]
+  example_prompts:
+    - "Japanese AV-style set-dressed hotel room, flat soft-box lighting, pastel pink bedding, locked-off medium shot, slight consumer-camcorder softness"
+  research_confidence: medium
+  note: "Cultural-context entry; useful specifically when narrative references AV industry or stages 'on-set' scenes"
+
+- code: jpr_private_diary
+  display_name_cn: 私写真日常写实
+  display_name_en: Shi-Shashin / Private Diary Realism
+  palette: "desaturated, cool-neutral, sometimes muddy; occasional overexposure; film-like color casts (expired-film green/magenta)"
+  lighting: "available light only, often harsh or insufficient; on-camera flash as signature element; daylight through dirty windows"
+  composition: "snapshot feel, off-center, cropped tight, mundane-in-frame; handheld, slight tilt; subject often looking straight at camera"
+  texture: "heavy film grain, push-processed contrast, tactile print feel; bed sheets wrinkled, mundane objects in frame"
+  typical_subjects: ["single person in everyday interior", "unmade beds, bathrooms, train cars, konbini exteriors", "quotidian detail elevated"]
+  typical_actions: ["captured-mid-moment intimacy", "staring directly at lens", "post-coital or liminal moments"]
+  mood: "confessional, raw, diary-like, poetic-mundane"
+  affinity_narrative_genres: ["confessional_voice", "relationship_post_mortem", "slice_of_life_intimate", "documentary_within_fiction"]
+  ai_model_recommendations:
+    - provider: "civitai/local"
+      model_or_checkpoint: "Analog Diffusion / Film Diffusion / Realistic Vision + film LoRA"
+      lora_or_embedding: ["kodak_portra", "on_camera_flash", "film_grain_heavy"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + film photography LoRA stack"
+  prompt_template_skeleton: |
+    Snapshot-style photograph, on-camera flash or available light,
+    Japanese interior, subject looking at camera, handheld,
+    heavy film grain, slight overexposure, expired film color cast, 35mm
+  visual_forbidden: ["studio-lit polish", "glamour retouching", "balanced cinematic composition"]
+  reference_works: ["Nobuyoshi Araki (Sentimental Journey)", "Daido Moriyama", "Rinko Kawauchi (for soft end of diary spectrum)"]
+  example_prompts:
+    - "Snapshot photograph, Japanese woman sitting on unmade bed, direct on-camera flash, off-center composition, heavy film grain, expired Fuji color cast, 35mm"
+  research_confidence: high
+
+- code: jpr_onsen_traditional
+  display_name_cn: 温泉和室传统风
+  display_name_en: Onsen / Traditional Japanese Interior
+  palette: "indigo, deep red-brown wood, tatami straw yellow, misty white, lantern orange"
+  lighting: "steam-diffused natural light, paper-lantern warm glow, shoji-screen filtered; volumetric fog from onsen steam"
+  composition: "architecture-respecting horizontal lines (tatami mats, shoji grid); subject embedded in traditional space; wide-ish to include architecture"
+  texture: "water droplets on skin, steam haze, wet hair detail, tatami weave, wood grain, yukata cotton"
+  typical_subjects: ["onsen (hot spring) interior", "ryokan room", "figure in yukata", "open-air rotenburo"]
+  typical_actions: ["bathing, post-bath quiet", "yukata-clad lounging", "traditional tea-service framing (rarely)"]
+  mood: "contemplative, traditional, sensual-pastoral, heritage-loaded"
+  affinity_narrative_genres: ["getaway_escape", "class_transgression_traditional", "historical_contemporary_blend"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "BRA v7 + onsen LoRA / ChilloutMix (legacy)"
+      lora_or_embedding: ["onsen_steam", "yukata", "ryokan_interior"]
+    - provider: "local SDXL"
+      model_or_checkpoint: "RealVisXL + Japanese traditional interior LoRA"
+  prompt_template_skeleton: |
+    Japanese woman in [open-air onsen / ryokan tatami room],
+    steam-diffused light, paper lantern glow, shoji screen,
+    wet skin detail, photorealistic, cinematic, 35mm
+  visual_forbidden: ["Western spa aesthetic", "chrome-plated modern fixtures", "anime cell-shade"]
+  reference_works: ["NHK period drama bath scenes (composition only)", "Ryokan brochure photography", "Kore-eda onsen scenes"]
+  example_prompts:
+    - "Japanese woman in open-air onsen at dusk, volumetric steam, paper lanterns, wet hair, cinematic photorealism, 35mm"
+  research_confidence: medium
+
+
+# =============================================================
+# CATEGORY 2 — Western Photorealistic (W-R)
+# =============================================================
+# Cultural root: post-1953 Playboy → 1970s Penthouse → 1980s
+# magazine glamour → 1990s Guccione-lineage soft-focus → 2000s
+# amateur/digital shift. Distinguishing marker: direct subject
+# engagement, higher saturation than JP-R, more dramatic lighting.
+# -------------------------------------------------------------
+
+- code: wr_hardcore_contemporary
+  display_name_cn: 欧美当代直接风
+  display_name_en: Western Hardcore Contemporary
+  palette: "full saturation, often warm skin tones pushed; commercial-lit even exposure; no romance-filter"
+  lighting: "professional multi-point lighting, beauty dish or softbox key, fill light eliminating shadow mystery; high-key"
+  composition: "close-medium, direct-to-camera engagement, symmetrical beauty framing, plenty of skin, little environmental context"
+  texture: "heavily retouched skin, oiled sheen on body, professional-makeup visible, crisp detail"
+  typical_subjects: ["single performer or duo, centered, blank-backdrop or minimal set", "direct eye contact"]
+  typical_actions: ["direct-to-lens engagement", "explicit framing as subject"]
+  mood: "direct, performative, assertive, commercial"
+  affinity_narrative_genres: ["commercial_encounter", "direct_fantasy", "performer_pov"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Realistic Vision v6 / EpicRealism / Cyberrealistic"
+      lora_or_embedding: ["western_glamour_retouch", "beauty_dish_key"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev fine-tune on Western commercial adult"
+  prompt_template_skeleton: |
+    Studio portrait, [subject description], beauty dish key light, fill,
+    minimal set, direct eye contact, commercial retouch, crisp detail, 85mm
+  visual_forbidden: ["film grain", "moody shadow", "Japanese-muted palette", "diary-style candid"]
+  reference_works: ["contemporary US commercial adult photography (aesthetic only)", "fitness magazine beauty lighting"]
+  example_prompts:
+    - "Studio portrait, professional beauty-dish key lighting, crisp retouched skin, direct-to-camera, 85mm, minimal gray backdrop"
+  research_confidence: high
+
+- code: wr_glamour_playboy
+  display_name_cn: 欧美Glamour Playboy风
+  display_name_en: Glamour / Playboy Lineage
+  palette: "warm saturated jewel tones, gold light accent, rich skin warmth; evening colors"
+  lighting: "soft warm key + subtle rim light, golden-hour feel indoors; flattering all-around; classic Hollywood inheritance"
+  composition: "tasteful semi-revealing framing, lifestyle-context settings (pool, mansion interior, bedroom), aspirational staging"
+  texture: "silk, satin, polished surfaces, soft-retouched skin, hair light-catching"
+  typical_subjects: ["upscale interior settings", "pools, bedrooms, terraces", "subject as 'lifestyle' figure"]
+  typical_actions: ["poolside lounging", "bedroom vignettes", "lifestyle-aspirational scenarios"]
+  mood: "aspirational, warm, 'tasteful' adult, lifestyle-inflected"
+  affinity_narrative_genres: ["aspirational_fantasy", "wealth_eroticism", "playful_seduction"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Realistic Vision + glamour LoRA / Juggernaut XL"
+      lora_or_embedding: ["playboy_glamour", "golden_hour_interior"]
+    - provider: "local SDXL"
+      model_or_checkpoint: "RealVisXL v5 + lifestyle LoRA"
+  prompt_template_skeleton: |
+    Glamour photography, [subject] in silk/satin, upscale interior or poolside,
+    warm golden light, soft key with rim, aspirational lifestyle, 85mm, tasteful
+  visual_forbidden: ["harsh direct lighting", "gritty film grain", "documentary feel"]
+  reference_works: ["Playboy 1970s-1990s pictorials", "Arny Freytag glamour work", "early Hef-era Playboy mansion aesthetic"]
+  example_prompts:
+    - "Glamour photograph, woman in silk robe, mansion bedroom, golden hour through sheer curtains, soft key light, 85mm"
+  research_confidence: high
+
+- code: wr_penthouse_softfocus
+  display_name_cn: 70s Penthouse柔焦风
+  display_name_en: Penthouse Soft-Focus / Guccione Lineage
+  palette: "amber, warm sepia tones, dusty rose, soft gold; painterly color grading"
+  lighting: "heavily diffused light (soft-focus filter, Vaseline-on-lens historical technique), backlit rim glow, dreamy haze"
+  composition: "romantic environmental setups (gardens, fireplaces, Victorian-style interiors), painterly composition inspired by classical nude painting"
+  texture: "soft-focus bloom, halo around highlights, painted quality; skin without visible pore detail; film grain minimal but warm"
+  typical_subjects: ["ornate interiors, gardens, classical statuary contexts", "single figure in painterly staging"]
+  typical_actions: ["romantic reverie", "classical pose references", "mythological staging"]
+  mood: "dreamy, romantic, painterly-erotic, 1970s lifestyle-aspirational"
+  affinity_narrative_genres: ["romantic_fantasy", "classical_reverie", "nostalgic_affair"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Realistic Vision + soft-focus LoRA / Analog Diffusion"
+      lora_or_embedding: ["soft_focus_70s", "penthouse_lighting", "diffusion_filter"]
+    - provider: "local SDXL"
+      model_or_checkpoint: "Juggernaut XL + 1970s photography LoRA"
+  prompt_template_skeleton: |
+    Soft-focus photograph, 1970s Penthouse aesthetic, [subject] in ornate interior
+    or garden, heavy lens diffusion, backlit rim, amber palette,
+    painterly composition, warm sepia grain
+  visual_forbidden: ["crisp HD clarity", "contemporary retouch", "cold blue palette"]
+  reference_works: ["Penthouse magazine 1970s spreads (Bob Guccione era)", "Ken Marcus soft-focus pictorials", "1970s European adult cinema aesthetic"]
+  example_prompts:
+    - "1970s Penthouse soft-focus photograph, woman in Victorian sitting room, backlit window, heavy lens diffusion, amber palette, warm grain"
+  research_confidence: high
+
+- code: wr_girl_next_door
+  display_name_cn: 邻家女孩日常亲密风
+  display_name_en: Girl-Next-Door / Amateur Intimate
+  palette: "natural, slightly under-saturated, honest skin tones; blue jeans, white cotton, pastel sundress colors"
+  lighting: "available daylight, bedroom window light, kitchen afternoon; flash for night candids"
+  composition: "casual snapshot feel, imperfect framing, lived-in setting; iPhone/consumer-camera look; selfie-adjacent"
+  texture: "honest skin (freckles, blemishes preserved), cotton cloth, unretouched quality, slight digital-noise (not film grain)"
+  typical_subjects: ["bedroom, kitchen, bathroom, car interior", "casual home wear or lingerie"]
+  typical_actions: ["self-photographed feel", "casual encounters, domestic intimacy"]
+  mood: "accessible, authentic, intimate-casual, 'real person' feel"
+  affinity_narrative_genres: ["casual_hookup", "long_distance_sext", "dating_app_scenario", "mundane_intimacy"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Realistic Vision (unretouched mode) / AmIReal"
+      lora_or_embedding: ["amateur_photo", "iphone_candid", "bedroom_selfie"]
+    - provider: "local SDXL"
+      model_or_checkpoint: "RealVisXL + amateur photography LoRA"
+  prompt_template_skeleton: |
+    Casual amateur-style photograph, [subject] in [bedroom / kitchen / car],
+    natural daylight, imperfect framing, honest skin tones with freckles,
+    iPhone-look, no retouching, slight digital noise
+  visual_forbidden: ["professional beauty dish", "magazine-level retouching", "soft-focus romantic filter"]
+  reference_works: ["Ryan McGinley documentary youth work", "2010s-era amateur adult aesthetic", "snapshot photography generally"]
+  example_prompts:
+    - "Amateur iPhone-style photograph, young woman in oversized t-shirt sitting on bed, afternoon window light, imperfect framing, honest skin"
+  research_confidence: high
+
+- code: wr_fashion_editorial
+  display_name_cn: 时尚编辑大片风
+  display_name_en: Fashion Editorial (Newton/Bourdin lineage)
+  palette: "high contrast, deep blacks and clean whites, occasional strong single-color accent (red, yellow); cinematic grading"
+  lighting: "hard directional light, dramatic shadows, single-source drama, fashion-flash hardness; sometimes noir-style"
+  composition: "stylized staging, sharp geometric composition, surreal/cinematic scenarios, architectural environments, pool, empty streets"
+  texture: "crisp high-contrast skin, latex/leather sheen, glass reflection, urban surface detail"
+  typical_subjects: ["statuesque figures in architectural/urban settings", "pool, hotel, modernist interior", "staged surreal narrative vignettes"]
+  typical_actions: ["staged cinematic tableau", "power-play scenario", "enigmatic narrative fragment"]
+  mood: "cool, detached, cinematic, power-charged, enigmatic"
+  affinity_narrative_genres: ["power_dynamic", "noir_seduction", "wealth_eroticism", "stylized_narrative"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Juggernaut XL / Realistic Vision + editorial LoRA"
+      lora_or_embedding: ["fashion_editorial", "newton_style", "high_contrast_flash"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + Helmut Newton-inspired LoRA"
+  prompt_template_skeleton: |
+    Fashion editorial photograph, high contrast, hard directional light,
+    [subject] in architectural / poolside / modernist interior setting,
+    cinematic staging, deep shadows, single strong color accent, 35mm
+  visual_forbidden: ["soft golden-hour romance", "amateur candid feel", "muted low-contrast Japanese palette"]
+  reference_works: ["Helmut Newton Vogue 1970s-80s", "Guy Bourdin Charles Jourdan campaigns", "Steven Meisel editorial work"]
+  example_prompts:
+    - "Helmut Newton-style editorial, woman in black heels by pool at night, hard flash, deep shadows, architectural modernist setting, 35mm"
+  research_confidence: high
+
+- code: wr_bw_fineart
+  display_name_cn: 黑白艺术摄影
+  display_name_en: Black & White Fine Art Nude
+  palette: "monochrome, full tonal range, deep velvet blacks, creamy whites; occasionally platinum-toned warm neutral"
+  lighting: "sculptural, single-source, light-as-subject; Mapplethorpe formal precision; Weston-style tonal study"
+  composition: "formalist, body-as-form, classical references (contrapposto, Botticelli, Rodin), often fragmented body studies"
+  texture: "silver gelatin print feel, tonal gradation, pore detail, muscle definition, hair texture, sculptural"
+  typical_subjects: ["studio or minimal setting", "body-as-form, body fragment studies, classical pose references"]
+  typical_actions: ["still, sculptural, contemplative", "form-focused rather than narrative"]
+  mood: "formal, elevated, museum-grade, timeless, reverent"
+  affinity_narrative_genres: ["artistic_contemplation", "formal_ritual", "timeless_framing"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Realistic Vision + Mapplethorpe-style LoRA"
+      lora_or_embedding: ["silver_gelatin", "fine_art_nude", "mapplethorpe_style"]
+    - provider: "local SDXL"
+      model_or_checkpoint: "RealVisXL + B&W fine art LoRA"
+  prompt_template_skeleton: |
+    Black and white fine art nude photograph, silver gelatin print quality,
+    single-source sculptural light, [classical pose],
+    formalist composition, full tonal range, deep shadows, creamy highlights
+  visual_forbidden: ["color", "narrative action framing", "magazine-glamour feel", "grainy snapshot"]
+  reference_works: ["Robert Mapplethorpe", "Edward Weston", "Ruth Bernhard", "Bill Brandt"]
+  example_prompts:
+    - "Black and white fine art nude, woman in contrapposto, single sculptural side light, silver gelatin tonality, gallery composition"
+  research_confidence: high
+
+
+# =============================================================
+# CATEGORY 3 — Anime / Manga Illustration (ANI)
+# =============================================================
+# Cultural root: TV animation tradition (cel shading), doujinshi
+# community (80s onward), modern digital illustration ecosystem
+# (Pixiv → NovelAI → Illustrious/Pony lineage). Visual DNA:
+# line as structural element, flat-ish color, stylized anatomy.
+# -------------------------------------------------------------
+
+- code: ani_cel_shaded_tv
+  display_name_cn: 赛璐璐TV动画风
+  display_name_en: Cel-Shaded TV Anime
+  palette: "clean flat primary-plus-secondary palette, 2-3 tone-steps per surface; saturated but not garish"
+  lighting: "simplified cel-shade (hard shadow edge), limited shade steps, rim-light for emphasis"
+  composition: "anime-storyboard inheritance, speed lines, dynamic angles, diagonal cuts, character-centered"
+  texture: "flat color fills, clean ink line, no visible brush, animation-cel quality, background painterly"
+  typical_subjects: ["stylized characters in urban/school/fantasy settings", "animated-scene tableau"]
+  typical_actions: ["TV-style moment framing", "dynamic action or still dramatic poses"]
+  mood: "anime-iconic, energetic or introspective, genre-fluent"
+  affinity_narrative_genres: ["anime_genre_romance", "shonen_adventure", "slice_of_life_anime"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Animagine XL 3.1 / AnythingV5 / MeinaMix / Illustrious XL"
+      lora_or_embedding: ["cel_shading_v2", "90s_anime_style"]
+    - provider: "civitai"
+      model_or_checkpoint: "NoobAI XL (broad style library via Danbooru tags)"
+  prompt_template_skeleton: |
+    Cel-shaded anime illustration, [character description],
+    flat color fills, hard shadow edges, painterly background,
+    dynamic composition, TV anime style, [era: 90s / modern]
+  visual_forbidden: ["photorealistic skin", "painterly rendering on characters", "soft gradient shade"]
+  reference_works: ["Studio Ghibli visual language (aesthetic only)", "90s OVA aesthetic", "modern TV anime"]
+  example_prompts:
+    - "Cel-shaded anime illustration, woman in summer uniform, school rooftop, hard shadows, painterly sky background, 90s OVA style"
+  research_confidence: high
+
+- code: ani_painterly_pixiv
+  display_name_cn: 厚涂插画Pixiv风
+  display_name_en: Painterly Pixiv / Digital Illustration
+  palette: "rich gradients, saturated skin warmth, atmospheric color, full range of values"
+  lighting: "dramatic painterly light, rim lights, subsurface skin glow, god-rays, detailed highlights"
+  composition: "single-figure or duo, pin-up-adjacent, detailed body rendering, ornate backgrounds or solid color"
+  texture: "visible soft brushwork, smooth gradient rendering, detailed skin shading, rendered hair strands"
+  typical_subjects: ["stylized characters with detailed rendering", "fantasy / modern / uniform variety"]
+  typical_actions: ["pin-up poses, illustrative moments, detailed character portraits"]
+  mood: "illustrative, polished, pin-up-influenced, painterly-lush"
+  affinity_narrative_genres: ["fantasy_romance", "character_portrait_story", "stylized_encounter"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Pony Diffusion V6 XL (default choice for this lane)"
+      lora_or_embedding: ["painterly_shade", "pixiv_style"]
+      notes: "Pony V6 is the de facto standard; uses 'score_9, score_8_up' prefix convention"
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with painterly-artist tags / NoobAI XL"
+      lora_or_embedding: ["artist:ask_(askzy)", "artist:wlop"]
+      notes: "Use artist-tag syntax for style pinning on Illustrious/NoobAI"
+  prompt_template_skeleton: |
+    Painterly anime illustration, Pixiv style, [character description],
+    rich color gradients, dramatic rim light, subsurface skin glow,
+    detailed brushwork, pin-up composition, ornate or atmospheric background
+  visual_forbidden: ["flat cel-shade", "photorealistic skin texture", "simplified TV animation palette"]
+  reference_works: ["top Pixiv illustrators (Range Murata, Redjuice, wlop aesthetic references)", "Light novel cover illustrations"]
+  example_prompts:
+    - "Painterly anime illustration, woman in fantasy attire, dramatic rim light, detailed brushwork, Pixiv style, ornate background"
+  research_confidence: high
+
+- code: ani_soft_watercolor
+  display_name_cn: 水彩淡彩柔和风
+  display_name_en: Soft Watercolor Anime
+  palette: "pale washes, pastel blues/pinks/yellows, low-saturation dreamy"
+  lighting: "soft diffused light, no hard shadow, luminous-paper feel"
+  composition: "quiet vignette compositions, slice-of-life framing, environmental atmosphere"
+  texture: "visible watercolor bleed, paper grain, gentle edge softness, wet-on-wet pooling"
+  typical_subjects: ["slice-of-life moments", "quiet environments", "contemplative characters"]
+  typical_actions: ["gentle intimacy, quiet moments, atmospheric stillness"]
+  mood: "gentle, poetic, nostalgic, iyashikei (healing) tone"
+  affinity_narrative_genres: ["slice_of_life_anime", "gentle_intimacy", "iyashikei_romance"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL + watercolor LoRA / AnythingV5 + watercolor"
+      lora_or_embedding: ["watercolor_style", "soft_pastel", "paper_grain"]
+    - provider: "civitai"
+      model_or_checkpoint: "NoobAI XL with watercolor-artist tags"
+  prompt_template_skeleton: |
+    Soft watercolor anime illustration, [character] in [quiet scene],
+    pale wash palette, visible watercolor bleed, paper grain texture,
+    diffused light, slice-of-life mood, iyashikei atmosphere
+  visual_forbidden: ["high saturation", "hard cel-shade", "photoreal texture", "dramatic rim light"]
+  reference_works: ["Makoto Shinkai background aesthetic", "Yoshitoshi ABe", "Rinko Kawauchi tonal influence"]
+  example_prompts:
+    - "Soft watercolor anime, woman in summer dress on veranda, pale wash palette, visible paper grain, gentle diffused light, iyashikei mood"
+  research_confidence: high
+
+- code: ani_hmanga_linework
+  display_name_cn: 里番H-manga粗线风
+  display_name_en: H-Manga / Doujin Line Art
+  palette: "primarily black and white with screentone; when colored, bold high-contrast with limited palette"
+  lighting: "implied via screentone dots, no gradient; dramatic shadow through ink black fills"
+  composition: "manga-page narrative flow, panel-thinking composition, tight close-ups, motion lines"
+  texture: "heavy ink line, screentone dot pattern, rough sketch energy, doujinshi-print quality"
+  typical_subjects: ["manga-style characters in various scenarios", "bedroom, classroom, fantasy settings"]
+  typical_actions: ["manga-narrative action", "explicit manga-genre conventions"]
+  mood: "raw, direct, print-medium, doujin-underground feel"
+  affinity_narrative_genres: ["manga_narrative", "explicit_scenario_direct", "genre_fantasy_manga"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "NoobAI XL (H-tag native) / specialized H-manga LoRAs"
+      lora_or_embedding: ["hmanga_lineart", "screentone", "doujinshi_style"]
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL + monochrome manga LoRA"
+  prompt_template_skeleton: |
+    H-manga style black and white illustration, heavy ink lineart,
+    screentone shading, panel-style composition,
+    doujinshi print quality, [scene], motion lines
+  visual_forbidden: ["soft gradient rendering", "photoreal texture", "watercolor wash"]
+  reference_works: ["classic doujinshi Comiket publications (aesthetic tradition)", "seinen manga mature works"]
+  example_prompts:
+    - "H-manga style black and white page, heavy ink lines, screentone shading, dramatic panel composition, doujinshi print texture"
+  research_confidence: high
+
+- code: ani_retro_80s_90s
+  display_name_cn: 复古80s-90s美少女
+  display_name_en: Retro 80s-90s Anime Pin-up
+  palette: "nostalgic pastel+neon, magenta-cyan accents, VHS-washed saturation, pale peach skin"
+  lighting: "flat shading with occasional gradient highlight, anime-cel simplicity, city-night neon wash"
+  composition: "OVA pin-up style, classic anime framing, VHS-era aspect ratio inheritance, character poster feel"
+  texture: "cel-painted flat color, slight analog-tape color bleed when extreme retro, hand-inked line weight variance"
+  typical_subjects: ["stylized 80s-90s anime characters, city pop scenes, OVA-era scenarios"]
+  typical_actions: ["pin-up poses, city pop atmosphere, anime-era nostalgia"]
+  mood: "nostalgic, retro-romantic, VHS-era warm, city pop"
+  affinity_narrative_genres: ["nostalgia_romance", "retro_city_story", "vaporwave_adjacent"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "80s anime LoRA on any anime base (Animagine, Illustrious)"
+      lora_or_embedding: ["80s_anime", "90s_anime", "city_pop", "OVA_style"]
+    - provider: "civitai"
+      model_or_checkpoint: "Mistoon Anime + retro LoRA"
+  prompt_template_skeleton: |
+    80s/90s anime style illustration, [character] in city-pop scene,
+    pastel-neon palette, VHS-era aesthetic, OVA pin-up composition,
+    hand-inked line variance, nostalgic mood
+  visual_forbidden: ["modern smooth-rendered anime", "photoreal", "hyper-polished Pixiv style"]
+  reference_works: ["80s-90s OVA visual language (Bubblegum Crisis, Urusei Yatsura era)", "city pop album art"]
+  example_prompts:
+    - "80s OVA anime pin-up, woman on Tokyo balcony at night, neon wash, pastel-peach skin, hand-inked lineart, city pop atmosphere"
+  research_confidence: medium
+
+
+# =============================================================
+# CATEGORY 4 — Vintage Erotica (VIN)
+# =============================================================
+# Cultural root: pre-digital print erotica. Multiple distinct
+# traditions do NOT share visual language — they share only
+# "pre-1980s publishing-medium constraint" as a unifier.
+# Each subtype is genuinely its own movement.
+# -------------------------------------------------------------
+
+- code: vin_playboy_70s
+  display_name_cn: 60-70s Playboy杂志风
+  display_name_en: 1960s-70s Playboy Magazine
+  palette: "warm amber and cream, wood-paneled interiors, orange-brown upholstery palette, Kodachrome reds"
+  lighting: "warm tungsten lamps, fireplace glow, midcentury-modern interior natural light"
+  composition: "wide-ish interior shots, mansion lifestyle staging, bar/fireplace/bedroom vignettes, 4:5 or 3:4 magazine aspect"
+  texture: "Kodachrome film grain, warm color cast, visible magazine-print dot pattern if extreme reference"
+  typical_subjects: ["midcentury-modern interiors", "subject as aspirational lifestyle figure"]
+  typical_actions: ["lifestyle tableau", "playful staged scenarios"]
+  mood: "aspirational-vintage, warm, 'gentleman's magazine' lineage, nostalgic"
+  affinity_narrative_genres: ["period_fantasy_60s_70s", "aspirational_nostalgia", "vintage_affair"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Analog Diffusion / Realistic Vision + 70s LoRA"
+      lora_or_embedding: ["vintage_playboy", "kodachrome_70s", "midcentury_interior"]
+    - provider: "civitai"
+      model_or_checkpoint: "RetroDiffusion / vintage photo LoRAs"
+  prompt_template_skeleton: |
+    1970s Playboy magazine photograph, midcentury-modern interior,
+    warm tungsten lighting, Kodachrome palette, fireplace vignette,
+    aspirational lifestyle staging, magazine print quality
+  visual_forbidden: ["contemporary HD clarity", "cool-blue digital palette", "anime line"]
+  reference_works: ["Playboy 1965-1978 visual library", "Hugh Hefner mansion era photography"]
+  example_prompts:
+    - "1970s Playboy magazine aesthetic, woman in wood-paneled mansion library, fireplace light, Kodachrome warm palette, magazine-print quality"
+  research_confidence: high
+
+- code: vin_pinup_elvgren
+  display_name_cn: 50-60s Pin-up插画风
+  display_name_en: Mid-Century Pin-Up Illustration
+  palette: "candy-pop saturation, clean primary colors, pale-pink skin, cherry reds, aqua blues"
+  lighting: "illustration-lit flat shading with single-source highlight, clean cheeky cheerfulness"
+  composition: "single-figure illustrated poster format, 'accidental-exposure' humor situations, Elvgren narrative gags"
+  texture: "smooth airbrush-painted illustration, clean gouache/oil painting finish, Vargas airbrush polish"
+  typical_subjects: ["illustrated pin-up women in playful mishaps", "vintage Americana settings"]
+  typical_actions: ["comedic mishap poses (Elvgren tradition)", "glamorous still poses (Vargas tradition)"]
+  mood: "cheeky, cheerful, innocent-sensual, Americana-nostalgic"
+  affinity_narrative_genres: ["light_hearted_flirtation", "period_fantasy_50s", "cheeky_misadventure"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Any SDXL base + Gil Elvgren / Vargas pin-up LoRA"
+      lora_or_embedding: ["elvgren_pinup", "vargas_airbrush", "americana_pinup"]
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with artist-tag 'gil elvgren' or 'alberto vargas'"
+  prompt_template_skeleton: |
+    1950s pin-up illustration, [subject] in playful mishap scenario,
+    Gil Elvgren style airbrush painting, candy-pop palette,
+    poster format composition, Americana setting, cheerful innocent-sensual mood
+  visual_forbidden: ["photorealism", "digital-crisp line", "muted desaturated palette"]
+  reference_works: ["Gil Elvgren Brown & Bigelow calendars", "Alberto Vargas Esquire/Playboy work", "Earl Moran illustrations"]
+  example_prompts:
+    - "Gil Elvgren style pin-up painting, woman in polka-dot dress caught by wind, 1950s Americana diner, candy-pop palette, airbrush illustration"
+  research_confidence: high
+
+- code: vin_shunga_ukiyoe
+  display_name_cn: 浮世绘春画风
+  display_name_en: Ukiyo-e Shunga
+  palette: "indigo blue (aizuri), vermilion red, mineral green, ochre, black line; limited woodblock palette"
+  lighting: "no directional lighting (flat woodblock tradition), mood through color"
+  composition: "woodblock print composition, kimono folds as geometric structure, diagonal body dynamism, text cartouches"
+  texture: "washi paper grain, visible woodblock printing edge, flat ink fills, sometimes embossing (karazuri)"
+  typical_subjects: ["Edo-period domestic interiors", "couples in kimono", "bijin (beautiful women) with elaborate hair and kimono"]
+  typical_actions: ["Edo-period conventions, highly stylized", "exaggerated anatomical emphasis per tradition"]
+  mood: "traditional, ornate, ritualized, culturally-specific"
+  affinity_narrative_genres: ["historical_edo_period", "traditional_fantasy", "ritual_encounter"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL / NoobAI with 'ukiyo-e' style tag and LoRA"
+      lora_or_embedding: ["ukiyoe_woodblock", "shunga_style", "edo_period"]
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL base + specialized shunga woodblock LoRA"
+  prompt_template_skeleton: |
+    Ukiyo-e shunga woodblock print, [subject in kimono], Edo period interior,
+    indigo and vermilion palette, flat woodblock ink fills,
+    washi paper texture, stylized composition, traditional Japanese art
+  visual_forbidden: ["photorealism", "modern palette", "dimensional shading"]
+  reference_works: ["Kitagawa Utamaro shunga", "Hokusai erotic works including 'Young Pines'", "Hiroshige-era prints (stylistic reference)"]
+  example_prompts:
+    - "Ukiyo-e shunga woodblock print, Edo-era couple in elaborate kimono, tatami room, indigo vermilion palette, washi paper texture, flat ink fills"
+  research_confidence: high
+
+- code: vin_victorian_beardsley
+  display_name_cn: 维多利亚黑白唯美线描
+  display_name_en: Victorian / Beardsley Black Ink Decadent
+  palette: "primarily black and white, extremely high contrast, occasional red/gold accent"
+  lighting: "none (pure linework), implied only via black fills"
+  composition: "highly decorative, Japonisme-influenced asymmetry, figure-floating-on-page, integrated text/frame"
+  texture: "crisp ink line, large solid black areas adjacent to empty white, ornate pattern fills, no halftone"
+  typical_subjects: ["decadent-movement themes (Salome, Lysistrata)", "grotesque-elegant figures in ornate dress"]
+  typical_actions: ["decadent poetic poses", "mythological/literary-referenced scenarios"]
+  mood: "decadent, perverse-elegant, fin-de-siècle, aestheticist"
+  affinity_narrative_genres: ["decadent_gothic", "literary_reference", "mythological_eroticism"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL / any SDXL + Beardsley-style LoRA"
+      lora_or_embedding: ["beardsley_ink", "art_nouveau_black", "decadent_illustration"]
+  prompt_template_skeleton: |
+    Aubrey Beardsley style black ink illustration,
+    decadent Art Nouveau composition, large solid black masses against white,
+    ornate pattern details, Japonisme asymmetry,
+    [literary/mythological subject], fin-de-siècle mood
+  visual_forbidden: ["color", "dimensional shading", "halftone/screentone", "realistic anatomy"]
+  reference_works: ["Aubrey Beardsley (Salome, Lysistrata illustrations)", "The Yellow Book publications", "Harry Clarke"]
+  example_prompts:
+    - "Aubrey Beardsley style black ink illustration, woman in ornate decadent dress, large black masses, intricate pattern details, Japonisme asymmetry"
+  research_confidence: high
+
+- code: vin_artnouveau_mucha
+  display_name_cn: Art Nouveau装饰情色
+  display_name_en: Art Nouveau Decorative (Mucha lineage)
+  palette: "muted jewel tones, gold, sage green, dusty rose, ivory; Mucha pastel earth tones"
+  lighting: "flat decorative, no photographic shadow, lit-for-poster aesthetic"
+  composition: "single central figure in ornate framed composition, swirling organic lines, decorative border with floral/zodiac elements"
+  texture: "flat decorative poster illustration, decorative line work, pattern-within-pattern ornamentation"
+  typical_subjects: ["stylized female figure as decorative subject", "flowing hair and drapery as design elements"]
+  typical_actions: ["stylized allegorical poses (Four Seasons, Precious Stones)", "decorative framing"]
+  mood: "decorative, allegorical, sensuous-sophisticated, belle-epoque"
+  affinity_narrative_genres: ["allegorical_romance", "sensuous_allegory", "decorative_fantasy"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with 'alphonse mucha' tag / dedicated Mucha LoRA"
+      lora_or_embedding: ["mucha_style", "art_nouveau_decorative"]
+  prompt_template_skeleton: |
+    Alphonse Mucha Art Nouveau style illustration,
+    central female figure in flowing drapery, ornate decorative border,
+    swirling organic line, muted jewel-tone palette,
+    belle-epoque sensuous allegory, poster composition
+  visual_forbidden: ["photorealism", "hard cel-shade", "contemporary palette"]
+  reference_works: ["Alphonse Mucha posters", "Gustav Klimt decorative period (edge overlap)"]
+  example_prompts:
+    - "Mucha Art Nouveau poster, woman with flowing hair in decorative border, muted jewel tones, ornate pattern, belle-epoque sensuous style"
+  research_confidence: high
+
+
+# =============================================================
+# CATEGORY 5 — Fine Art Erotica (ART)
+# =============================================================
+# Cultural root: museum/gallery lineage. These are named-artist
+# styles that crossed into the erotic. Distinguished from
+# Category 4 by: (a) gallery context rather than publication,
+# (b) individual artistic voice rather than house-style.
+# -------------------------------------------------------------
+
+- code: art_schiele_expressionist
+  display_name_cn: 席勒表现主义线条
+  display_name_en: Egon Schiele Expressionist Line
+  palette: "raw sickly colors — jaundice yellow, bruise green, dried-blood red, pallid skin tones; no chiaroscuro"
+  lighting: "flat, color-as-light; no shadow modeling"
+  composition: "sparse background (often blank paper), twisted angular body, contorted poses, cropped limbs"
+  texture: "nervous contour line, visible watercolor wash, unfinished raw paper, pencil underdrawing showing"
+  typical_subjects: ["emaciated twisted figures", "direct confrontational gazes", "bodily awkwardness embraced"]
+  typical_actions: ["psychological confrontation", "raw vulnerability", "unsettling intimacy"]
+  mood: "raw, expressionist, psychologically unsettling, anti-idealized"
+  affinity_narrative_genres: ["psychological_drama", "trauma_aesthetics", "anti_romance", "existential_intimacy"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with 'egon schiele' artist tag"
+      lora_or_embedding: ["schiele_style", "expressionist_linework"]
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL + Schiele-style LoRA"
+  prompt_template_skeleton: |
+    Egon Schiele style expressionist illustration, nervous contour line,
+    raw sickly palette (jaundice, bruise-green, pallid skin),
+    twisted angular figure, blank paper background,
+    visible pencil underdrawing, watercolor wash, anti-idealized anatomy
+  visual_forbidden: ["flattering beauty palette", "smooth rendering", "chiaroscuro modeling", "idealized proportion"]
+  reference_works: ["Egon Schiele self-portraits and female nudes", "Viennese Expressionism"]
+  example_prompts:
+    - "Egon Schiele style, nervous contour line drawing of figure on blank paper, sickly palette, twisted angular body, pencil and watercolor"
+  research_confidence: high
+
+- code: art_klimt_decorative
+  display_name_cn: 克里姆特装饰金色
+  display_name_en: Klimt Decorative Gold
+  palette: "metallic gold leaf, deep jewel-tone reds and blues, earthy greens, pale ivory skin"
+  lighting: "no photographic light; gold ornament glowing as design element"
+  composition: "figure merged with decorative pattern ground, flat-background-rich-ornament, Byzantine-influenced integration"
+  texture: "gold leaf (metallic shimmer), flat decorative pattern, mosaic-like surfaces, smooth skin contrast to ornament"
+  typical_subjects: ["embracing couples in ornament", "single female figures integrated with decorative ground"]
+  typical_actions: ["embrace, reverie, decorative stillness"]
+  mood: "ecstatic, ornate, sacred-erotic, Byzantine-lush"
+  affinity_narrative_genres: ["romantic_ecstasy", "sacred_erotic", "ornate_ritual_intimacy"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with 'gustav klimt' artist tag"
+      lora_or_embedding: ["klimt_gold", "byzantine_ornament"]
+  prompt_template_skeleton: |
+    Gustav Klimt style decorative painting, gold leaf ornament,
+    figure integrated with patterned ground, Byzantine mosaic influence,
+    jewel-tone palette, sacred-erotic embrace, flat decorative composition
+  visual_forbidden: ["photographic realism", "sparse background", "muted palette"]
+  reference_works: ["Gustav Klimt 'The Kiss', 'Judith', 'Danaë'", "Vienna Secession ornamental tradition"]
+  example_prompts:
+    - "Gustav Klimt style painting, embracing couple with gold leaf ornament, Byzantine patterned ground, jewel-tone palette, sacred-erotic composition"
+  research_confidence: high
+
+- code: art_amano_fantasy
+  display_name_cn: 天野喜孝华丽幻想
+  display_name_en: Yoshitaka Amano Ethereal Fantasy
+  palette: "pale pastel wash (soft blue, lavender, pale gold), silver/gold metallic accents, ivory skin"
+  lighting: "no directional light, luminosity from color transparency, ghost-like glow"
+  composition: "ethereal floating figures, asymmetric empty space, ink-line accents over watercolor"
+  texture: "watercolor and acrylic wash, pencil line, flowing brushwork, occasional metallic ink, dreamlike layering"
+  typical_subjects: ["androgynous fantasy figures", "long hair and flowing robes", "dreamlike liminal settings"]
+  typical_actions: ["ethereal stillness, fantasy-genre poses, ambiguous narrative"]
+  mood: "dreamlike, ethereal, androgynous-sensual, fantasy-lush"
+  affinity_narrative_genres: ["fantasy_romance", "ethereal_encounter", "dream_sequence", "high_fantasy_intimate"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with 'yoshitaka amano' artist tag"
+      lora_or_embedding: ["amano_style", "ethereal_fantasy_ink"]
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL + dedicated Amano LoRA"
+  prompt_template_skeleton: |
+    Yoshitaka Amano style illustration, ethereal floating figure,
+    watercolor and acrylic wash, pale pastel palette with metallic accents,
+    ink-line accents, dreamlike composition, androgynous fantasy subject
+  visual_forbidden: ["cel-shade", "photoreal", "saturated modern palette", "cluttered background"]
+  reference_works: ["Yoshitaka Amano Final Fantasy art", "Vampire Hunter D illustrations", "Elric of Melniboné covers"]
+  example_prompts:
+    - "Yoshitaka Amano style, androgynous ethereal figure in flowing robes, pale watercolor wash with gold metallic accents, dreamlike liminal space"
+  research_confidence: high
+
+- code: art_yamamoto_heisei
+  display_name_cn: 山本タカト平成耽美
+  display_name_en: Takato Yamamoto Heisei Estheticism
+  palette: "porcelain white skin, deep crimson, ink black, gold accent; ornate color restraint"
+  lighting: "no directional (woodblock inheritance), flat jewel-color fills"
+  composition: "ukiyo-e-adjacent flat composition, ornate decorative elements, symmetric or precisely arranged, gothic-theatrical"
+  texture: "fine linework, flat color fills, hair-strand detail, woodblock-flat shading, occasional bloodstain/tear"
+  typical_subjects: ["young Asian women in traditional/gothic dress", "vampiric-decadent scenarios", "macabre-beautiful tableau"]
+  typical_actions: ["moment before/after violence (implied, not shown)", "decadent stillness", "ritualized gothic poses"]
+  mood: "decadent-gothic, macabre-beautiful, Heisei-aestheticist, sacred-profane"
+  affinity_narrative_genres: ["gothic_decadence", "ritualized_cruelty_aesthetic", "sacred_horror_romance", "macabre_beauty"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with 'takato yamamoto' tag / Heisei-aesthetic LoRA"
+      lora_or_embedding: ["takato_yamamoto_style", "heisei_esthiticism"]
+  prompt_template_skeleton: |
+    Takato Yamamoto Heisei estheticism style,
+    porcelain white skin, deep crimson and ink black palette,
+    flat ukiyo-e-influenced composition, gothic-decadent tableau,
+    fine linework, decorative elements, macabre-beautiful mood
+  visual_forbidden: ["photorealism", "soft painterly shading", "bright cheerful palette"]
+  reference_works: ["Takato Yamamoto illustration books", "Hajime Sorayama (contemporary overlap)", "Yuki-onna folklore imagery"]
+  example_prompts:
+    - "Takato Yamamoto style, young woman in traditional dress, porcelain skin, crimson and ink palette, flat ukiyo-e composition, macabre-beautiful mood"
+  research_confidence: medium
+
+- code: art_sorayama_chrome
+  display_name_cn: 空山基铬合金超写实
+  display_name_en: Hajime Sorayama Chrome Superrealism
+  palette: "chrome silver, high-contrast black, skin-tone flesh, polished reflections of environment"
+  lighting: "studio-style dramatic highlight-and-reflection, chrome surface rendering, environmental reflection map"
+  composition: "single-figure centered, robot/human-hybrid, pin-up inheritance with sci-fi superstructure"
+  texture: "airbrushed hyperrealistic chrome, polished metal surface, skin-meets-metal transition detail"
+  typical_subjects: ["gynoid/cyborg figures", "polished chrome bodies", "retro-futuristic pin-up scenarios"]
+  typical_actions: ["pin-up poses elevated to sci-fi", "chrome-body showcase framing"]
+  mood: "slick, retro-futuristic, fetishistic-elegant, Hollywood-sci-fi"
+  affinity_narrative_genres: ["sci_fi_romance", "robot_android_encounter", "cyberpunk_intimate", "retro_futurist"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL with 'hajime sorayama' tag"
+      lora_or_embedding: ["sorayama_chrome", "chrome_robot_pinup"]
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL + Sorayama/chrome LoRA"
+  prompt_template_skeleton: |
+    Hajime Sorayama style airbrush illustration,
+    chrome gynoid figure, polished reflective metal surface,
+    environmental reflection map, pin-up composition,
+    retro-futuristic, slick fetishistic elegance
+  visual_forbidden: ["matte/muted palette", "rough brushwork", "anime cel-shade", "film grain"]
+  reference_works: ["Hajime Sorayama 'Sexy Robots' series", "Sony AIBO design", "Dior Men AW 2019 collaboration"]
+  example_prompts:
+    - "Hajime Sorayama style airbrush illustration, chrome gynoid pin-up pose, polished reflective surface, retro-futuristic composition"
+  research_confidence: high
+
+
+# =============================================================
+# CATEGORY 6 — Stylized / Experimental (EXP)
+# =============================================================
+# Catch-all for digital-native and indie-graphic aesthetics
+# that don't fit photorealism, anime, vintage, or fine art.
+# Defining feature: medium-as-message; format constrains style.
+# -------------------------------------------------------------
+
+- code: exp_pixel_retro
+  display_name_cn: 像素复古情色
+  display_name_en: Pixel Art / Retro Sprite
+  palette: "constrained palette (16/32/64 colors), NES/SNES/PC-98 historical palettes, often dithered"
+  lighting: "no photographic light; implied through hard-pixel shading steps"
+  composition: "2D sprite-thinking, side or 3/4 view, bedroom/dungeon/pixel-classroom settings, game-screen aspect"
+  texture: "single pixel precision, visible pixel grid, dither patterns for gradation, no anti-aliasing"
+  typical_subjects: ["sprite characters in game-like environments", "bedroom, dungeon, pixel-urban scenes"]
+  typical_actions: ["game-interaction style staging", "visual-novel tableau"]
+  mood: "nostalgic, game-aesthetic, indie-DIY, retro-warm"
+  affinity_narrative_genres: ["game_within_story", "retro_visual_novel", "rpg_romance_encounter"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL + Pixel Art XL LoRA / specialized pixel checkpoints"
+      lora_or_embedding: ["pixel_art_xl", "pc98_style", "snes_palette"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + pixel-art LoRA"
+  prompt_template_skeleton: |
+    Pixel art illustration, [16-bit / 32-bit / PC-98] style,
+    constrained palette with dither, visible pixel grid,
+    no anti-aliasing, [scene], game-sprite aesthetic
+  visual_forbidden: ["smooth gradients", "photoreal texture", "modern anti-aliased line", "high resolution rendering"]
+  reference_works: ["PC-98 visual novel art tradition", "SNES-era RPG pixel art", "indie pixel erotic games on itch.io"]
+  example_prompts:
+    - "PC-98 style pixel art, bedroom scene at night, constrained palette with dither, visible pixel grid, visual novel tableau"
+  research_confidence: medium
+
+- code: exp_cyberpunk_neon
+  display_name_cn: 赛博朋克霓虹
+  display_name_en: Cyberpunk Neon
+  palette: "neon magenta, cyan, electric blue on deep black; chrome accent; rain-wet surface reflection amplifying color"
+  lighting: "neon-sign practicals, rim lights from signs, rain-diffused colored light, volumetric haze"
+  composition: "urban dystopian environments, Japanese-kanji-signage layers, rooftop/alley/megacity, verticality"
+  texture: "rain-slick reflection, chrome+glass, holographic surfaces, wet skin highlights"
+  typical_subjects: ["characters in rain-slick megacity", "cyberware, prosthetics, synthetic fabrics"]
+  typical_actions: ["dystopian-intimate encounters", "urban noir scenarios"]
+  mood: "high-tech low-life, noir-erotic, dystopian-romantic, nocturnal"
+  affinity_narrative_genres: ["cyberpunk_noir", "dystopian_romance", "synthetic_intimacy"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Juggernaut XL / Cyberrealistic + cyberpunk LoRA"
+      lora_or_embedding: ["cyberpunk_neon", "blade_runner_aesthetic", "rain_wet_city"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + cyberpunk LoRA stack"
+  prompt_template_skeleton: |
+    Cyberpunk scene, rain-slick megacity alley at night,
+    neon magenta and cyan signs, volumetric haze,
+    [subject] with synthetic fabric, chrome accents,
+    Blade Runner aesthetic, dystopian-noir mood
+  visual_forbidden: ["daylight naturalism", "soft golden hour", "minimalist clean interior"]
+  reference_works: ["Blade Runner 1982 and 2049", "Ghost in the Shell (1995)", "Cyberpunk: Edgerunners"]
+  example_prompts:
+    - "Cyberpunk neon scene, woman on rain-slick Shibuya alley, neon magenta and cyan signage, volumetric haze, chrome accents, Blade Runner mood"
+  research_confidence: high
+
+- code: exp_vaporwave_pastel
+  display_name_cn: 蒸汽波粉彩情色
+  display_name_en: Vaporwave / Synthwave Pastel
+  palette: "pastel pink and cyan dominance, purple haze, magenta sunset, neon grid"
+  lighting: "retrowave grid glow, magenta-cyan gradient skies, VHS color bleeding"
+  composition: "80s-90s retro-nostalgic framing, Greek statues with pink tint, retro-Windows GUI elements, Memphis Design shapes"
+  texture: "VHS tape scan lines, CRT glow, JPEG compression artifact (ironic), glitch shimmer"
+  typical_subjects: ["retro-statuary + contemporary figure", "80s mall/pool aesthetic", "liminal retrowave spaces"]
+  typical_actions: ["atmospheric melancholy staging", "retro-nostalgic intimacy"]
+  mood: "melancholy-nostalgic, retrowave-ironic, dreamlike-melancholy"
+  affinity_narrative_genres: ["retro_melancholy_romance", "liminal_space_encounter", "nostalgic_dreamscape"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL + vaporwave LoRA / synthwave LoRA"
+      lora_or_embedding: ["vaporwave_aesthetic", "synthwave_retrogrid", "vhs_scan_lines"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + retrowave LoRA"
+  prompt_template_skeleton: |
+    Vaporwave/synthwave aesthetic, pastel pink and cyan palette,
+    magenta-cyan gradient sky with retro grid,
+    [Greek bust / retro mall / pool], VHS scan-line texture,
+    80s-90s nostalgia, liminal dreamlike mood
+  visual_forbidden: ["naturalistic palette", "contemporary crispness", "photorealistic portrait"]
+  reference_works: ["early 2010s vaporwave album covers", "80s synthwave visual albums", "Memphis Design graphics"]
+  example_prompts:
+    - "Vaporwave scene, woman by empty 80s pool, pastel pink-cyan palette, magenta gradient sky with retro grid, VHS scan lines, melancholy mood"
+  research_confidence: medium
+
+- code: exp_3dcg_honey
+  display_name_cn: 3DCG写实(Honey Select等)
+  display_name_en: 3DCG Realistic (Honey Select / Koikatsu lineage)
+  palette: "stylized semi-real anime skin tones (peach, porcelain), game-engine-lit interiors"
+  lighting: "real-time rendering style, ambient occlusion visible, stylized reflections, character-model studio lighting"
+  composition: "3D scene with posed character models, visual-novel-adjacent staging, game-screen framing"
+  texture: "3D model skin shader (subsurface approximation), cloth physics visible, game-engine material rendering"
+  typical_subjects: ["semi-realistic 3D characters in modeled environments", "bedroom, classroom, modeled-interior settings"]
+  typical_actions: ["posed 3D model scenarios", "game-screen-style composition"]
+  mood: "game-like, posed-studio, semi-real-anime-hybrid, doujin-3D"
+  affinity_narrative_genres: ["3d_game_romance", "modded_scenario", "visual_novel_3d"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "Nova 3DCG XL / Realcartoon3D / specialized 3DCG checkpoints"
+      lora_or_embedding: ["honey_select_style", "3dcg_anime", "koikatsu_style"]
+    - provider: "civitai"
+      model_or_checkpoint: "Illustrious XL + 3DCG LoRA"
+  prompt_template_skeleton: |
+    3DCG illustration, Honey Select / Koikatsu style,
+    semi-realistic anime skin shader, game-engine lighting,
+    ambient occlusion, posed 3D model, [scene], visual-novel staging
+  visual_forbidden: ["2D hand-drawn line", "photorealistic human skin", "painterly brushwork"]
+  reference_works: ["Illusion Soft games (Honey Select, Koikatsu)", "doujin 3DCG Pixiv scene"]
+  example_prompts:
+    - "Honey Select style 3DCG, semi-realistic anime character in modeled bedroom, game-engine lighting, ambient occlusion, posed scene"
+  research_confidence: medium
+
+- code: exp_risograph_zine
+  display_name_cn: 版画Riso独立印刷风
+  display_name_en: Risograph / Woodcut Indie Print
+  palette: "2-4 ink layers (fluorescent pink, cyan, yellow, black), imperfect overprint creating secondary colors"
+  lighting: "flat, print-medium; no dimensional shading"
+  composition: "zine-page thinking, bold graphic shapes, hand-drawn quality, imperfect registration"
+  texture: "ink misregistration, patchy ink coverage, paper grain visible, DIY zine aesthetic"
+  typical_subjects: ["bold graphic figures", "indie zine scenarios, often queer/alternative"]
+  typical_actions: ["zine-narrative staging", "alt-indie intimate scenarios"]
+  mood: "DIY-indie, queer-alternative, zine-community, hand-printed-warm"
+  affinity_narrative_genres: ["queer_indie_romance", "alternative_intimacy", "zine_narrative"]
+  ai_model_recommendations:
+    - provider: "civitai"
+      model_or_checkpoint: "SDXL + risograph/woodcut LoRA"
+      lora_or_embedding: ["risograph_print", "woodcut_zine", "2_color_print"]
+    - provider: "fal.ai"
+      model_or_checkpoint: "FLUX dev + indie print LoRA"
+  prompt_template_skeleton: |
+    Risograph / woodcut style illustration,
+    2-3 ink layer limited palette (fluorescent pink, cyan, black),
+    imperfect ink overprint, patchy coverage, paper grain,
+    DIY zine aesthetic, bold graphic composition, [scene]
+  visual_forbidden: ["smooth digital gradients", "photoreal texture", "full-color photographic palette"]
+  reference_works: ["indie zine community (Comiket alt-circles, queer zine presses)", "risograph studios (People of Print coverage)"]
+  example_prompts:
+    - "Risograph print style illustration, two-color fluorescent pink and cyan overprint, figures in bedroom scene, paper grain texture, DIY zine aesthetic"
+  research_confidence: medium

@@ -1,0 +1,11 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Generated artifacts
+research/grok-image-test/*.png
+research/grok-image-test/*.jpg
+research/grok-image-test/*.webp
+node_modules/
+.DS_Store

@@ -1,0 +1,510 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - button "新建项目" [ref=e5]
+      - button "AI 生成" [ref=e6]
+      - button "▶ Play" [ref=e7]
+      - button "发布" [ref=e8]
+      - button "社区" [ref=e9]
+      - generic [ref=e11]: "添加:"
+      - button "叙事" [ref=e12]
+      - button "抉择" [ref=e13]
+      - button "检定" [ref=e14]
+      - button "合流" [ref=e15]
+      - button "幕间" [ref=e16]
+      - button "结局" [ref=e17]
+      - button "EN" [ref=e18]
+      - button "自动布局" [ref=e19]
+      - button "导入" [ref=e20]
+      - button "导出" [ref=e22]
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - textbox "未命名项目" [ref=e26]: 故事 4/5 22:49
+          - paragraph [ref=e27]: 新的 CRPG 故事
+        - generic [ref=e28]:
+          - generic [ref=e29]: 当前画布已自动保存
+          - generic [ref=e31]:
+            - text: 世界观设定
+            - paragraph [ref=e32]: 尚未定义世界观。使用"AI 生成"来创建故事结构。
+          - generic [ref=e33]:
+            - button "存档 2 ▾" [ref=e34]:
+              - generic [ref=e35]:
+                - text: 存档
+                - generic [ref=e36]: "2"
+              - generic [ref=e37]: ▾
+            - generic [ref=e38]:
+              - generic [ref=e40]:
+                - textbox "存档名称" [ref=e41]
+                - button "保存当前故事" [ref=e42]
+              - generic [ref=e43]:
+                - generic [ref=e44]:
+                  - generic [ref=e46]:
+                    - generic "故事 4/5 22:49" [ref=e47]
+                    - generic [ref=e48]: 04/05 22:49 · 19 节点
+                  - generic [ref=e49]:
+                    - button "加载" [ref=e50]
+                    - button "✎" [ref=e51]
+                    - button "删除" [ref=e52]
+                - generic [ref=e53]:
+                  - generic [ref=e55]:
+                    - generic "测试存档1" [ref=e56]
+                    - generic [ref=e57]: 04/05 11:24 · 6 节点
+                  - generic [ref=e58]:
+                    - button "加载" [ref=e59]
+                    - button "✎" [ref=e60]
+                    - button "删除" [ref=e61]
+          - button "角色 ▸" [ref=e63]:
+            - generic [ref=e64]: 角色
+            - generic [ref=e65]: ▸
+          - button "世界设定 ▸" [ref=e67]:
+            - generic [ref=e68]: 世界设定
+            - generic [ref=e69]: ▸
+          - button "价值轴 ▸" [ref=e71]:
+            - generic [ref=e72]: 价值轴
+            - generic [ref=e73]: ▸
+        - generic [ref=e74]: Daisy 故事编辑器 v0.1
+      - generic [ref=e75]:
+        - application [ref=e78]:
+          - generic [ref=e80]:
+            - generic:
+              - generic:
+                - img:
+                  - group "Edge from start to act1_n1"
+                - img:
+                  - group "Edge from act1_n1 to act1_check1" [ref=e843] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_check1 to act1_n2_success" [ref=e846] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_check1 to act1_n2_fail" [ref=e849] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_n2_success to act1_merge" [ref=e852] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_n2_fail to act1_merge" [ref=e855] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_merge to act1_choice_pivot" [ref=e858] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_choice_pivot to act1_break" [ref=e861] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_choice_pivot to act1_break" [ref=e864] [cursor=pointer]
+                - img:
+                  - group "Edge from act1_break to branchA_n1"
+                - img:
+                  - group "Edge from act1_break to branchB_n1"
+                - img:
+                  - group "Edge from branchA_n1 to branchA_n2"
+                - img:
+                  - group "Edge from branchA_n2 to branchA_choice1" [ref=e867] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_choice1 to branchA_share_n1" [ref=e870] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_choice1 to branchA_listen_n1" [ref=e873] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_share_n1 to branchA_share_check" [ref=e876] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_share_check to branchA_share_success" [ref=e879] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_share_check to branchA_share_fail" [ref=e882] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_share_success to branchA_act2_break"
+                - img:
+                  - group "Edge from branchA_share_fail to branchA_act2_break"
+                - img:
+                  - group "Edge from branchA_listen_n1 to branchA_listen_check" [ref=e885] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_listen_check to branchA_listen_success" [ref=e888] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_listen_check to branchA_listen_fail" [ref=e891] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_listen_success to branchA_act2_break"
+                - img:
+                  - group "Edge from branchA_listen_fail to branchA_ending3"
+                - img:
+                  - group "Edge from branchA_act2_break to branchA_act3_choice" [ref=e894] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_act3_choice to branchA_ending1" [ref=e897] [cursor=pointer]
+                - img:
+                  - group "Edge from branchA_act3_choice to branchA_ending2" [ref=e900] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_n1 to branchB_n2"
+                - img:
+                  - group "Edge from branchB_n2 to branchB_choice1" [ref=e903] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_choice1 to branchB_confess_n1" [ref=e906] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_choice1 to branchB_lie_n1" [ref=e909] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_confess_n1 to branchB_confess_n2"
+                - img:
+                  - group "Edge from branchB_confess_n2 to branchB_confess_check" [ref=e912] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_confess_check to branchB_confess_success" [ref=e915] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_confess_check to branchB_confess_fail" [ref=e918] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_confess_success to branchB_act2_break"
+                - img:
+                  - group "Edge from branchB_confess_fail to branchB_act2_break"
+                - img:
+                  - group "Edge from branchB_lie_n1 to branchB_lie_n2"
+                - img:
+                  - group "Edge from branchB_lie_n2 to branchB_lie_choice" [ref=e921] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_lie_choice to branchB_lie_rush" [ref=e924] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_lie_choice to branchB_lie_watch" [ref=e927] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_lie_rush to branchB_act2_break"
+                - img:
+                  - group "Edge from branchB_lie_watch to branchB_ending3"
+                - img:
+                  - group "Edge from branchB_act2_break to branchB_act3_choice" [ref=e930] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_act3_choice to branchB_ending1" [ref=e933] [cursor=pointer]
+                - img:
+                  - group "Edge from branchB_act3_choice to branchB_ending2" [ref=e936] [cursor=pointer]
+              - generic:
+                - group [ref=e213]:
+                  - generic [ref=e217]:
+                    - generic [ref=e219]: 叙事
+                    - paragraph [ref=e220]: "雨下得不大，但够让玻璃窗起雾。{{playerName}}在靠墙的位置坐了四十分钟，咖啡已经凉了一半，手机屏幕也暗了。这家咖啡厅每逢雨天都会放同一张爵士碟，{{playerName}}早就背下了曲序。角落里有人移动椅子——那声音不响，但{{playerName}}抬起头。深蓝色的外套，左肩的线缝处有一道细小的磨损。{{playerName}}认识那道磨损。手指停在咖啡杯把上，没有动。"
+                    - generic [ref=e221]: +value → +value
+                - group [ref=e939]:
+                  - generic [ref=e943]:
+                    - generic [ref=e944]:
+                      - generic [ref=e945]: 叙事
+                      - generic "激励事件" [ref=e946]: ★
+                    - paragraph [ref=e947]: "三年前也是这家咖啡厅，靠近窗的那张桌子。{{playerName}}把写好的字条叠了又叠，最后推到陈默面前。陈默看了很久，然后说：「我需要一点时间。」那是他说的最后一句话。此后的消息越来越短，直到某天开始不再回复。{{playerName}}以为时间会把这件事磨成一个模糊的轮廓，像旧照片褪色那样。但此刻隔着半个咖啡厅看着那道磨损的线缝，{{playerName}}发现那张字条的每个折痕都还在。"
+                    - generic [ref=e948]: +value → +value
+                - group [ref=e950]:
+                  - generic [ref=e954]:
+                    - text: 检定
+                    - generic [ref=e955]:
+                      - generic [ref=e956]: 镇定
+                      - generic [ref=e957]: DC 12
+                    - generic [ref=e958]:
+                      - generic [ref=e961]: ● 成功
+                      - generic [ref=e963]: ● 失败
+                - group [ref=e967]:
+                  - generic [ref=e971]:
+                    - generic [ref=e973]: 叙事
+                    - paragraph [ref=e974]: "碎碟的碎片散在桌角，{{playerName}}没有去捡，只是用餐巾纸盖住。瓷片的截面是白色的，光打在上面，映出一小块模糊的倒影——{{playerName}}的轮廓，以及更远处，陈默的方向。{{playerName}}没有抬头，但余光里，陈默的视线在这张桌子停了三秒。然后他收回目光，重新看向窗外的雨。三秒。{{playerName}}数清楚了。"
+                    - generic [ref=e975]: +value → +value
+                - group [ref=e977]:
+                  - generic [ref=e981]:
+                    - generic [ref=e983]: 叙事
+                    - paragraph [ref=e984]: "林晓蹲下来收拾碎碟，嘴里说着「没关系没关系」，声音足够让旁边几桌都听见。{{playerName}}抽了三张纸巾，不知道该先擦袖口还是先擦桌子。这时候有人走过来，把一叠干净的餐巾纸放在桌上。「要紧吗？」陈默站在桌边，语气像是在问一个陌生人。{{playerName}}抬起头，和他对视了不到一秒。「没事，谢谢。」声音比预想的稳。"
+                    - generic [ref=e985]: +value → +value
+                - group [ref=e987]:
+                  - generic [ref=e993]:
+                    - text: 合流
+                    - paragraph [ref=e994]: 合流
+                    - generic [ref=e995]:
+                      - button "−" [ref=e996]
+                      - generic [ref=e997]: "3"
+                      - button "+" [ref=e998]
+                - group [ref=e1000]:
+                  - generic [ref=e1004]:
+                    - text: 抉择
+                    - paragraph [ref=e1005]: "那行字是{{playerName}}三年前写的，笔迹没有变。书签压在桌上，像一张没有署名的账单。 陈默的手放在桌沿，没有催促，也没有解释为什么把它保存到现在。 承认，意味着三年前的那个下午需要被重新打开。不承认，这张书签就只是一件遗失物，陌生人归还，陌生人道谢，然后各自离开。 雨打在玻璃窗上，声音细碎。"
+                    - list [ref=e1006]:
+                      - listitem [ref=e1007]:
+                        - generic [ref=e1008]: A
+                        - generic [ref=e1009]: "【坦诚之路】{{playerName}}承认认出书签，主动提起三年前的往事"
+                      - listitem [ref=e1010]:
+                        - generic [ref=e1011]: B
+                        - generic [ref=e1012]: "【伪装之路】{{playerName}}假装不记得，将书签当作陌生物品归还"
+                - group [ref=e1015]:
+                  - generic [ref=e1019]:
+                    - text: 幕间
+                    - paragraph [ref=e1020]: "无论说了什么，那句话已经出口，或者那张书签已经被推回去。 咖啡厅里有人结账离开，门开了一道缝，雨声灌进来，又被关上。玻璃窗上，{{playerName}}和陈默的轮廓被雨水拉成同一道模糊的影子，分不清边界。 有些事说出口就无法假装没说过。有些东西一旦还出去，就再也不属于自己。 第一幕到此为止。"
+                - group [ref=e1022]:
+                  - generic [ref=e1026]:
+                    - generic [ref=e1028]: 叙事
+                    - paragraph [ref=e1029]: "陈默没有立刻回应。他低头看了一眼桌上的书签，用拇指摩挲了一下边角。 「我一直带着它，」他说，「不是因为忘不掉。是因为——」他停了一下，「觉得还没结束。」 他抬起头，鼻梁上方有一点红，像是在冷风里站过太久。 {{playerName}}第一次意识到，这三年不是只有自己在数。"
+                    - generic [ref=e1030]: +value → +value
+                - group [ref=e1032]:
+                  - generic [ref=e1036]:
+                    - generic [ref=e1038]: 叙事
+                    - paragraph [ref=e1039]: "方婶从吧台后面走出来，往两人桌上补了两杯热水，顺口说：「小陈啊，你这个位置今天终于有人陪了。」 陈默没说话。 方婶擦着手，对{{playerName}}说：「他每个礼拜五都来，坐这里，点一杯美式，坐到打烊。我以为是等外卖，后来才知道——」她顿了顿，看了陈默一眼，「算了，我多嘴。」 她转身回了吧台。陈默把手里的杯子转了半圈，没有解释，也没有否认。"
+                    - generic [ref=e1040]: +value → +value
+                - group [ref=e1042]:
+                  - generic [ref=e1046]:
+                    - text: 抉择
+                    - paragraph [ref=e1047]: "陈默把咖啡杯转了半圈，开口时声音很平。「我爸妈离婚那年我十六岁。我以为只要不开口，就不会有人受伤。」他没有看{{playerName}}，视线落在桌面的木纹上。「后来我才明白，沉默也是一种伤害。」窗外雨声填满了两人之间的空白。这是他第一次把这件事说出口，说完之后他端起杯子喝了一口，像是要用动作盖过那句话的重量。{{playerName}}面对的选择只有两个：用自己的伤口去接住他的，或者安静地守在这里，让他的话有地方落下。"
+                    - list [ref=e1048]:
+                      - listitem [ref=e1049]:
+                        - generic [ref=e1050]: A
+                        - generic [ref=e1051]: "{{playerName}}分享自己的旧伤，以真实换真实"
+                      - listitem [ref=e1052]:
+                        - generic [ref=e1053]: B
+                        - generic [ref=e1054]: "{{playerName}}选择倾听，将空间留给陈默的痛苦"
+                - group [ref=e1057]:
+                  - generic [ref=e1061]:
+                    - generic [ref=e1063]: 叙事
+                    - paragraph [ref=e1064]: "{{playerName}}盯着桌上的书签说：「我前任在我们交往的最后半年里，一直在和别人联系。我是最后一个知道的。」话说出口比预想的容易，也比预想的疼。「所以我也学会了不先开口。」陈默没有说「我懂」，也没有说「对不起」。他把书签翻了个面，指着背面一行褪色的字：那是当年两人约定的句子，{{playerName}}自己写的。咖啡厅的玻璃窗蒙着水雾，外面的路灯只剩一团模糊的光。两个人的旧伤第一次被放在同一张桌子上，没有人急着收走。"
+                    - generic [ref=e1065]: +value → +value
+                - group [ref=e1067]:
+                  - generic [ref=e1071]:
+                    - text: 检定
+                    - generic [ref=e1072]:
+                      - generic [ref=e1073]: 洞察
+                      - generic [ref=e1074]: DC 14
+                    - generic [ref=e1075]:
+                      - generic [ref=e1078]: ● 成功
+                      - generic [ref=e1080]: ● 失败
+                - group [ref=e1084]:
+                  - generic [ref=e1088]:
+                    - generic [ref=e1090]: 叙事
+                    - paragraph [ref=e1091]: "苏哲走后，陈默把手收回去，拇指摩挲着书签的边缘。「他说的那个人是他自己暗恋的对象，」他说，「他一直觉得我抢了他的位置。」他没有解释更多，也不需要。{{playerName}}刚才没有顺着苏哲的话走，陈默看在眼里。他把手放到桌上，掌心朝上，没有说话。这不是一个要求，是一个等待。{{playerName}}把手覆上去，两个人都看着窗外，雨小了一些，能看清对面街道的招牌了。"
+                    - generic [ref=e1092]: +value → +value
+                - group [ref=e1094]:
+                  - generic [ref=e1098]:
+                    - generic [ref=e1100]: 叙事
+                    - paragraph [ref=e1101]: "陈默沉默了几秒，然后把书签翻过来，字朝下放着。「你要是想知道，我可以解释。」「那你解释。」{{playerName}}的语气比想象中直接。「苏哲说的那段时间，我确实在联系一个人，但不是你以为的那种关系。」「那是哪种？」陈默看了{{playerName}}一眼，没有继续说。窗外有人撑着伞跑过去，雨点打在玻璃上。两个人之间的空气和刚才不一样了，像是翻了一页，但翻到了空白处。"
+                    - generic [ref=e1102]: +value → +value
+                - group [ref=e1104]:
+                  - generic [ref=e1108]:
+                    - generic [ref=e1110]: 叙事
+                    - paragraph [ref=e1111]: "陈默说完父母的事，抬头看向{{playerName}}。 沉默。 {{playerName}}没有开口——不是不想，是那些话卡在喉咙里，找不到出口。陈默等了几秒，将书签从桌上收回，叠好，塞进外套口袋。 「没事，」他说，声音很平，「我就是想说一声。」 他推开椅子站起来，动作整齐，像是早就预备好这个结局。窗外雨还在下，他转身去拿搭在椅背上的伞。"
+                    - generic [ref=e1112]: +value → +value
+                - group [ref=e1114]:
+                  - generic [ref=e1118]:
+                    - text: 检定
+                    - generic [ref=e1119]:
+                      - generic [ref=e1120]: 表达
+                      - generic [ref=e1121]: DC 13
+                    - generic [ref=e1122]:
+                      - generic [ref=e1125]: ● 成功
+                      - generic [ref=e1127]: ● 失败
+                - group [ref=e1131]:
+                  - generic [ref=e1135]:
+                    - generic [ref=e1137]: 叙事
+                    - paragraph [ref=e1138]: 陈默站在门口，背对着咖啡厅。 他没有立刻转身，只是低着头，伞的尖端抵在地板上。然后他回来了，重新坐下，把伞靠在椅子旁边。他没有擦眼睛，只是看着桌面。 「你刚才那句话，」他说，「我以为我不会再听到有人这样说。」 窗外雨声把咖啡厅里的背景音都盖住了。方婶默默换了两杯热水，没有多问。两人重新坐定，这次椅子之间的距离近了一些。
+                    - generic [ref=e1139]: +value → +value
+                - group [ref=e1141]:
+                  - generic [ref=e1145]:
+                    - generic [ref=e1147]: 叙事
+                    - paragraph [ref=e1148]: "玻璃门关上的声音很轻。 陈默打开伞，走进雨里，没有回头。{{playerName}}隔着玻璃看他的背影缩小，直到拐过街角消失。 方婶过来收拾桌上的杯子，顺手把陈默那杯没喝完的咖啡端走。桌面留下一个浅浅的圆形水痕。 {{playerName}}还坐在原位。那句话其实早就想好了，只是没有说出来。"
+                    - generic [ref=e1149]: +value → +value
+                - group [ref=e1151]:
+                  - generic [ref=e1155]:
+                    - text: 幕间
+                    - paragraph [ref=e1156]: "九点半，方婶开始关灯。咖啡厅从里到外一格一格暗下去，最后只剩吧台上方一盏小灯。 「我要锁门了，」方婶说，语气里没有催促，「明天还开。」 不管此刻坐着一个人还是两个人，天亮之前都要给出一个答案。雨还没停，玻璃窗上什么都映不清楚了。{{playerName}}站起来，拿上外套。门外的街灯把积水照得发亮。"
+                - group [ref=e1158]:
+                  - generic [ref=e1162]:
+                    - text: 抉择
+                    - paragraph [ref=e1163]: "手机屏幕在清晨六点四十七分亮起。陈默的消息只有一行：「咖啡厅，九点，我有些话想说，你愿意来吗？」 {{playerName}}盯着那个问号，窗外的天色还没完全亮透。昨晚的对话、那张书签、方婶关灯时说的「别想太久」，全部压在这一行字上。 九点。还有两个小时。"
+                    - list [ref=e1164]:
+                      - listitem [ref=e1165]:
+                        - generic [ref=e1166]: A
+                        - generic [ref=e1167]: "{{playerName}}提前到达，在门口等待，选择主动表白"
+                      - listitem [ref=e1168]:
+                        - generic [ref=e1169]: B
+                        - generic [ref=e1170]: "{{playerName}}迟到，让陈默先开口，被动承受结果"
+                - group [ref=e1173]:
+                  - generic [ref=e1177]:
+                    - text: 结局正面
+                    - paragraph [ref=e1178]: "{{playerName}}八点四十分到的。咖啡厅还没开门，就站在玻璃门外等。 陈默来的时候看见{{playerName}}，脚步停了一下。 「我有话先说。」{{playerName}}开口，声音比预想的平稳，「三年前是我的错。不是时机不对，是我太怕了。我现在还是怕，但我不想再用怕当借口。」 陈默没有说话。他低下头，用手背擦了一下眼角，然后抬起来看{{playerName}}。 「那张书签，」他说，「我带了三年了。」 方婶开门的钥匙声响起来，两个人都没动。"
+                - group [ref=e1179]:
+                  - generic [ref=e1183]:
+                    - text: 结局反讽
+                    - paragraph [ref=e1184]: "陈默九点整推开玻璃门，在{{playerName}}对面坐下，把书签放到桌上。 「我想清楚了，」他说，语气很平，「我现在给不了你一个完整的人。父母的事我还没处理好，我不想带着那些东西靠近你。」 {{playerName}}看着书签，没有接。 「所以这是道别？」 「是暂别。」他顿了顿，「但我没有资格让你等。」 他起身，把书签推到{{playerName}}面前，拿起外套。玻璃门开了又关，雨已经停了，地面还是湿的。"
+                - group [ref=e1185]:
+                  - generic [ref=e1189]:
+                    - text: 结局负面
+                    - paragraph [ref=e1190]: "陈默把咖啡杯转了半圈，等{{playerName}}说话。 窗外有人撑伞经过，雨声填满了沉默。{{playerName}}想过很多种开口的方式，此刻全部卡在喉咙里，一个字也出不来。 「没事，」陈默最后说，站起来，「我知道了。」 他没有解释「知道了」是什么意思。结账，穿外套，推开玻璃门。{{playerName}}坐在原位，看着他走进人群，背影很快就看不见了。 杯子里的咖啡还有半杯，凉的。"
+                - group [ref=e1191]:
+                  - generic [ref=e1195]:
+                    - generic [ref=e1197]: 叙事
+                    - paragraph [ref=e1198]: "陈默把书签翻过来看了看，然后安静地收回手里。 「抱歉，」他微微笑了一下，「可能认错人了。」 那个笑容没有追问，没有戳破，给了{{playerName}}一条完整的退路。{{playerName}}点头，把杯子重新端起来，手已经不抖了。 雨还在下。书签消失进陈默的外套口袋，两个人之间的桌面空了出来，干干净净，像什么都没发生过。"
+                    - generic [ref=e1199]: +value → +value
+                - group [ref=e1201]:
+                  - generic [ref=e1205]:
+                    - generic [ref=e1207]: 叙事
+                    - paragraph [ref=e1208]: "陈默将书签收回口袋，伸出右手：「那就重新认识一下。陈默，在这家店喝了三年咖啡的普通客人。」 {{playerName}}盯着那只手停了一秒，握上去：「……初次见面。」 两人各自报了名字，各自说了些无关紧要的话——喜欢哪种豆子，天气真的很糟。桌上的咖啡续了一杯，对话流畅得像排练过。方婶从柜台后面瞥了一眼，转身去擦杯子，没说话。这场戏的布景很好，只是台词全是假的。"
+                    - generic [ref=e1209]: +value → +value
+                - group [ref=e1211]:
+                  - generic [ref=e1215]:
+                    - text: 抉择
+                    - paragraph [ref=e1216]: "林晓端着托盘从旁边经过，突然停下脚步，看向{{playerName}}：「咦，你不是三年前常来的那个——陈默哥哥一直在等的那个人吗？」她的声音不大不小，刚好够邻桌听见。陈默的手指停在杯沿上，没动。林晓还在笑：「我记得你们，那时候你每次来都坐这张桌子……」"
+                    - list [ref=e1217]:
+                      - listitem [ref=e1218]:
+                        - generic [ref=e1219]: A
+                        - generic [ref=e1220]: "{{playerName}}当场承认伪装，向陈默道歉并说出真相"
+                      - listitem [ref=e1221]:
+                        - generic [ref=e1222]: B
+                        - generic [ref=e1223]: "{{playerName}}拉着林晓离开，用新的谎言掩盖旧的谎言"
+                - group [ref=e1226]:
+                  - generic [ref=e1230]:
+                    - generic [ref=e1232]: 叙事
+                    - paragraph [ref=e1233]: "陈默没有接{{playerName}}的道歉。他把咖啡杯转了半圈，看着杯底说：「其实我一进门就认出你了。」 {{playerName}}没说话。 「你换了发型，但走路的样子没变。」他抬起头，语气平得像在陈述天气，「我只是想看看，你打算演到什么时候。」 咖啡厅里有人在笑，是别桌的客人。这边的两个人都没动。"
+                    - generic [ref=e1234]: +value → +value
+                - group [ref=e1236]:
+                  - generic [ref=e1240]:
+                    - generic [ref=e1242]: 叙事
+                    - paragraph [ref=e1243]: "沉默持续了大概十秒。 {{playerName}}先笑出来，是那种没什么好笑、但又实在憋不住的笑。陈默跟着低头，肩膀抖了一下。 玻璃桌面把两张脸都照出来——折射角度不对，五官全歪了，像两张捏坏的泥塑。{{playerName}}用指节敲了一下桌面：「我们都是傻子。」 「嗯，」陈默说，「傻得不一样。」 方婶从柜台后面探头看了一眼，没明白这两人在笑什么，摇摇头走开了。"
+                    - generic [ref=e1244]: +value → +value
+                - group [ref=e1246]:
+                  - generic [ref=e1250]:
+                    - text: 检定
+                    - generic [ref=e1251]:
+                      - generic [ref=e1252]: 勇气
+                      - generic [ref=e1253]: DC 15
+                    - generic [ref=e1254]:
+                      - generic [ref=e1257]: ● 成功
+                      - generic [ref=e1259]: ● 失败
+                - group [ref=e1263]:
+                  - generic [ref=e1267]:
+                    - generic [ref=e1269]: 叙事
+                    - paragraph [ref=e1270]: "{{playerName}}盯着桌面说，三年前沉默是因为开口之后就没有退路了，那时候怕得要命。话说完，咖啡厅里只剩雨声。陈默没有立刻接话，而是把书签从手心翻过来，推到桌子中间，书签的正面朝上——那行字是当年两人约定的地点和时间。「这次算你先说完了，」他说，「我等你想好要不要赴约。」"
+                    - generic [ref=e1271]: +value → +value
+                - group [ref=e1273]:
+                  - generic [ref=e1277]:
+                    - generic [ref=e1279]: 叙事
+                    - paragraph [ref=e1280]: "「你只需要说一句话，」陈默把书签竖在桌上，语气平得像在念账单，「当年为什么没说出口。」{{playerName}}张了张嘴，说了半句「因为……」就停下来。沉默拉长。陈默将书签折进口袋，拉链声很轻。「没关系，」他说，站起来整理外套，「我只是想确认一下。」他去柜台结账，背对着{{playerName}}，没有再回头。"
+                    - generic [ref=e1281]: +value → +value
+                - group [ref=e1283]:
+                  - generic [ref=e1287]:
+                    - generic [ref=e1289]: 叙事
+                    - paragraph [ref=e1290]: "{{playerName}}抓住林晓的手肘，把他拉进吧台后的备餐区，压低声音说认错人了别乱说。林晓皱眉，但没有坚持。两人回到大厅时，陈默已经重新坐好，手里转着那枚书签，表情平静。「朋友？」他问。「同事，」{{playerName}}说，「爱说话的那种。」陈默笑了一下，点头，把书签放进上衣口袋。那个动作很慢，像是在做一个决定。"
+                    - generic [ref=e1291]: +value → +value
+                - group [ref=e1293]:
+                  - generic [ref=e1297]:
+                    - generic [ref=e1299]: 叙事
+                    - paragraph [ref=e1300]: "林晓在备餐区拦住{{playerName}}，声音压得很低：「你知道他今天来是干什么的吗？」他从围裙口袋里掏出一张便利贴，上面是陈默点单时随手写下的地址——搬家公司的电话和一个外地城市的名字。「方婶说他下周走，今天是来道别的。」林晓把便利贴塞进{{playerName}}手里，「你刚才那出戏，他全看见了。」"
+                    - generic [ref=e1301]: +value → +value
+                - group [ref=e1303]:
+                  - generic [ref=e1307]:
+                    - text: 抉择
+                    - paragraph [ref=e1308]: "陈默把零钱压在收据下面，椅子腿在地板上划出一道声音。他系上风衣扣子，朝{{playerName}}的方向点了点头，像对陌生人道别那样礼貌。玻璃门外，雨还在下。{{playerName}}手里还攥着那张便利贴，纸边已经被汗浸软了。"
+                    - list [ref=e1309]:
+                      - listitem [ref=e1310]:
+                        - generic [ref=e1311]: A
+                        - generic [ref=e1312]: "{{playerName}}冲上前，在咖啡厅门口叫住陈默，撕碎所有伪装"
+                      - listitem [ref=e1313]:
+                        - generic [ref=e1314]: B
+                        - generic [ref=e1315]: "{{playerName}}留在原位，目送陈默推开玻璃门走入雨中"
+                - group [ref=e1318]:
+                  - generic [ref=e1322]:
+                    - generic [ref=e1324]: 叙事
+                    - paragraph [ref=e1325]: "{{playerName}}在雨中追上陈默，第一次说出名字和真相，雨水冲刷掉所有伪装"
+                    - generic [ref=e1326]: +value → +value
+                - group [ref=e1328]:
+                  - generic [ref=e1332]:
+                    - generic [ref=e1334]: 叙事
+                    - paragraph [ref=e1335]: "玻璃门缓缓关上，陈默的身影消失在雨幕中，{{playerName}}手握那杯冷掉的咖啡"
+                    - generic [ref=e1336]: +value → +value
+                - group [ref=e1338]:
+                  - generic [ref=e1342]:
+                    - text: 幕间
+                    - paragraph [ref=e1343]: 第二幕终【伪装支线】：咖啡厅的玻璃窗上，雨水抹去了所有倒影
+                - group [ref=e1345]:
+                  - generic [ref=e1349]:
+                    - text: 抉择
+                    - paragraph [ref=e1350]: 一周后：陈默发来一条消息——'我还没走，咖啡厅，明天，你来不来？'
+                    - list [ref=e1351]:
+                      - listitem [ref=e1352]:
+                        - generic [ref=e1353]: A
+                        - generic [ref=e1354]: "{{playerName}}赴约，带着写好的信，决定彻底坦白一切"
+                      - listitem [ref=e1355]:
+                        - generic [ref=e1356]: B
+                        - generic [ref=e1357]: "{{playerName}}回复'不去'，选择用沉默终结这段故事"
+                - group [ref=e1360]:
+                  - generic [ref=e1364]:
+                    - text: 结局正面
+                    - paragraph [ref=e1365]: "【伪装·破茧结局】{{playerName}}将信递给陈默，陈默读完后将书签夹入信中还给{{playerName}}，两人在咖啡厅重新开始"
+                - group [ref=e1366]:
+                  - generic [ref=e1370]:
+                    - text: 结局暧昧
+                    - paragraph [ref=e1371]: "陈默已经到了，坐在靠窗那张桌子，书签压在咖啡杯下。{{playerName}}把信放到桌上，没说话。他展开读完，折好，重新夹进书签，推回来。「我等的不是这个，」他说，「我只想听你叫我一声名字，用你自己的声音。」窗外的街道是平日的样子，有人撑伞，有人不撑。{{playerName}}叫了他的名字。陈默点头，叫了{{playerName}}的名字作为回应。方婶从柜台后面端来两杯新的咖啡，什么都没问。两个人重新坐定，像是在填一张表格的第一栏——姓名，关系：朋友，日期：今天。"
+                - group [ref=e1372]:
+                  - generic [ref=e1376]:
+                    - text: 结局负面
+                    - paragraph [ref=e1377]: "{{playerName}}盯着那条消息看了很久，屏幕的亮度自动调暗，又调暗一次。最后回复了两个字：不去。陈默没有再发消息。三天后，方婶在咖啡厅门口贴了一张手写的便条，说靠窗那张桌子的常客搬走了，祝他一路顺风。林晓把便条拍了照片发给{{playerName}}，没有附任何文字。那杯三年前没喝完的咖啡，{{playerName}}当时以为还有机会续杯。玻璃窗还是那扇玻璃窗，下雨的时候照样起雾，只是倒影里只剩一个人。"
+          - img
+          - img "Mini Map" [ref=e705]
+          - generic "Control Panel" [ref=e752]:
+            - button "Zoom In" [ref=e753] [cursor=pointer]:
+              - img [ref=e754]
+            - button "Zoom Out" [disabled]:
+              - img
+            - button "Fit View" [ref=e756] [cursor=pointer]:
+              - img [ref=e757]
+            - button "Toggle Interactivity" [ref=e759] [cursor=pointer]:
+              - img [ref=e760]
+        - button "路径验证 56 条路径： 0 通过 56 有问题" [ref=e1420]:
+          - generic [ref=e765]:
+            - img [ref=e766]
+            - generic [ref=e768]: 路径验证
+          - generic [ref=e769]:
+            - generic [ref=e770]: 56 条路径：
+            - generic [ref=e771]: 0 通过
+            - generic [ref=e772]: 56 有问题
+  - generic [ref=e774]:
+    - generic [ref=e775]:
+      - heading "AI 故事生成" [level=2] [ref=e776]
+      - paragraph [ref=e777]: 基于 McKee 叙事理论生成 CRPG 故事骨架
+    - generic [ref=e778]:
+      - generic [ref=e779]:
+        - generic [ref=e780]: 灵感 / 关键词
+        - textbox "输入故事灵感：一段话、几个关键词、或者任何创意火花..." [ref=e781]: 咖啡厅 暗恋 旧伤 勇气 真实
+      - generic [ref=e782]:
+        - generic [ref=e783]: 分支模板
+        - generic [ref=e784]:
+          - button "─ 线性 3幕，极少分支，2结局，~20节点" [ref=e785]:
+            - generic [ref=e786]:
+              - generic [ref=e787]: ─
+              - generic [ref=e788]: 线性
+            - paragraph [ref=e789]: 3幕，极少分支，2结局，~20节点
+          - button "⑃ 双分支 第一幕末分叉两条主线，4结局，~50节点" [ref=e790]:
+            - generic [ref=e791]:
+              - generic [ref=e792]: ⑃
+              - generic [ref=e793]: 双分支
+            - paragraph [ref=e794]: 第一幕末分叉两条主线，4结局，~50节点
+          - button "⋈ 漏斗型 分支后合流，2-3结局，~60节点" [ref=e795]:
+            - generic [ref=e796]:
+              - generic [ref=e797]: ⋈
+              - generic [ref=e798]: 漏斗型
+            - paragraph [ref=e799]: 分支后合流，2-3结局，~60节点
+          - button "⊞ 复杂网状 高度交织，3-8结局，~100节点" [ref=e800]:
+            - generic [ref=e801]:
+              - generic [ref=e802]: ⊞
+              - generic [ref=e803]: 复杂网状
+            - paragraph [ref=e804]: 高度交织，3-8结局，~100节点
+      - generic [ref=e805]:
+        - generic [ref=e806]: "复杂度: 3/5"
+        - slider [ref=e807]: "3"
+        - generic [ref=e808]:
+          - generic [ref=e809]: 简单
+          - generic [ref=e810]: 中等
+          - generic [ref=e811]: 复杂
+      - generic [ref=e812]:
+        - generic [ref=e813]: 世界观设定 (可选)
+        - textbox "描述故事发生的世界背景..." [ref=e814]
+      - generic [ref=e815]:
+        - button "▸ 高级选项" [ref=e816]:
+          - generic [ref=e817]: ▸
+          - text: 高级选项
+        - generic [ref=e821]:
+          - generic [ref=e822]:
+            - generic [ref=e823]:
+              - generic [ref=e824]: 诗意模式
+              - button [ref=e825]
+            - paragraph [ref=e827]: 关键词作为诗意意象解读，而非字面情节要素
+          - generic [ref=e828]:
+            - generic [ref=e829]: 细节丰富度
+            - generic [ref=e830]:
+              - button "简洁" [ref=e831]
+              - button "标准" [ref=e832]
+              - button "细腻" [ref=e833]
+              - button "极致" [ref=e834]
+          - generic [ref=e835]:
+            - generic [ref=e836]: 内容篇幅
+            - generic [ref=e837]:
+              - button "短篇" [ref=e838]
+              - button "中篇" [ref=e839]
+              - button "长篇" [ref=e840]
+    - generic [ref=e818]:
+      - button "取消" [disabled] [ref=e819]
+      - button "创作叙事内容 (37/42)" [disabled] [ref=e1423]: 创作叙事内容 (37/42)

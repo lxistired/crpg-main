@@ -1,0 +1,509 @@
+# Shot Types Vocabulary —— 可直接引用的分镜词汇表
+# 每个 shot type 有 when_to_use / prompt_template / examples
+# 配套文档：shot-design-system.md
+# 版本：2026-04-17
+
+version: "1.0"
+purpose: |
+  crpg Visual DNA 第九层（Shot Design Layer）使用的标准 shot type 词汇。
+  Shot Designer LLM pass 输出时从这个表里选 type，Prompt Composer 把
+  type 对应的 prompt_template 注入到图像 prompt 的 action moment 段。
+
+# ═══════════════════════════════════════════════════════════════════
+# GROUP 1: 空间建立 (Spatial Establishment)
+# ═══════════════════════════════════════════════════════════════════
+
+establishing:
+  display_name: "Establishing Shot"
+  alias: ["extreme wide", "EW", "master wide"]
+  when_to_use:
+    - "Scene 开头第一张，建立时间/地点/氛围"
+    - "空间发生重大切换后需 re-establish"
+    - "Value arc 需要冷开场"
+  narrative_job: "观众定位：这是哪里，什么时代，什么氛围"
+  avoid:
+    - "不要承担情绪表达"
+    - "不要同时要求清晰脸部特征（距离太远扩散模型会崩）"
+  prompt_template: |
+    Extreme wide establishing shot of {location} at {time_of_day},
+    {atmospheric_condition}. No primary subject dominance. Deep focus,
+    architectural/environmental storytelling only. Human figures (if any)
+    small and anonymous. Camera at {high/eye/low} level,
+    {static/slow_drift}. Rule of thirds applied to architectural elements.
+  examples:
+    - "Extreme wide establishing shot of a 2020s Shanghai interrogation
+       wing at 2am, rain-slick streets outside visible through vertical
+       bars of light. No primary subject."
+    - "Wide establishing shot of a 1942 Shanghai luxury jewelry district
+       at dusk, tram rails catching neon, pedestrians small and anonymous."
+  cover_candidacy: low
+  typical_emotion_weight: 0.2
+
+master_shot:
+  display_name: "Master Shot / Full Shot"
+  alias: ["wide shot", "full"]
+  when_to_use:
+    - "Scene 开头 block 建立：主要人物的空间关系"
+    - "中段若出现重大 block 变化（有人起身/出场）"
+  narrative_job: "建立人物彼此的物理距离 = 心理距离"
+  avoid:
+    - "不要作为 scene 主力 shot——只用 1 次，最多 2 次"
+    - "不要期待观众读到小尺寸的表情"
+  prompt_template: |
+    Wide master shot, full bodies of {characters} visible, preserving
+    their spatial relationship. Camera at eye level, static or slow push.
+    {character_A} at {position_A}, {character_B} at {position_B},
+    physical distance {distance}. Environment legible but not dominant.
+  examples:
+    - "Wide master shot: Su Wan seated at the interrogation table left,
+       Lin Ze standing right, 2 meters apart. Full bodies visible.
+       Neon light through venetian blinds cuts diagonal across both."
+  cover_candidacy: low
+  typical_emotion_weight: 0.3
+
+# ═══════════════════════════════════════════════════════════════════
+# GROUP 2: 对话/交互 (Interaction)
+# ═══════════════════════════════════════════════════════════════════
+
+two_shot:
+  display_name: "Two-Shot"
+  alias: ["2S"]
+  when_to_use:
+    - "强调两人共享同一瞬间（亲密、对抗、共谋）"
+    - "从 wide 过渡到 singles 的中继"
+  narrative_job: "二人关系的强度/距离/角力关系"
+  prompt_template: |
+    Two-shot, medium framing (waist up) of {character_A} and {character_B},
+    {relative_position: facing/same_side/back_to_back}. Both in focus.
+    Shared {light_source}. One subject slightly dominant via
+    {composition_choice: foreground/lit/height}.
+  examples:
+    - "Two-shot, waist-up, Su Wan and Lin Ze facing across the steel
+       interrogation table, her slightly higher in frame (she is seated
+       but back straight, he leans forward)."
+  cover_candidacy: medium
+  typical_emotion_weight: 0.5
+
+ots:
+  display_name: "Over-the-Shoulder"
+  alias: ["over the shoulder", "OTS", "shoulder shot"]
+  when_to_use:
+    - "对话戏的主力 shot type"
+    - "确定 POV 归属（听者的位置）"
+    - "让观众 partially 代入一方"
+  narrative_job: "视角归属 + 听者存在感 + 180° rule 确立"
+  prompt_template: |
+    Over-the-shoulder shot from behind {character_A}'s shoulder,
+    looking at {character_B} in medium close-up. {character_A}'s
+    shoulder/ear/hair occupies {15-30}% of frame as soft foreground.
+    {character_B} in sharp focus, face visible, {gaze_direction}.
+  examples:
+    - "OTS from behind Lin Ze's left shoulder, looking at Su Wan across
+       the table. His shoulder softly out of focus, takes 25% of left frame.
+       Su Wan in sharp focus, gaze fixed on him, corner-of-mouth twitch."
+    - "Reverse OTS from Su Wan's shoulder onto Lin Ze. His jaw tension
+       visible, gaze flickering from her face downward, catching himself."
+  cover_candidacy: high
+  typical_emotion_weight: 0.6
+
+mcu:
+  display_name: "Medium Close-Up"
+  alias: ["MCU", "bust shot"]
+  when_to_use:
+    - "单人对话 shot 的默认选择"
+    - "承担大部分 dialogue coverage"
+  narrative_job: "清晰面部表情 + 少量身体语言"
+  prompt_template: |
+    Medium close-up of {character}, chest-up framing, {gaze_direction},
+    {1-2 micro_expression_tells}, one hand visible doing {action}.
+    Shallow depth of field, background softly abstracted.
+  examples:
+    - "MCU of Su Wan, chest-up, gaze locked on Lin Ze's tie knot (not his
+       face), lower lip pressing inward, right hand resting on table
+       fingers tensed."
+  cover_candidacy: high
+  typical_emotion_weight: 0.55
+
+cu:
+  display_name: "Close-Up"
+  alias: ["CU", "face shot"]
+  when_to_use:
+    - "关键情绪瞬间（Hitchcock rule 触发）"
+    - "Scene 的 turning point 时刻"
+    - "让观众必须注意到这个 tell"
+  narrative_job: "情绪放大镜。这是 scene 中最重要的几张之一"
+  prompt_template: |
+    Close-up of {character}'s face, from just above forehead to below
+    chin. {single_micro_expression_tell} clearly readable. {gaze_direction}.
+    Background fully dissolved to bokeh. Lit by {single_light_source}.
+  examples:
+    - "Close-up of Lin Ze's face. Jaw tension visible, Adam's apple
+       swallowing once, gaze flickering from her stocking to her eyes
+       and locking there. Warm key light from desk lamp only."
+  cover_candidacy: very_high
+  typical_emotion_weight: 0.85
+
+ecu:
+  display_name: "Extreme Close-Up"
+  alias: ["ECU", "big close-up", "BCU"]
+  when_to_use:
+    - "精神放大镜：把观众按进某个细节"
+    - "Turning point 的核心视觉瞬间"
+    - "亲密/欲望场景的主力（身体片段）"
+  narrative_job: "强制的视觉锚点。观众无法看别处"
+  prompt_template: |
+    Extreme close-up of {body_part_or_object}, filling the frame. No
+    context, no background readable. Texture and surface detail dominant.
+    {lighting_mood}.
+  examples:
+    - "Extreme close-up of Su Wan's burgundy-painted toenails, one bare
+       foot arching against the floor tile. Sheer black stocking edge
+       visible top of frame. Warm lamp light from 45° above."
+    - "Extreme close-up of Lin Ze's eyes only, forehead-to-nose framing.
+       Pupils dilated. One eye's corner muscle twitching."
+    - "Extreme close-up of the wedding ring on Lin Ze's finger as his
+       hand rests on the interrogation table, slightly out of Su Wan's
+       sight line."
+  cover_candidacy: very_high
+  typical_emotion_weight: 0.9
+
+# ═══════════════════════════════════════════════════════════════════
+# GROUP 3: 信息/细节 (Information / Detail)
+# ═══════════════════════════════════════════════════════════════════
+
+insert:
+  display_name: "Insert Shot"
+  alias: ["insert", "insert close-up"]
+  when_to_use:
+    - "关键道具要让观众'读到'（信件、戒指、手机屏、武器、证据）"
+    - "千万别把此道具交给 wide shot 背景"
+  narrative_job: "道具的叙事力量释放——'这个东西重要'"
+  prompt_template: |
+    Insert shot: tight close-up of {object}, isolated from surrounding
+    action. Sharp focus on the object's key feature ({specific_detail}).
+    Context minimal — just enough to identify location
+    ({surface_or_hand_holding}).
+  examples:
+    - "Insert: the case file folder on the table, one corner lifted by
+       her index finger, revealing a photograph beneath. Finger's
+       burgundy nail polish catches the lamp light."
+    - "Insert: a diamond ring in a velvet box, jeweler's hand just
+       visible on the right edge, Yee's hand entering frame from the left."
+  cover_candidacy: medium
+  typical_emotion_weight: 0.65
+  note: "Insert 是此 scene 内部物件。若物件不在此 scene 空间，用 cutaway。"
+
+cutaway:
+  display_name: "Cutaway"
+  alias: ["cut-away"]
+  when_to_use:
+    - "主题性补充（窗外的雨、远处的钟、街角的狗）"
+    - "节奏调节：过分紧张的对话前后缓一口气"
+    - "Subtext 表达：'这情境之下，世界是什么样子'"
+  narrative_job: "离场主动作，注入 subtext 或节奏"
+  prompt_template: |
+    Cutaway: {external_or_atmospheric_element}, removed from the
+    primary action. Conveys {mood/theme} rather than narrative information.
+    Can be still or slow motion. Often silent in the edit.
+  examples:
+    - "Cutaway: the old wall clock on the interrogation room wall, hands
+       at 2:47am, second hand ticking. Faint cigarette smoke curls
+       past the glass face."
+    - "Cutaway: rain hitting the puddle outside, neon reflection
+       distorting with each drop."
+  cover_candidacy: low
+  typical_emotion_weight: 0.3
+
+pov:
+  display_name: "POV Shot"
+  alias: ["point-of-view shot", "subjective shot"]
+  when_to_use:
+    - "想让观众短暂变成角色"
+    - "Hitchcock 式悬念（我们知道什么，他们看到什么）"
+    - "揭示瞬间（主角第一次看清某东西）"
+  narrative_job: "强制代入 + 信息披露时机控制"
+  prompt_template: |
+    POV shot from {character}'s perspective, eye-level matching their
+    height and gaze direction. Frame includes {what_they_see}, slight
+    handheld movement or breath-induced sway to signal subjectivity.
+  examples:
+    - "Chia Chi's POV entering the jewelry store: the shop interior,
+       clerks looking up, two men loitering near the door (the assassins
+       hidden in plain sight)."
+    - "Lin Ze's POV dropping to Su Wan's hand on the table, then her
+       stockinged knee just visible beyond the table edge."
+  cover_candidacy: medium
+  typical_emotion_weight: 0.7
+
+reaction:
+  display_name: "Reaction Shot"
+  alias: ["reax", "cut to reaction"]
+  when_to_use:
+    - "观众需要看到'这件事发生后某人的反应'"
+    - "暴力/性/揭露的核心力量**通过反应建立而非正面**"
+    - "多人场景里'没说话的那个'的存在感"
+  narrative_job: "情绪的二次放大。观众通过他人的眼睛读懂刚才发生了什么"
+  prompt_template: |
+    Reaction shot: medium close-up or close-up of {character} responding
+    to {off-screen_event}. Their expression is the narrative delivery.
+    {micro_expression_tell}, {gaze_direction_often_not_at_camera}.
+    Frame is intentionally small in information — only the face matters.
+  examples:
+    - "Reaction shot: Meijie standing in the doorway (off the main action),
+       cigarette halfway to her lips, pause, slow blink hold. She
+       understood something."
+    - "Reaction: Lin Ze's face as Su Wan's voice continues off-screen —
+       his jaw tenses, eyes close for half a second, reopens looking
+       past her, not at her."
+  cover_candidacy: high
+  typical_emotion_weight: 0.8
+
+# ═══════════════════════════════════════════════════════════════════
+# GROUP 4: 特殊 / 美学 (Specialty / Aesthetic)
+# ═══════════════════════════════════════════════════════════════════
+
+detail:
+  display_name: "Detail Shot / Body Fragment"
+  alias: ["body fragment", "detail", "part shot"]
+  when_to_use:
+    - "亲密/欲望 scene 的主力 shot type"
+    - "Visual motif 植入（色戒的旗袍扣子、crpg 的趾甲/丝袜）"
+    - "想让观众'感觉到'而不是'看到'"
+  narrative_job: "身体的局部取代整体 —— 欲望的碎片化"
+  prompt_template: |
+    Detail shot: tight framing on {body_part_or_textile}, skin/fabric
+    texture dominant. Rest of body implied but off-frame. Lighting
+    ({warm/cool/side/rim}) emphasizes form over identity.
+  examples:
+    - "Detail: the seam of Su Wan's stocking, tracing up the back of her
+       calf, ending just before the skirt hem. Warm lamp light grazing."
+    - "Detail: Lin Ze's hand on the table, fingers pausing mid-reach,
+       knuckles slightly white."
+    - "Detail: the nape of her neck, loose hair, as she turns away."
+  cover_candidacy: high
+  typical_emotion_weight: 0.75
+
+mirror:
+  display_name: "Mirror / Reflection Shot"
+  when_to_use:
+    - "双重身份 / 自我观察 / 伪装的裂缝"
+    - "权力关系的'不可直视'"
+  narrative_job: "分裂 + 自我审视 + 观看的观看"
+  prompt_template: |
+    Subject seen via reflection in {mirror/window/polished_surface}.
+    The real subject may be partially visible at frame edge, or
+    entirely hidden with only the reflection present. {gaze_direction}
+    — often the subject is looking at their own reflection.
+  examples:
+    - "Su Wan's face reflected in the interrogation room's one-way mirror,
+       her real face at the frame's right edge. She is studying her
+       reflection, not looking at Lin Ze who is off-screen."
+  cover_candidacy: medium
+  typical_emotion_weight: 0.7
+
+through_gap:
+  display_name: "Through-the-Gap"
+  alias: ["through blinds", "through doorway", "obscured frame"]
+  when_to_use:
+    - "偷窥感 / 观察感 / 隔离感"
+    - "Wong Kar-wai + Chris Doyle 标志手法"
+    - "权力差场景（观察者 vs 被观察者）"
+  narrative_job: "强制'隔一层'的观看姿态"
+  prompt_template: |
+    Frame composed with {foreground_obstruction: venetian_blinds,
+    doorway, curtain, shoulder, pillar} occupying 40-60% of the frame.
+    Primary subject visible through the gap/slit, sharp focus. Subject
+    typically unaware of being observed.
+  examples:
+    - "Through venetian blinds (foreground horizontal slats soft-focus),
+       Su Wan alone in the interrogation room, composed posture. The
+       observer (Lin Ze) implied but not visible."
+    - "Through the doorway (door frame dark edges), Meijie seen smoking
+       at her vanity, reflected in her own mirror — a doubled gaze."
+  cover_candidacy: medium
+  typical_emotion_weight: 0.7
+
+silhouette:
+  display_name: "Silhouette / Profile"
+  when_to_use:
+    - "权力关系中'不可读'的一方"
+    - "情感压制 / 距离"
+  narrative_job: "剥夺面部可读性 = 剥夺观众的共情入口"
+  prompt_template: |
+    {character} in full silhouette or near-silhouette against {bright_backlight}.
+    Facial features partially or fully obscured. Body outline dominant.
+  examples:
+    - "Lin Ze's silhouette against the single overhead interrogation
+       lamp, his face in shadow, only jaw line and ear catching rim light."
+
+# ═══════════════════════════════════════════════════════════════════
+# Shot List Patterns (预制的 coverage 骨架)
+# ═══════════════════════════════════════════════════════════════════
+
+patterns:
+  interrogation_2person:
+    description: "2 人审讯/对峙 scene 的标准 coverage (6 shots)"
+    shots:
+      - type: establishing
+        purpose: "time/space"
+      - type: two_shot
+        purpose: "block relationship"
+      - type: ots
+        purpose: "A speaking, through B's shoulder"
+      - type: ots
+        purpose: "B reacting, through A's shoulder (reverse)"
+      - type: insert
+        purpose: "key object on table"
+      - type: cu
+        purpose: "turning point reaction"
+
+  intimate_2person:
+    description: "2 人亲密 scene 的标准 coverage (6 shots)"
+    shots:
+      - type: through_gap
+        purpose: "observer-feel entry, room glimpse"
+      - type: detail
+        purpose: "body fragment - hand on skin / fabric"
+      - type: ecu
+        purpose: "eye or lip — the affection-image"
+      - type: detail
+        purpose: "second body fragment from other character"
+      - type: reaction
+        purpose: "face response to the touch/look"
+      - type: cutaway
+        purpose: "window/light/object — breath pause"
+
+  3person_triangular:
+    description: "3 人三角关系 scene 的标准 coverage (5 shots)"
+    shots:
+      - type: two_shot
+        purpose: "the dyad in primary conflict (A + B)"
+      - type: reaction
+        purpose: "C watching from threshold/doorway"
+      - type: cu
+        purpose: "A at turning point"
+      - type: cu
+        purpose: "B responding"
+      - type: cutaway
+        purpose: "C's POV of the room or an object they notice"
+
+  revelation_scene:
+    description: "揭露/发现 scene 的标准 coverage (5 shots)"
+    shots:
+      - type: pov
+        purpose: "character sees something"
+      - type: insert
+        purpose: "the thing they see, isolated"
+      - type: ecu
+        purpose: "their eye/face the moment of realization"
+      - type: cu
+        purpose: "full face reaction sustained"
+      - type: reaction
+        purpose: "whoever else is present and notices them react"
+
+# ═══════════════════════════════════════════════════════════════════
+# Selection Rules (硬规则)
+# ═══════════════════════════════════════════════════════════════════
+
+selection_rules:
+  hard_rules:
+    - id: R1
+      rule: "Never show all present characters in one frame unless physical clustering IS the story point."
+      source: "Hitchcock size-importance rule + multi-face diffusion model fidelity decay"
+
+    - id: R2
+      rule: "Key reaction to a revelation = independent close-up."
+      source: "Hitchcock rule + Murch emotion-primacy"
+
+    - id: R3
+      rule: "Important object = insert shot. Never trust a wide shot to render the object meaningfully."
+      source: "Diffusion model resolution constraint + standard coverage practice"
+
+    - id: R4
+      rule: "Maintain 180° line across shot-reverse-shot sequences. Break only at identity/betrayal moments."
+      source: "Continuity editing standard"
+
+    - id: R5
+      rule: "Allocate 2-3 micro-expression tells per face, not the full list."
+      source: "Direction Layer §7.2b + diffusion model tell-interference"
+
+    - id: R6
+      rule: "Fragmentation over full-body display in intimate scenes."
+      source: "Ang Lee Lust, Caution aesthetic + Chris Doyle affection-image principle"
+
+    - id: R7
+      rule: "Cover shot = argmax(emotion_weight), not argmax(information density)."
+      source: "Murch Rule of Six — emotion over story over rhythm"
+
+    - id: R8
+      rule: "At most ONE wide/establishing per scene. Rest must be close/medium/insert/reaction."
+      source: "Lust, Caution jewelry-store scene empirical breakdown (1-2 wides in ~30 shots)"
+
+    - id: R9
+      rule: "A beat that doesn't turn a value doesn't deserve a shot. Collapse into text-only."
+      source: "McKee scene-turn principle"
+
+    - id: R10
+      rule: "Mamet constraint: each shot does ONE thing. If a shot's prompt has multiple actions, split into multiple shots."
+      source: "Mamet On Directing Film — uninflected shots"
+
+# ═══════════════════════════════════════════════════════════════════
+# Emotion Weight Guideline (给 Shot Designer 打分参考)
+# ═══════════════════════════════════════════════════════════════════
+
+emotion_weight_guide:
+  0.1_to_0.3: "Establishing / wide / atmospheric cutaway — low emotion, high context"
+  0.3_to_0.5: "Master shot, two-shot in social register — medium containment"
+  0.5_to_0.7: "MCU, OTS, insert, POV — dialogue-level emotional engagement"
+  0.7_to_0.85: "CU, ECU (non-turning), detail/fragment in intimate register"
+  0.85_to_1.0: "CU at turning point, ECU of key tell, reaction at revelation moment — scene's emotional apex"
+
+# ═══════════════════════════════════════════════════════════════════
+# Integration with Visual DNA layers 1-8
+# ═══════════════════════════════════════════════════════════════════
+
+integration:
+  prompt_structure_v9: |
+    [Layer 1: Style Preamble]        — byte-identical across all shots
+    [Layer 8: Direction Layer]        — byte-identical across all shots
+    [Layer 2: Aesthetic Axis tokens]  — story-level fixed
+    [Layer 3: Character Sheets]       — only characters PRESENT in this shot
+    [Layer 4: Recurring Motifs]       — relevant ones (not all)
+    [Layer 5: Positive Framings]      — relevant ones
+    [Layer 6: Technical Lock]         — fixed
+    [Layer 9: SHOT SPEC] NEW ↓
+      Shot type: {shot_type from this vocabulary}
+      Primary subject: {single focal element}
+      Composition: {from shot_type prompt_template, filled in}
+      Gaze direction: {where subject looks}
+      Micro-expression tell: {1 signature + 1 situational max}
+      Intentionally absent: {who/what is NOT in frame}
+    [Action moment]: {one present-continuous sentence matching the shot}
+    [Layer 7: image_url = anchor]     — fixed
+
+  changes_needed:
+    character_sheets_layer_3:
+      add: "partial_presence_variants"
+      reason: |
+        When a character appears only as OTS shoulder, or hand in detail
+        shot, we need a simplified sheet that only describes the visible
+        part (and critically, omits face if face isn't in shot, to prevent
+        diffusion model from re-inserting a full face).
+      example:
+        full_sheet: "<existing Su Wan character sheet>"
+        shoulder_only: "Su Wan's left shoulder and upper back, tight black
+          silk blouse visible, a sliver of ear and hair edge, no face."
+        hand_only: "Su Wan's right hand, burgundy-red nail polish, slender
+          fingers, pale skin, resting on steel table."
+
+    recurring_motifs_layer_4:
+      change: "required_in_every_frame no longer works"
+      reason: |
+        An ECU of toenails cannot also include venetian-blind shadow
+        bars — the frame is too tight. Motifs need tiering.
+      solution:
+        tier_1_scene_level: "Motifs that must appear SOMEWHERE in the
+          scene's shot list, not every shot"
+        tier_2_shot_level: "Motifs that must appear in shots where the
+          character is visible above-chest"
+        tier_3_optional: "Motifs that enrich if present but not required"
