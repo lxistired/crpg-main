@@ -1,0 +1,98 @@
+{
+  "elapsed_sec": 88.3,
+  "ok": 18,
+  "fail": 0,
+  "cost_usd": 1.26,
+  "results": [
+    {
+      "id": "01_establishing_ws_city",
+      "status": "ok",
+      "elapsed": 31.4
+    },
+    {
+      "id": "02_su_wan_arrival_entrance",
+      "status": "ok",
+      "elapsed": 36.6
+    },
+    {
+      "id": "03_su_wan_vanity_mirror_prep",
+      "status": "ok",
+      "elapsed": 31.0
+    },
+    {
+      "id": "04_meijie_door_enters",
+      "status": "ok",
+      "elapsed": 32.5
+    },
+    {
+      "id": "05_backstage_2shot_tense",
+      "status": "ok",
+      "elapsed": 36.4
+    },
+    {
+      "id": "06_ecu_envelope_pass",
+      "status": "ok",
+      "elapsed": 34.5
+    },
+    {
+      "id": "07_bathroom_cavity_ms",
+      "status": "ok",
+      "elapsed": 39.0
+    },
+    {
+      "id": "08_ecu_pouch_into_cavity",
+      "status": "ok",
+      "elapsed": 31.5
+    },
+    {
+      "id": "09_interrogation_2shot_ms",
+      "status": "ok",
+      "elapsed": 38.8
+    },
+    {
+      "id": "10_cu_lin_ze_grave",
+      "status": "ok",
+      "elapsed": 22.9
+    },
+    {
+      "id": "11_cu_su_wan_tear_decision",
+      "status": "ok",
+      "elapsed": 27.7
+    },
+    {
+      "id": "12_walk_out_back_reveal",
+      "status": "ok",
+      "elapsed": 26.2
+    },
+    {
+      "id": "13_alley_ws_distance",
+      "status": "ok",
+      "elapsed": 27.3
+    },
+    {
+      "id": "14_alley_confrontation_2shot",
+      "status": "ok",
+      "elapsed": 28.6
+    },
+    {
+      "id": "15_ecu_hand_knife_reveal",
+      "status": "ok",
+      "elapsed": 28.0
+    },
+    {
+      "id": "16_lin_ze_silhouette_arrival",
+      "status": "ok",
+      "elapsed": 27.0
+    },
+    {
+      "id": "17_rooftop_aftermath_full",
+      "status": "ok",
+      "elapsed": 24.6
+    },
+    {
+      "id": "18_bonus_sofa_dawn_final",
+      "status": "ok",
+      "elapsed": 29.6
+    }
+  ]
+}
