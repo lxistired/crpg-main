@@ -63,16 +63,27 @@ For each narrative beat in the story:
 
    f. Sub-anchor pose gate (SOFT VGAI):
       Some anchors have pose-dependent visibility within the same framing.
-      If pose indicates the attr's anchor region is NOT visible at this angle,
-      DROP the attr. Examples:
-        - anchor: foot + pose: "foot from behind / sole view / heel view"
-          → red_toenails (grooming) NOT visible. Drop it.
-        - anchor: ear + pose: "3/4 profile with hair covering ear"
-          → jade_earring NOT visible. Drop it.
-        - anchor: torso_back + pose: "facing camera"
-          → waist_tattoo NOT visible. Drop it.
-      Check the character sheet for `sub_anchor` hints (e.g., `foot_top` vs
-      `foot_sole`). If omitted, use your judgment based on pose prose.
+      DEFAULT IS KEEP. Only drop when the pose clearly hides the anchor.
+
+      Drop-conditions (unambiguously hidden):
+        - anchor: foot + pose: "pure sole view" / "foot from directly below"
+          / "pure heel-from-behind" → red_toenails NOT visible. Drop.
+        - anchor: ear + pose: "hair explicitly covers the exposed ear"
+          → jade_earring NOT visible. Drop.
+        - anchor: torso_back + pose: "character facing camera, back not in frame"
+          → waist_tattoo NOT visible. Drop.
+
+      Keep-conditions (visible, sometimes partially — KEEP, let Grok render
+      what's in view):
+        - anchor: foot + "side profile of foot" → top of toes in view. KEEP.
+        - anchor: foot + "3/4 angle foot" → toenails partially visible. KEEP.
+        - anchor: foot + "top-down view" → toenails fully visible. KEEP.
+        - anchor: ear + "ear visible even partially" → KEEP.
+
+      When uncertain: DEFAULT TO KEEP. The risk of over-injection (Mode 1-9
+      failure modes) is far lower for a correctly-anchored attr than the
+      silent omission risk of false-dropping. Dropping should be a positive
+      decision with clear pose evidence, not a safety reflex.
 
    g. Natural layering:
       When TWO attrs survive at the same anchor (one from grooming, one from
