@@ -61,22 +61,42 @@ For each narrative beat in the story:
                         Keep attr IFF attr.anchor ∈ visible_regions.
                         Drop the rest. (Do NOT "simplify" — drop.)
 
-   f. Layering:        if a grooming attr has `visibility_through_hosiery` AND
-                        a wardrobe attr is layered over the same region (e.g.,
-                        stocking_toes over red_toenails anchor:foot), use the
-                        `visibility_through_hosiery` phrasing in the prompt.
+   f. Sub-anchor pose gate (SOFT VGAI):
+      Some anchors have pose-dependent visibility within the same framing.
+      If pose indicates the attr's anchor region is NOT visible at this angle,
+      DROP the attr. Examples:
+        - anchor: foot + pose: "foot from behind / sole view / heel view"
+          → red_toenails (grooming) NOT visible. Drop it.
+        - anchor: ear + pose: "3/4 profile with hair covering ear"
+          → jade_earring NOT visible. Drop it.
+        - anchor: torso_back + pose: "facing camera"
+          → waist_tattoo NOT visible. Drop it.
+      Check the character sheet for `sub_anchor` hints (e.g., `foot_top` vs
+      `foot_sole`). If omitted, use your judgment based on pose prose.
 
-   g. Mutex check:     if two surviving attrs are in a mutex_group, pick one
+   g. Natural layering:
+      When TWO attrs survive at the same anchor (one from grooming, one from
+      wardrobe — e.g., red_toenails + stocking_toes both at `foot`), inject
+      BOTH as separate factual statements. Do NOT add connective phrasing
+      ("visible through", "hint of red at tips", "showing beneath", etc.) —
+      Grok's anime rendering handles layering natively. Prescriptive layering
+      language triggers over-rendering (red spreads to sole, every-toe
+      micromanagement, etc.).
+
+   h. Mutex check:     if two surviving attrs are in a mutex_group, pick one
                         based on shot intent.
 
-   h. assemble prompt:
+   i. assemble prompt:
       ANIME_PREAMBLE + CHARACTER_BASE + pose + scene_env + framing_directive + filtered_attrs
 
-   i. sanity check:
+   j. sanity check:
       - aspect_ratio in Grok's allowed set (see grok-constraints.md)
       - no Dutch angle word
       - no "despite / although / covered by" attempting to suppress an attr
       - no injected attr whose anchor isn't in framing
+      - NO ABSOLUTE NEGATIONS in attr values: "NOT bare skin", "NOT exposed",
+        "never X" cascade across the whole anchor region. If the final prompt
+        contains such phrasing, rewrite as positive factual description.
 
 4. OUTPUT shot spec JSON.
 ```

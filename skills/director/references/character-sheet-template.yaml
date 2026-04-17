@@ -66,9 +66,10 @@ example_su_wan:
 
     - attr: red_toenails
       anchor: foot
-      value: "glossy red toenail polish matching her fingernails"
-      visibility_through_hosiery: "red toenail polish visible as a hint of color at the toe tips beneath the sheer stocking material"
-      removable_by: []   # always present, even under hosiery
+      sub_anchor: foot_top      # only visible when top-of-foot / toenails are in frame
+                                # (drop when pose/framing shows sole, heel, or back of foot)
+      value: "red toenail polish on her toenails"
+      removable_by: []
 
     - attr: red_lipstick
       anchor: face
@@ -125,7 +126,7 @@ example_su_wan:
           value: "sheer black pantyhose covering her legs from waist down (still on)"
         - attr: stocking_toes
           anchor: foot
-          value: "her feet still in the sheer black stocking material — five toes clearly outlined beneath the hosiery, red toenail polish showing through as hint of red at the toe tips. Continuous stocking over every toe, NOT bare skin on the feet."
+          value: "feet covered in continuous sheer black stocking material"
       removes: [red_lipstick]   # kissed/smudged off
 
     - id: sleeping_at_his_place
@@ -140,7 +141,7 @@ example_su_wan:
           value: "sheer black pantyhose still on, covering her legs"
         - attr: stocking_toes
           anchor: foot
-          value: "her feet in sheer black stockings — five toes clearly outlined beneath, red toenail polish showing through as hint of red. NOT bare skin, NOT bare toes."
+          value: "feet covered in continuous sheer black stocking material"
       removes: [red_lipstick]   # smudged off overnight
 
     - id: bathing
@@ -170,18 +171,20 @@ example_su_wan:
           value: "sheer black pantyhose, torn slightly from activity"
         - attr: stocking_toes
           anchor: foot
-          value: "her feet in sheer black stockings, toes visible through hosiery"
+          value: "feet covered in sheer black stocking material"
       removes: []
 
   # ============================================================
   # Mutex groups — attrs that cannot coexist
   # ============================================================
   mutex_groups:
-    - [stocking_toes, red_toenails_exposed]       # foot either in hosiery OR bare with visible polish — not both exposed
     - [stocking_toes, black_stiletto_heels]       # stocking_toes needs no shoe; heels cover foot
     - [leg_pantyhose, bare_legs]                  # leg either hosiered or bare
-    # Note: red_toenails (grooming, always on) + stocking_toes (wardrobe, sometimes on) are NOT mutex —
-    # they LAYER: grooming shows through hosiery via visibility_through_hosiery phrasing.
+    # Note: red_toenails (grooming) + stocking_toes (wardrobe) are NOT mutex —
+    # both can be written as two independent facts on anchor `foot`.
+    # Grok naturally renders sheer stocking OVER toenails in anime convention.
+    # Do NOT add layering boilerplate ("visible through", "hint of red", etc.) —
+    # that was the v1.1 mistake that caused sole-of-foot red spread.
 
 
 # ---------------------------------------------------------------
