@@ -1,0 +1,95 @@
+# Framing → Visible Body Region Map (VGAI gate lookup)
+#
+# Maps each camera framing to the set of body regions that Grok will actually render.
+# Use: given chosen framing, filter wardrobe_state.items by item.anchor ∈ this set.
+#
+# Canonical anchor region names (use consistently in character sheets):
+#   eye, face, ear, neck, hand, torso, torso_back, leg, foot
+#   plus: face_partial, neck_partial (for edge cases)
+
+eye_ecu:
+  description: "Extreme close-up of eye(s), framing is dominated by the iris/lashes"
+  visible: [eye]
+
+hand_ecu:
+  description: "Extreme close-up of hand(s), often with prop"
+  visible: [hand]
+
+ear_cu:
+  description: "3/4 profile close-up showing ear, cheek, jawline, partial neck"
+  visible: [ear, face_partial, neck_partial]
+
+feet_ecu:
+  description: "Extreme close-up of feet + lower ankles + floor"
+  visible: [foot]
+
+leg_ecu:
+  description: "Extreme close-up of legs mid-thigh to ankle"
+  visible: [leg]
+
+cu_face:
+  description: "Close-up of face and neck, shoulders partial, ears in frame"
+  visible: [face, ear, neck, torso_upper_partial]
+
+ms_waist_up:
+  description: "Medium shot, waist-up. Hands visible IF pose puts them above waist."
+  visible: [face, ear, neck, torso, hand_conditional]
+  # NOTE: 'hand_conditional' means director checks the pose:
+  #   - hands on table / folded in lap / holding prop at chest → include 'hand'
+  #   - hands in pockets / behind back / below frame → exclude 'hand'
+
+three_quarter_knee_up:
+  description: "3/4 shot, head to knees — torso fully visible, upper legs partial"
+  visible: [face, ear, neck, torso, hand, leg_upper]
+
+full_body_standing:
+  description: "Head to toe, standing pose. Feet covered if shoes; toes if barefoot."
+  visible: [face, ear, neck, torso, hand, leg, foot]
+
+full_body_curled:
+  description: "Head to toe, seated/curled/reclining pose. Body folded."
+  visible: [face, ear, neck, torso, hand, leg, foot]
+
+back_reveal_walking:
+  description: "Character from behind walking away, possibly glancing back over shoulder"
+  visible: [torso_back, hand, leg, foot, face_partial_if_over_shoulder]
+
+silhouette:
+  description: "Character lit from behind, only outline visible. NO attributes render."
+  visible: []
+
+ws_establishing:
+  description: "Wide establishing shot, character tiny or absent. Environment dominant."
+  visible: []
+  # Even if character is in the frame, they're too small to render attributes cleanly.
+  # Do not inject character attributes. Let Grok render a generic figure.
+
+cu_mouth_lips:
+  description: "Close-up of mouth region only (lips + partial nose + chin)"
+  visible: [face_lips, hand_conditional]
+  # Sometimes hand is in frame (holding cigarette, near chin)
+
+cu_eye_and_brow:
+  description: "CU of eye + brow + partial forehead (broader than eye_ecu)"
+  visible: [eye, face_partial]
+
+mouth_cigarette_cu:
+  description: "Mouth + fingers holding cigarette"
+  visible: [face_lips, hand]
+
+over_the_shoulder:
+  description: "OTS — foreground character's shoulder/back-of-head out of focus, background character clearly in frame"
+  visible: [face, ear, neck, torso_upper, hand_conditional]
+  # This is the BACKGROUND character's visibility (the one in focus).
+  # Foreground character is blur — don't inject their attrs.
+  # Eyeline matters: background character looks past the foreground toward camera.
+
+two_shot_ms:
+  description: "Two characters, medium framing"
+  visible: [face, ear, neck, torso, hand_conditional]
+  # Per character. Hands conditional on pose.
+
+three_shot_ms:
+  description: "Three characters in frame — gaze interaction degrades past 2 (see grok-constraints.md)"
+  visible: [face, ear, neck, torso]
+  # Drop hand_conditional here. Grok can't reliably track 3 characters' hands.

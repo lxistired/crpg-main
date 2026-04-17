@@ -1,0 +1,138 @@
+# Shot Grammar Vocabulary — cinematography terms Grok Imagine Pro responds to
+#
+# Verified empirically on Grok Imagine Pro (see research/pipeline-simulation/).
+# Marked reliability per term.
+#
+# Usage: pick the right term for the narrative intent, pair with a clear pose + scene.
+
+shot_sizes:
+  ws_establishing:
+    aliases: ["wide shot", "extreme wide", "establishing shot"]
+    reliability: HIGH
+    use_for: "open a scene, show environment, place character in space"
+    narrative_role: "setup / transition"
+    caveat: "Character figure ≤ 20% of frame will degrade into chibi/cartoonish if over-specified"
+
+  full_body:
+    aliases: ["full-length shot", "head to toe"]
+    reliability: HIGH
+    use_for: "show wardrobe, physicality, posture, full VGAI range"
+    narrative_role: "character assertion (entrance, power pose, departure)"
+
+  three_quarter:
+    aliases: ["3/4 shot", "knee-up"]
+    reliability: HIGH
+    use_for: "middle ground between full and medium; shows legs partially"
+
+  medium:
+    aliases: ["medium shot", "MS", "waist-up"]
+    reliability: HIGH
+    use_for: "dialogue, exposition, two-shot conversation"
+    narrative_role: "default for interaction scenes"
+
+  close_up:
+    aliases: ["CU", "close-up", "face and neck"]
+    reliability: HIGH
+    use_for: "emotion, reaction, decision moment"
+    narrative_role: "emotional beat"
+
+  extreme_close_up:
+    aliases: ["ECU", "extreme close-up"]
+    reliability: HIGH
+    use_for: "insert shots (prop, hand, detail), visceral sensation"
+    narrative_role: "punctuation, reveal, visceral detail"
+
+angle:
+  eye_level:
+    reliability: HIGH
+    use_for: "neutral, equal power"
+
+  low_angle:
+    reliability: MEDIUM
+    use_for: "character dominance, power, hero shot"
+    tips: "Specify 'camera near floor shooting up' — word 'low angle' alone sometimes weak"
+
+  high_angle:
+    reliability: HIGH
+    use_for: "vulnerability, diminishment, god's-eye observation"
+    tips: "'camera from ceiling looking down' works well"
+
+  dutch_angle:
+    reliability: BLOCKED
+    use_for: "psychological unease"
+    warning: |
+      Grok Imagine Pro DOES NOT tilt the frame. Specifying "Dutch angle" produces
+      an off-center composition at best, never a canted horizon.
+      AVOID this term. Instead, use lighting/shadow/composition tension.
+
+  over_the_shoulder:
+    aliases: ["OTS"]
+    reliability: HIGH
+    use_for: "conversation coverage, showing reaction from one char's POV"
+    tips: "Describe the foreground shoulder/head as blurred / out of focus to anchor the framing"
+
+  profile_strict:
+    reliability: HIGH
+    use_for: "two-character confrontation, formal composition"
+
+  pov:
+    reliability: HIGH
+    use_for: "first-person viewpoint, character looking at camera stand-in"
+
+  back_reveal:
+    reliability: HIGH
+    use_for: "character turning away, mystery, transition, over-the-shoulder glance"
+
+gaze_configurations:
+  mutual_gaze_2p:
+    reliability: HIGH
+    description: "Two characters locked eyes on each other"
+    use_for: "romantic tension / confrontation / recognition"
+
+  asymmetric_gaze_2p:
+    reliability: HIGH
+    description: "A looks at B; B looks elsewhere (avoidance/distraction)"
+    use_for: "emotional asymmetry, unrequited, deception"
+
+  eyeline_match_reverse:
+    reliability: MEDIUM
+    description: "Shot A: character looks viewer-right. Shot B (reverse): other character looks viewer-left. Eyelines match across the cut."
+    use_for: "conversational 180-degree rule coverage"
+    tips: "Explicitly state 'looking viewer-right toward off-screen [other character]' in prompts"
+
+  pov_direct_camera:
+    reliability: HIGH
+    description: "Character stares directly into camera lens"
+    use_for: "4th wall break, subject's direct address, intimacy"
+
+  triangle_3p:
+    reliability: LOW
+    description: "3 characters with specific gaze interaction"
+    warning: "Grok silently weakens to 'all look same direction' or drops directives. Use for decorative group shots only, NEVER for gaze-narrative."
+
+  converging_on_object:
+    reliability: HIGH
+    description: "Multiple characters both looking at the same object (phone/document)"
+    use_for: "shared discovery, attention"
+
+  reaction_shot:
+    reliability: HIGH
+    description: "CU of one character reacting to something shown in previous shot"
+    use_for: "emotional punctuation after a reveal"
+
+insert_shots:
+  prop_ecu:
+    reliability: HIGH
+    use_for: "establishing a prop will matter (gun, envelope, phone screen, pouch)"
+
+  hand_ecu:
+    reliability: MEDIUM
+    caveat: "Grok hand anatomy is imperfect (5+ fingers, warped digits). Use intentionally."
+
+  feet_ecu:
+    reliability: HIGH
+    use_for: "transition moment (stepping out of heels, walking away)"
+
+  object_interaction_ecu:
+    reliability: HIGH
+    use_for: "hand + prop + action (pouring tea, lighting cigarette, slipping note)"

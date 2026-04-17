@@ -1,0 +1,175 @@
+# Character Sheet — Schema and Example
+#
+# A character sheet defines:
+#   - base: region-independent identity (hair, skin, eye color, face structure, age)
+#   - wardrobe_states: NAMED situational outfits, each with anchored attributes
+#   - mutex_groups (optional): pairs of attrs that cannot coexist in one shot
+#   - pose_variants (optional): anchor-specific fragments that change per viewing angle
+#
+# Director LLM picks EXACTLY ONE wardrobe_state per shot.
+# No default / signature state. The decision is conscious per scene.
+
+schema:
+  character:
+    id: string                 # snake_case, unique per project
+    base:                      # list of descriptor fragments, joined with ", "
+      - string
+    wardrobe_states:           # list of named states
+      - id: string
+        context: string        # when this state applies, narratively
+        items:                 # attributes active in this state
+          - attr: string       # unique attr id
+            anchor: string     # one of: face, ear, eye, neck, hand, torso, torso_back, leg, foot
+            value: string      # the actual prose fragment to inject
+            # optional fields:
+            neckline_hint: string      # used when torso is dropped by VGAI but face CU needs a clothing edge
+            pose_variants:             # angle-sensitive variants
+              front: string
+              back: string
+              profile: string
+        mutex_locks:           # list of attrs mutually exclusive within this state
+          - string
+    mutex_groups:              # global mutex, across states
+      - - string
+        - string
+
+
+# ---------------------------------------------------------------
+# EXAMPLE: Su Wan
+# ---------------------------------------------------------------
+
+example_su_wan:
+  id: su_wan
+  base:
+    - "28 years old"
+    - "Chinese"
+    - "long straight black hair parted to one side, falling to collarbone"
+    - "fair skin"
+    - "dark brown expressive eyes with long lashes"
+    - "soft jawline"
+
+  wardrobe_states:
+
+    - id: work_formal
+      context: "Public appearances, nightclub work, meeting strangers, thriller beats."
+      items:
+        - attr: red_lipstick
+          anchor: face
+          value: "bold red lipstick"
+        - attr: jade_earring
+          anchor: ear
+          value: "small jade teardrop earring on her exposed ear"
+          pose_variants:
+            front: "jade teardrop earrings on both ears visible"
+            profile: "jade teardrop earring on the visible ear"
+            back: "jade teardrop earring glinting on her exposed left ear"
+        - attr: red_fingernails
+          anchor: hand
+          value: "glossy red fingernail polish"
+        - attr: black_dress
+          anchor: torso
+          value: "form-fitting black cocktail dress with thin straps"
+          neckline_hint: "thin black dress strap visible at shoulder / dress neckline visible at bottom of frame"
+        - attr: sheer_black_pantyhose
+          anchor: leg
+          value: "sheer black full-length pantyhose (seamless waist-to-toe)"
+        - attr: black_stiletto_heels
+          anchor: foot
+          value: "black stiletto heels (toes covered by shoes)"
+      # Note: mutex_locks empty here — all attrs coexist.
+
+    - id: home_after_intimate
+      context: "In his apartment after an intimate moment, partially dressed in his clothing. Not freshly showered."
+      items:
+        - attr: red_fingernails
+          anchor: hand
+          value: "glossy red fingernail polish (slightly chipped)"
+        - attr: mens_open_shirt
+          anchor: torso
+          value: "oversized white men's dress shirt, open at chest, sleeves rolled messily"
+          neckline_hint: "white shirt collar soft against her neck"
+        - attr: pantyhose_stocking_feet
+          anchor: leg
+          value: "sheer black pantyhose still on, extending to stocking feet (no shoes, no bare skin on feet)"
+      mutex_locks:
+        - "no barefoot attribute — feet are in stockings"
+      # Lipstick wiped off, earring removed. Pantyhose kept.
+
+    - id: sleeping_at_his_place
+      context: "Curled up asleep at his apartment on his sofa or bed. Vulnerable, morning after."
+      items:
+        - attr: red_fingernails
+          anchor: hand
+          value: "glossy red fingernail polish (slightly chipped)"
+        - attr: mens_open_shirt
+          anchor: torso
+          value: "oversized white men's dress shirt, loosely covering her"
+          neckline_hint: "white shirt draped at her shoulder"
+        - attr: pantyhose_stocking_feet
+          anchor: leg
+          value: "sheer black pantyhose still on, including stocking feet (pantyhose covers feet and toes)"
+      mutex_locks:
+        - "no barefoot — feet are in stockings"
+
+    - id: bathing
+      context: "In shower or bathtub. Water, steam. Naked."
+      items:
+        - attr: red_fingernails
+          anchor: hand
+          value: "glossy red fingernail polish (wet)"
+        - attr: red_toenails
+          anchor: foot
+          value: "glossy red toenail polish (wet, barefoot in water)"
+      mutex_locks:
+        - "no pantyhose"
+        - "no dress"
+        - "no shoes"
+
+    - id: post_shower_towel
+      context: "Just exited shower. Towel wrapped. Wet hair. No makeup."
+      items:
+        - attr: red_fingernails
+          anchor: hand
+          value: "glossy red fingernail polish"
+        - attr: red_toenails
+          anchor: foot
+          value: "glossy red toenail polish still wet"
+        - attr: white_towel
+          anchor: torso
+          value: "white cotton towel wrapped tight around her chest"
+      mutex_locks:
+        - "no pantyhose"
+        - "no dress"
+
+    - id: running_action
+      context: "Running, fighting, high-action. Simplified wardrobe."
+      items:
+        - attr: red_fingernails
+          anchor: hand
+          value: "glossy red fingernail polish"
+        - attr: black_dress_or_pants
+          anchor: torso
+          value: "form-fitting dark clothing allowing free motion"
+        - attr: torn_pantyhose
+          anchor: leg
+          value: "sheer black pantyhose (torn slightly from activity)"
+
+  mutex_groups:
+    - [pantyhose_stocking_feet, red_toenails]  # can't have both; either wearing pantyhose over feet, or barefoot with toenails
+    - [black_stiletto_heels, black_flats]     # only one footwear
+    - [sheer_black_pantyhose, pantyhose_stocking_feet]  # these are alternative renderings of the same state's legwear; pick one per shot context
+
+
+# ---------------------------------------------------------------
+# Usage rules for Director LLM
+# ---------------------------------------------------------------
+
+director_usage:
+  - "Pick EXACTLY ONE wardrobe_state per shot, based on story context."
+  - "Do NOT default to 'signature look' — the character has none. Every scene forces a conscious wardrobe decision."
+  - "If no state matches: first try to extend the existing states rather than inventing ad-hoc wardrobe."
+  - "Apply VGAI AFTER picking state: filter state.items by framing's visible_regions."
+  - "For hand_conditional framings (MS waist_up etc): check pose. Hands visible → keep hand attrs. Hands not visible → drop."
+  - "For profile / back framings: use pose_variants if defined; else use value."
+  - "For face CU when torso is dropped: include neckline_hint if defined (prevents bare-shoulder artifacts)."
+  - "Respect mutex_groups: never inject 2 attrs that are in the same mutex group."
