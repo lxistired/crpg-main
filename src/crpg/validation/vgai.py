@@ -19,7 +19,8 @@ REGION_MAP: dict[str, set[str]] = {
 @dataclass(slots=True)
 class VgaiViolation:
     shot_id: str
-    kind: str  # "vgai" | "mutex" | "ws_nonempty" | "unknown_framing" | "unknown_attr"
+    # kind ∈ {"vgai", "mutex", "occlusion", "ws_nonempty", "unknown_framing", "unknown_attr"}
+    kind: str
     attr: str | None
     reason: str
 
@@ -34,6 +35,23 @@ def _build_attr_map(character: Character, wardrobe_state: str) -> dict[str, str]
             attrs.pop(removed, None)
     return attrs
 
+
+def _build_grooming_sub_anchor_map(character: Character) -> dict[str, str | None]:
+    """Return {grooming_name: sub_anchor_or_None} for occlusion lookup."""
+    return {g.name: g.sub_anchor for g in character.persistent_grooming}
+
+
+def _build_coverage_map(character: Character, wardrobe_state: str) -> dict[str, list[str]]:
+    """Return {wardrobe_item_name: covers_list} for the active state.
+
+    Removed items are excluded (they aren't on the character in this state).
+    """
+    ws = character.wardrobe_states.get(wardrobe_state)
+    if ws is None:
+        return {}
+    removed = set(ws.removes)
+    return {item.name: list(item.covers) for item in ws.items if item.name not in removed}
+
 def validate_shot(shot: Shot, character: Character) -> list[VgaiViolation]:
     violations: list[VgaiViolation] = []
     visible = REGION_MAP.get(shot.camera_framing)
@@ -41,6 +59,8 @@ def validate_shot(shot: Shot, character: Character) -> list[VgaiViolation]:
         return [VgaiViolation(shot.shot_id, "unknown_framing", None,
                               f"unknown framing: {shot.camera_framing}")]
     attr_anchor = _build_attr_map(character, shot.wardrobe_state_used)
+    grooming_sub = _build_grooming_sub_anchor_map(character)
+    coverage = _build_coverage_map(character, shot.wardrobe_state_used)
 
     # ws_establishing must have empty vgai_injected_attrs
     if shot.camera_framing == "ws_establishing" and shot.vgai_injected_attrs:
@@ -72,6 +92,25 @@ def validate_shot(shot: Shot, character: Character) -> list[VgaiViolation]:
             violations.append(VgaiViolation(
                 shot.shot_id, "mutex", None,
                 f"mutex pair {sorted(common)} both injected"))
+
+    # Occlusion check: if a grooming attr's sub_anchor is fully covered by a
+    # wardrobe item that is ALSO in the injected set, drop the grooming.
+    # Rationale: a shoe that encloses the toes makes toenails invisible; writing
+    # "red_toenails" under a closed pump triggers Grok to render open-toe shoes
+    # or bare feet (Mode 6 / 9 failure in VGAI reference).
+    for attr in injected:
+        sub = grooming_sub.get(attr)
+        if sub is None:
+            continue  # not a grooming attr with a sub_anchor
+        for item_name, covers in coverage.items():
+            if item_name not in injected:
+                continue  # only worn items occlude
+            if sub in covers:
+                violations.append(VgaiViolation(
+                    shot.shot_id, "occlusion", attr,
+                    f"{attr} (sub_anchor={sub}) fully occluded by {item_name} "
+                    f"(covers={covers}); drop with reason 'occluded by {item_name}'"))
+                break  # one occlusion source is enough
 
     return violations
 
