@@ -33,6 +33,22 @@ def test_invalid_anchor_rejected():
     with pytest.raises(ValidationError):
         Grooming(name="x", anchor="invalid_region")
 
+def test_wardrobe_item_covers_defaults_empty():
+    """Items default to covers=[] so legacy schemas still parse."""
+    item = WardrobeItem(name="sandals", anchor="foot")
+    assert item.covers == []
+
+def test_wardrobe_item_covers_persisted():
+    """covers survives JSON round-trip and enumerates fully-occluded sub_anchors."""
+    item = WardrobeItem(
+        name="black_stilettos",
+        anchor="foot",
+        covers=["toes", "foot_top"],
+    )
+    blob = item.model_dump_json()
+    parsed = WardrobeItem.model_validate_json(blob)
+    assert parsed.covers == ["toes", "foot_top"]
+
 def test_shot_dropped_accepts_list_and_dict():
     """Different LLMs emit dropped_attrs in different shapes; both must parse."""
     # List-of-strings form (glm-5.1, nemotron, qwen3-max-thinking)

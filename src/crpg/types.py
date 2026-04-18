@@ -33,6 +33,7 @@ class Grooming(BaseModel):
 class WardrobeItem(BaseModel):
     name: str
     anchor: Anchor
+    covers: list[str] = Field(default_factory=list)
 
 class WardrobeState(BaseModel):
     items: list[WardrobeItem]
