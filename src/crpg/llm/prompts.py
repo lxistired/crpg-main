@@ -63,8 +63,21 @@ This matches Director's internal anchor map. Chinese descriptions go in a separa
    A mutex DOES NOT exist when:
      - Items layer without mutual occlusion (e.g. tights + ankle boots: tights visible above boot top, boots visible below — both render → NO mutex)
      - Items on different anchors with no spatial overlap
+     - Stockings/tights + heels/boots/shoes: these always layer → NEVER mutex
+     - A long gown + shoes underneath: gown occludes feet visually but shoes are a separate anchor → NO mutex
+     - Fishnet/mesh + boots: fishnet visible at thigh above boot top → NO mutex
    Only declare a mutex pair when you can explicitly justify WHY both can't coexist. Use abstract attr_* reasoning, NOT specific wardrobe names as boilerplate.
+   HARD RULES for mutex_groups validity:
+     - Every name in a mutex pair MUST appear verbatim as a `name` in this character's own
+       `persistent_grooming` or `wardrobe_states` items. NEVER reference anchor strings (face/leg/foot/etc.)
+       as mutex members. NEVER reference items that belong to another character.
+     - If an item simply doesn't exist in this character's wardrobe, omit it entirely —
+       do NOT add it to mutex_groups as a phantom reference.
+     - "bare_X" entries (e.g. bare_legs, bare_foot) ARE valid mutex members only when they
+       explicitly appear as a wardrobe item name in this character's own wardrobe_states.
 6. anchor values: face|ear|neck|hand|torso|torso_back|leg|leg_upper|foot
+7. If brief is missing contentLength / detailRichness / structure fields,
+   default them to: contentLength=short, detailRichness=detailed, structure=bifurcating.
 
 ### Output format (strict)
 Output a SINGLE JSON object, no markdown wrap:
