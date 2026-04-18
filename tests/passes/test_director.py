@@ -41,6 +41,19 @@ async def test_director_returns_shots(httpx_mock, fixture_path, su_wan):
     assert shots[0].vgai_injected_attrs == ["red_lipstick","red_fingernails","black_pencil_skirt"]
 
 @pytest.mark.asyncio
+async def test_director_retries_on_parse_error(httpx_mock, fixture_path, su_wan):
+    canonical = (fixture_path / "canonical_shots.json").read_text(encoding="utf-8")
+    httpx_mock.add_response(json={"choices":[{"message":{"content":"bad"},"finish_reason":"stop"}], "usage":{}})
+    httpx_mock.add_response(json={"choices":[{"message":{"content":canonical},"finish_reason":"stop"}], "usage":{}})
+    client = OpenRouterClient(api_key="sk-or-test", concurrency=2)
+    shots = await run_director(
+        client, beat_id="i", beat_prose="p", character_name="Su Wan",
+        character=su_wan, wardrobe_state="public_formal", target_shot_count=2,
+    )
+    assert len(shots) == 2
+    assert len(httpx_mock.get_requests()) == 2
+
+@pytest.mark.asyncio
 async def test_director_user_message_includes_character(httpx_mock, fixture_path, su_wan):
     canonical = (fixture_path / "canonical_shots.json").read_text(encoding="utf-8")
     httpx_mock.add_response(

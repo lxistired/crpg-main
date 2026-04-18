@@ -45,6 +45,7 @@ class OpenRouterClient:
         allow_fallbacks: bool = True,
         temperature: float = 0.7,
         max_tokens: int = 8000,
+        response_format: dict | None = None,
         client: httpx.AsyncClient | None = None,
     ) -> ChatResult:
         payload: dict = {
@@ -58,6 +59,8 @@ class OpenRouterClient:
         }
         if provider_pin is not None:
             payload["provider"] = {"order": [provider_pin], "allow_fallbacks": allow_fallbacks}
+        if response_format is not None:
+            payload["response_format"] = response_format
         import time
         async with self._sem:
             owns_client = client is None

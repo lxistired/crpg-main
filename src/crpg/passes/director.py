@@ -1,10 +1,11 @@
 """Pass 3: Director — beat prose + character → shot list."""
 import json
+from pydantic import ValidationError
 from crpg.llm.openrouter import OpenRouterClient
 from crpg.llm.prompts import DIRECTOR_SYSTEM
 from crpg.llm.suffixes import STRONG_SUFFIX, FEW_SHOT_SUFFIX
 from crpg.types import Character, Shot
-from crpg.validation.schema import parse_director_output
+from crpg.validation.schema import parse_director_output, SchemaError
 
 def _format_user_message(
     beat_id: str,
@@ -42,18 +43,26 @@ async def run_director(
     provider: str = "Groq",
     temperature: float = 0.7,
     max_tokens: int = 8000,
+    retries: int = 1,
 ) -> list[Shot]:
     user = _format_user_message(
         beat_id, beat_prose, character_name, character,
         wardrobe_state, target_shot_count,
     )
-    res = await client.chat(
-        model=model,
-        system=DIRECTOR_SYSTEM + STRONG_SUFFIX + FEW_SHOT_SUFFIX,
-        user=user,
-        provider_pin=provider,
-        temperature=temperature,
-        max_tokens=max_tokens,
-    )
-    raw_shots = parse_director_output(res.content)
-    return [Shot.model_validate(s) for s in raw_shots]
+    last_err: Exception | None = None
+    for attempt in range(retries + 1):
+        res = await client.chat(
+            model=model,
+            system=DIRECTOR_SYSTEM + STRONG_SUFFIX + FEW_SHOT_SUFFIX,
+            user=user,
+            provider_pin=provider,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+        try:
+            raw_shots = parse_director_output(res.content)
+            return [Shot.model_validate(s) for s in raw_shots]
+        except (SchemaError, ValidationError) as e:
+            last_err = e
+            continue
+    raise last_err  # type: ignore[misc]

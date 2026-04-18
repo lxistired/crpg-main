@@ -38,6 +38,17 @@ async def test_chat_sends_provider_pin(httpx_mock):
     assert body["provider"] == {"order": ["Groq"], "allow_fallbacks": True}
 
 @pytest.mark.asyncio
+async def test_chat_sends_response_format(httpx_mock):
+    httpx_mock.add_response(json={"choices":[{"message":{"content":"ok"}, "finish_reason":"stop"}], "usage":{}})
+    client = OpenRouterClient(api_key="sk-or-test", concurrency=2)
+    await client.chat(model="x", system="s", user="u",
+                      response_format={"type": "json_object"})
+    req = httpx_mock.get_requests()[0]
+    import json as j
+    body = j.loads(req.read())
+    assert body["response_format"] == {"type": "json_object"}
+
+@pytest.mark.asyncio
 async def test_chat_error(httpx_mock):
     httpx_mock.add_response(
         status_code=429,

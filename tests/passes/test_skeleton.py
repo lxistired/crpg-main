@@ -23,7 +23,35 @@ async def test_skeleton_calls_groq(httpx_mock, fixture_path):
 
 @pytest.mark.asyncio
 async def test_skeleton_parse_error_raises(httpx_mock):
+    # Two failures: retry also fails → raise
     httpx_mock.add_response(json={"choices":[{"message":{"content":"not json"},"finish_reason":"stop"}], "usage":{}})
+    httpx_mock.add_response(json={"choices":[{"message":{"content":"still not"},"finish_reason":"stop"}], "usage":{}})
     client = OpenRouterClient(api_key="sk-or-test", concurrency=2)
     with pytest.raises(Exception):
         await run_skeleton(client, brief="bad")
+
+@pytest.mark.asyncio
+async def test_skeleton_retries_on_parse_error(httpx_mock, fixture_path):
+    canonical = (fixture_path / "canonical_skeleton.json").read_text(encoding="utf-8")
+    # First call: malformed JSON; second call: valid
+    httpx_mock.add_response(
+        json={"choices":[{"message":{"content":"malformed {broken"},"finish_reason":"stop"}], "usage":{}},
+    )
+    httpx_mock.add_response(
+        json={"choices":[{"message":{"content":canonical},"finish_reason":"stop"}], "usage":{}},
+    )
+    client = OpenRouterClient(api_key="sk-or-test", concurrency=2)
+    story, chars = await run_skeleton(client, brief="b")
+    assert story.meta.title == "Rainy Noir"
+    assert len(httpx_mock.get_requests()) == 2  # retried once
+
+@pytest.mark.asyncio
+async def test_skeleton_uses_json_object_mode(httpx_mock, fixture_path):
+    canonical = (fixture_path / "canonical_skeleton.json").read_text(encoding="utf-8")
+    httpx_mock.add_response(json={"choices":[{"message":{"content":canonical},"finish_reason":"stop"}], "usage":{}})
+    client = OpenRouterClient(api_key="sk-or-test", concurrency=2)
+    await run_skeleton(client, brief="b")
+    req = httpx_mock.get_requests()[0]
+    import json as j
+    body = j.loads(req.read())
+    assert body["response_format"] == {"type": "json_object"}
