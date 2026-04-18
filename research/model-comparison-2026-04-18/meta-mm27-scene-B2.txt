@@ -1,0 +1,6 @@
+model: minimax/minimax-m2.7
+T: 0.6
+elapsed: 39.3s
+finish: stop
+chars: 3843
+usage: {'prompt_tokens': 762, 'completion_tokens': 1478, 'total_tokens': 2240, 'cost': 0.0040044, 'is_byok': False, 'prompt_tokens_details': {'cached_tokens': 0, 'cache_write_tokens': 0, 'audio_tokens': 0, 'video_tokens': 0}, 'cost_details': {'upstream_inference_cost': 0.0040044, 'upstream_inference_prompt_cost': 0.0004572, 'upstream_inference_completions_cost': 0.0035472}, 'completion_tokens_details': {'reasoning_tokens': 517, 'image_tokens': 0, 'audio_tokens': 0}}

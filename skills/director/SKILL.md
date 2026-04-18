@@ -37,10 +37,22 @@ Translate narrative prose into shot prompts for text-to-image generation. Princi
 3. Assemble candidate attrs:
    grooming ∪ state.items − state.removes
 4. Gate by framing visible_regions (VGAI)
-5. Gate by pose visibility (Principle 5: default KEEP)
-6. Mutex resolve
+5. Gate by pose visibility (Principle 5: DEFAULT KEEP)
+   ⚠ Phrases like "pose-dependent", "may not be primary focus",
+      "not guaranteed", "depends on framing" are NOT sufficient reasons to drop.
+      Drop ONLY when the pose unambiguously hides the anchor (pure sole view,
+      hair fully covers ear, character fully behind opaque object).
+      If ambiguous → KEEP.
+6. Mutex resolve (MANDATORY pre-assembly check):
+   For each pair in character_sheet.mutex_groups, if BOTH members are in the
+   surviving attr set, pick ONE based on which is visually dominant in the
+   pose context (e.g., shoes on feet → keep shoes, drop stocking_toes).
+   Never emit two mutex-conflicting attrs in vgai_injected_attrs.
 7. Assemble prompt: ANIME_PREAMBLE + base + pose + scene + framing_directive + gated_attrs
-8. Sanity check against rationalization-counters.md
+   Note: base identity (hair/skin/eye/face/age) goes in the base segment,
+   NOT in vgai_injected_attrs — base is always injected as part of the
+   character preamble, it is not a gated attribute.
+8. Sanity check against rationalization-counters.md red flags
 ```
 
 ## Red flags — if any appear, STOP and fix

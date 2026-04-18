@@ -1,0 +1,6 @@
+model: anthropic/claude-sonnet-4.6
+T: 0.6
+max: 8000
+elapsed: 31.8s
+chars: 7030
+usage: {'prompt_tokens': 1294, 'completion_tokens': 1977, 'total_tokens': 3271, 'cost': 0.033537, 'is_byok': False, 'prompt_tokens_details': {'cached_tokens': 0, 'cache_write_tokens': 0, 'audio_tokens': 0, 'video_tokens': 0}, 'cost_details': {'upstream_inference_cost': 0.033537, 'upstream_inference_prompt_cost': 0.003882, 'upstream_inference_completions_cost': 0.029655}, 'completion_tokens_details': {'reasoning_tokens': 0, 'image_tokens': 0, 'audio_tokens': 0}}

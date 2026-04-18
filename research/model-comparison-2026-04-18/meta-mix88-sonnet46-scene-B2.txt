@@ -1,0 +1,8 @@
+label: scene-B2
+ok: True
+chars: 653
+elapsed_seconds: 5.59
+finish_reason: stop
+usage: {"prompt_tokens": 460, "completion_tokens": 183, "total_tokens": 643, "prompt_tokens_details": {"cached_tokens": 0, "text_tokens": 0, "audio_tokens": 0, "image_tokens": 0}, "completion_tokens_details": {"text_tokens": 0, "audio_tokens": 0, "reasoning_tokens": 0}, "input_tokens": 0, "output_tokens": 0, "input_tokens_details": null}
+model_returned: claude-sonnet-4-5-20250929
+response_id: 

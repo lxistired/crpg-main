@@ -1,0 +1,7 @@
+model: x-ai/grok-4.20
+T: 0.5
+max: 8000
+elapsed: 8.2s
+finish: stop
+chars: 5935
+usage: {'prompt_tokens': 878, 'completion_tokens': 1524, 'total_tokens': 2402, 'cost': 0.0107848, 'is_byok': False, 'prompt_tokens_details': {'cached_tokens': 64, 'cache_write_tokens': 0, 'audio_tokens': 0, 'video_tokens': 0}, 'cost_details': {'upstream_inference_cost': 0.0107848, 'upstream_inference_prompt_cost': 0.0016408, 'upstream_inference_completions_cost': 0.009144}, 'completion_tokens_details': {'reasoning_tokens': 0, 'image_tokens': 0, 'audio_tokens': 0}}
