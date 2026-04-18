@@ -52,13 +52,37 @@ def _build_coverage_map(character: Character, wardrobe_state: str) -> dict[str, 
     removed = set(ws.removes)
     return {item.name: list(item.covers) for item in ws.items if item.name not in removed}
 
-def validate_shot(shot: Shot, character: Character) -> list[VgaiViolation]:
+def validate_shot(
+    shot: Shot,
+    character: Character,
+    *,
+    extra_characters: dict[str, Character] | None = None,
+) -> list[VgaiViolation]:
+    """Validate one shot against VGAI / mutex / occlusion rules.
+
+    Multi-character support: when a shot features more than one character
+    (e.g. a scene with both POV + NPC), pass the additional characters via
+    `extra_characters={<name>: Character}`. Attrs are looked up across all
+    provided characters; mutex/occlusion only run against the primary
+    `character` (each char has its own wardrobe_state_used semantics).
+    """
     violations: list[VgaiViolation] = []
     visible = REGION_MAP.get(shot.camera_framing)
     if visible is None:
         return [VgaiViolation(shot.shot_id, "unknown_framing", None,
                               f"unknown framing: {shot.camera_framing}")]
     attr_anchor = _build_attr_map(character, shot.wardrobe_state_used)
+    # Merge in any extra character's attrs (wardrobe_state_used may not apply
+    # to every char — for multi-char shots, each char uses its own inferred
+    # state. At minimum we expose their persistent_grooming + EVERY state's
+    # items so multi-char wardrobe refs don't 'unknown_attr'.)
+    if extra_characters:
+        for extra_name, extra_char in extra_characters.items():
+            for g in extra_char.persistent_grooming:
+                attr_anchor.setdefault(g.name, g.anchor)
+            for st in extra_char.wardrobe_states.values():
+                for item in st.items:
+                    attr_anchor.setdefault(item.name, item.anchor)
     grooming_sub = _build_grooming_sub_anchor_map(character)
     coverage = _build_coverage_map(character, shot.wardrobe_state_used)
 
@@ -114,8 +138,13 @@ def validate_shot(shot: Shot, character: Character) -> list[VgaiViolation]:
 
     return violations
 
-def validate_shot_list(shots: list[Shot], character: Character) -> list[VgaiViolation]:
+def validate_shot_list(
+    shots: list[Shot],
+    character: Character,
+    *,
+    extra_characters: dict[str, Character] | None = None,
+) -> list[VgaiViolation]:
     out: list[VgaiViolation] = []
     for s in shots:
-        out.extend(validate_shot(s, character))
+        out.extend(validate_shot(s, character, extra_characters=extra_characters))
     return out

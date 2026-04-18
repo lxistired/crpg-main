@@ -34,6 +34,11 @@ class WardrobeItem(BaseModel):
     name: str
     anchor: Anchor
     covers: list[str] = Field(default_factory=list)
+    # Verbatim visual description injected byte-for-byte into every shot prompt
+    # that uses this item. Director MUST NOT paraphrase. See Visual DNA Layer 3
+    # + Layer 10 (for high-prior garments, append disambiguation_layers too).
+    visual_description: str = ""
+    disambiguation_layers: list[str] = Field(default_factory=list)
 
 class WardrobeState(BaseModel):
     items: list[WardrobeItem]
@@ -71,6 +76,9 @@ class StoryMeta(BaseModel):
     content_length: ContentLength = Field(alias="contentLength")
     detail_richness: DetailRichness = Field(alias="detailRichness")
     structure: Structure
+    # poeticMode: keywords become atmospheric metaphors (default); when False,
+    # Script treats keywords as literal plot elements. Temperature cap applies.
+    poetic_mode: bool = Field(default=True, alias="poeticMode")
 
     model_config = {"populate_by_name": True}
 
@@ -89,6 +97,16 @@ class Shot(BaseModel):
     # normalizes for downstream consumers.
     vgai_dropped_attrs_with_reason: list[str] | dict[str, str]
     final_prompt: str
+    # Optional per-shot aspect ratio. If None, render_image uses default "16:9".
+    # Agent can set e.g. "9:16" for vertical story panels.
+    aspect_ratio: str | None = None
+    # Optional anchor reference. Format: "<character_name>:<body|face>". When set,
+    # render_image loads the anchor PNG + passes it as image_url to Grok Imagine
+    # for identity lock across the story. None = text-to-image (no reference).
+    anchor_ref: str | None = None
+    # Which characters appear in this shot (for multi-char VGAI validation).
+    # If omitted, validator assumes single-char and uses the POV.
+    characters_in_frame: list[str] = Field(default_factory=list)
 
 class ShotList(BaseModel):
     beat_id: str

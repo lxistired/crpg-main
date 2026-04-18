@@ -49,6 +49,91 @@ def test_wardrobe_item_covers_persisted():
     parsed = WardrobeItem.model_validate_json(blob)
     assert parsed.covers == ["toes", "foot_top"]
 
+
+def test_wardrobe_item_visual_description_defaults_empty():
+    item = WardrobeItem(name="sandals", anchor="foot")
+    assert item.visual_description == ""
+    assert item.disambiguation_layers == []
+
+
+def test_wardrobe_item_visual_description_persisted():
+    item = WardrobeItem(
+        name="sheer_black_tights",
+        anchor="leg",
+        visual_description="sheer black nylon stocking covering entire leg, 15 denier, slight sheen, skin tone visible through translucent mesh",
+        disambiguation_layers=[
+            "upper boundary: meets pencil skirt hem at mid-thigh",
+            "NOT opaque black; skin visible through mesh",
+            "NOT pantyhose with visible waist band",
+        ],
+    )
+    blob = item.model_dump_json()
+    parsed = WardrobeItem.model_validate_json(blob)
+    assert "sheer black nylon" in parsed.visual_description
+    assert len(parsed.disambiguation_layers) == 3
+
+
+def test_story_meta_poetic_mode_default_true():
+    from crpg.types import StoryMeta
+    m = StoryMeta.model_validate({
+        "title": "t", "genre": "noir", "contentLength": "short",
+        "detailRichness": "detailed", "structure": "bifurcating",
+    })
+    assert m.poetic_mode is True
+
+
+def test_story_meta_poetic_mode_alias_roundtrip():
+    from crpg.types import StoryMeta
+    m = StoryMeta.model_validate({
+        "title": "t", "genre": "noir", "contentLength": "short",
+        "detailRichness": "detailed", "structure": "bifurcating",
+        "poeticMode": False,
+    })
+    assert m.poetic_mode is False
+    dumped = m.model_dump(by_alias=True)
+    assert dumped["poeticMode"] is False
+    assert "poetic_mode" not in dumped
+
+
+def test_shot_aspect_ratio_optional():
+    from crpg.types import Shot
+    s = Shot(
+        shot_id="s1", camera_framing="ms_waist_up", pose="p",
+        wardrobe_state_used="s", vgai_injected_attrs=[],
+        vgai_dropped_attrs_with_reason=[], final_prompt="x",
+        aspect_ratio="9:16",
+    )
+    assert s.aspect_ratio == "9:16"
+    # default None
+    s2 = Shot(
+        shot_id="s2", camera_framing="cu_face", pose="p",
+        wardrobe_state_used="s", vgai_injected_attrs=[],
+        vgai_dropped_attrs_with_reason=[], final_prompt="x",
+    )
+    assert s2.aspect_ratio is None
+
+
+def test_shot_anchor_ref_optional():
+    from crpg.types import Shot
+    s = Shot(
+        shot_id="s1", camera_framing="cu_face", pose="p",
+        wardrobe_state_used="s", vgai_injected_attrs=[],
+        vgai_dropped_attrs_with_reason=[], final_prompt="x",
+        anchor_ref="su_wan:face",
+    )
+    assert s.anchor_ref == "su_wan:face"
+
+
+def test_shot_characters_in_frame():
+    from crpg.types import Shot
+    s = Shot(
+        shot_id="s1", camera_framing="three_quarter_knee_up", pose="p",
+        wardrobe_state_used="s", vgai_injected_attrs=[],
+        vgai_dropped_attrs_with_reason=[], final_prompt="x",
+        characters_in_frame=["su_wan", "kai"],
+    )
+    assert s.characters_in_frame == ["su_wan", "kai"]
+
 def test_shot_dropped_accepts_list_and_dict():
     """Different LLMs emit dropped_attrs in different shapes; both must parse."""
     # List-of-strings form (glm-5.1, nemotron, qwen3-max-thinking)

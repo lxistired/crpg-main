@@ -157,3 +157,32 @@ def test_occlusion_gate_bare_covers_item_no_false_positive(char_with_occlusion):
     )
     violations = validate_shot(s, char)
     assert all(v.kind != "occlusion" for v in violations)
+
+
+def test_multi_character_attrs_not_unknown(char):
+    """When a shot contains 2 chars, the 2nd char's attrs shouldn't be unknown_attr."""
+    kai = Character(
+        base=Base(age=32, ethnicity="Chinese", hair="short black", skin="tanned",
+                  eyes="black", jaw="squared"),
+        persistent_grooming=[],
+        wardrobe_states={"evening": WardrobeState(items=[
+            WardrobeItem(name="dark_trousers", anchor="torso"),
+            WardrobeItem(name="white_dress_shirt", anchor="torso"),
+        ])},
+    )
+    s = Shot(
+        shot_id="s_multi", camera_framing="three_quarter_knee_up",
+        pose="two figures under umbrella",
+        wardrobe_state_used="public_formal",
+        vgai_injected_attrs=[
+            "black_pencil_skirt", "red_lipstick",  # Su Wan
+            "dark_trousers", "white_dress_shirt",   # Kai
+        ],
+        vgai_dropped_attrs_with_reason=[],
+        final_prompt="...",
+        characters_in_frame=["su_wan", "kai"],
+    )
+    violations = validate_shot(s, char, extra_characters={"kai": kai})
+    # Must NOT flag Kai's items as unknown_attr
+    unknown = [v for v in violations if v.kind == "unknown_attr"]
+    assert unknown == [], f"false unknown_attr on multi-char shot: {unknown}"
