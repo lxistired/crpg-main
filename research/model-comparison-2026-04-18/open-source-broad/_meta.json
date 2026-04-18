@@ -1,0 +1,242 @@
+[
+  {
+    "ok": true,
+    "model": "z-ai/glm-5.1",
+    "task": "director",
+    "chars": 4914,
+    "elapsed": 65.40151977539062,
+    "prompt_tokens": 721,
+    "completion_tokens": 3937,
+    "cost": 0.0183322
+  },
+  {
+    "ok": true,
+    "model": "z-ai/glm-5.1",
+    "task": "script",
+    "chars": 2353,
+    "elapsed": 57.89931893348694,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.036075
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.6-plus",
+    "task": "director",
+    "chars": 5912,
+    "elapsed": 136.24842500686646,
+    "prompt_tokens": 749,
+    "completion_tokens": 7437,
+    "cost": 0.014745575
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.6-plus",
+    "task": "script",
+    "chars": 1939,
+    "elapsed": 130.07203197479248,
+    "prompt_tokens": 661,
+    "completion_tokens": 7132,
+    "cost": 0.014122225
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.5-397b-a17b",
+    "task": "director",
+    "chars": 5472,
+    "elapsed": 71.35717582702637,
+    "prompt_tokens": 749,
+    "completion_tokens": 7004,
+    "cost": 0.0256638
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.5-397b-a17b",
+    "task": "script",
+    "chars": 461,
+    "elapsed": 273.5156319141388,
+    "prompt_tokens": 661,
+    "completion_tokens": 8000,
+    "cost": 0.01897779
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3-max-thinking",
+    "task": "director",
+    "chars": 7880,
+    "elapsed": 61.17623782157898,
+    "prompt_tokens": 750,
+    "completion_tokens": 1967,
+    "cost": 0.0082563
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3-max-thinking",
+    "task": "script",
+    "chars": 1736,
+    "elapsed": 42.94964408874512,
+    "prompt_tokens": 687,
+    "completion_tokens": 1335,
+    "cost": 0.00574236
+  },
+  {
+    "ok": true,
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "task": "director",
+    "chars": 5986,
+    "elapsed": 78.84525513648987,
+    "prompt_tokens": 867,
+    "completion_tokens": 1565,
+    "cost": 0.00078228
+  },
+  {
+    "ok": true,
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "task": "script",
+    "chars": 14105,
+    "elapsed": 36.884347915649414,
+    "prompt_tokens": 880,
+    "completion_tokens": 8000,
+    "cost": 0.004088
+  },
+  {
+    "ok": true,
+    "model": "mistralai/mistral-large-2512",
+    "task": "director",
+    "chars": 5360,
+    "elapsed": 21.421549081802368,
+    "prompt_tokens": 846,
+    "completion_tokens": 1452,
+    "cost": 0.002601
+  },
+  {
+    "ok": true,
+    "model": "mistralai/mistral-large-2512",
+    "task": "script",
+    "chars": 2673,
+    "elapsed": 66.17895078659058,
+    "prompt_tokens": 869,
+    "completion_tokens": 2663,
+    "cost": 0.004429
+  },
+  {
+    "ok": true,
+    "model": "mistralai/mistral-small-creative",
+    "task": "director",
+    "chars": 3472,
+    "elapsed": 8.595399141311646,
+    "prompt_tokens": 846,
+    "completion_tokens": 928,
+    "cost": 0.000363
+  },
+  {
+    "ok": true,
+    "model": "mistralai/mistral-small-creative",
+    "task": "script",
+    "chars": 2082,
+    "elapsed": 17.3621187210083,
+    "prompt_tokens": 869,
+    "completion_tokens": 2023,
+    "cost": 0.0006938
+  },
+  {
+    "ok": true,
+    "model": "moonshotai/kimi-k2-thinking",
+    "task": "director",
+    "chars": 5348,
+    "elapsed": 359.4531719684601,
+    "prompt_tokens": 711,
+    "completion_tokens": 6649,
+    "cost": 0.0170491
+  },
+  {
+    "ok": true,
+    "model": "moonshotai/kimi-k2-thinking",
+    "task": "script",
+    "chars": 4224,
+    "elapsed": 447.57292890548706,
+    "prompt_tokens": 587,
+    "completion_tokens": 11598,
+    "cost": 0.0293472
+  },
+  {
+    "ok": true,
+    "model": "moonshotai/kimi-k2.5",
+    "task": "director",
+    "chars": 5974,
+    "elapsed": 116.96655297279358,
+    "prompt_tokens": 712,
+    "completion_tokens": 6334,
+    "cost": 0
+  },
+  {
+    "ok": true,
+    "model": "moonshotai/kimi-k2.5",
+    "task": "script",
+    "chars": 1625,
+    "elapsed": 41.23382019996643,
+    "prompt_tokens": 588,
+    "completion_tokens": 2644,
+    "cost": 0
+  },
+  {
+    "ok": true,
+    "model": "stepfun/step-3.5-flash",
+    "task": "director",
+    "chars": 5108,
+    "elapsed": 106.77288293838501,
+    "prompt_tokens": 754,
+    "completion_tokens": 7172,
+    "cost": 0.002227
+  },
+  {
+    "ok": true,
+    "model": "stepfun/step-3.5-flash",
+    "task": "script",
+    "chars": 2979,
+    "elapsed": 132.63264417648315,
+    "prompt_tokens": 623,
+    "completion_tokens": 3974,
+    "cost": 0.0012545
+  },
+  {
+    "ok": true,
+    "model": "deepseek/deepseek-v3.2-speciale",
+    "task": "director",
+    "chars": 32037,
+    "elapsed": 341.63139605522156,
+    "prompt_tokens": 741,
+    "completion_tokens": 8000,
+    "cost": 0.0098964
+  },
+  {
+    "ok": true,
+    "model": "deepseek/deepseek-v3.2-speciale",
+    "task": "script",
+    "chars": 12422,
+    "elapsed": 365.6571319103241,
+    "prompt_tokens": 610,
+    "completion_tokens": 8000,
+    "cost": 0.009844
+  },
+  {
+    "ok": true,
+    "model": "minimax/minimax-m2.5",
+    "task": "director",
+    "chars": 3689,
+    "elapsed": 41.42527508735657,
+    "prompt_tokens": 796,
+    "completion_tokens": 1483,
+    "cost": 0.001561862
+  },
+  {
+    "ok": true,
+    "model": "minimax/minimax-m2.5",
+    "task": "script",
+    "chars": 2380,
+    "elapsed": 27.624634742736816,
+    "prompt_tokens": 580,
+    "completion_tokens": 1892,
+    "cost": 0.0023574
+  }
+]

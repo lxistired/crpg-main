@@ -1,0 +1,109 @@
+[
+  {
+    "shot_id": "shot_1_establishing",
+    "camera_framing": "ws_establishing",
+    "pose": "standing outside building",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [],
+    "vgai_dropped_attrs_with_reason": [
+      "red_lipstick: anchor face not in visible_regions",
+      "red_fingernails: anchor hand not in visible_regions",
+      "red_toenails: anchor foot not in visible_regions",
+      "black_pencil_skirt: anchor torso not in visible_regions",
+      "sheer_black_tights: anchor leg not in visible_regions",
+      "stocking_toes: anchor foot not in visible_regions",
+      "black_ankle_boots: anchor foot not in visible_regions"
+    ],
+    "final_prompt": "Cinematic wide shot of modern office building exterior near subway exit, flower shop stall nearby, Su Wan 28 Chinese female black long hair mid-part over shoulder fair skin brown eyes long lashes soft jawline standing in distance, urban evening lighting, photorealistic 8k"
+  },
+  {
+    "shot_id": "shot_2_ms_flower_shop",
+    "camera_framing": "ms_waist_up",
+    "pose": "standing looking at flowers",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_lipstick",
+      "red_fingernails",
+      "black_pencil_skirt"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "red_toenails: anchor foot not in visible_regions",
+      "sheer_black_tights: anchor leg not in visible_regions",
+      "stocking_toes: anchor foot not in visible_regions",
+      "black_ankle_boots: anchor foot not in visible_regions"
+    ],
+    "final_prompt": "Medium shot waist up of Su Wan 28 Chinese female black long hair mid-part over shoulder fair skin brown eyes long lashes soft jawline wearing red_lipstick red_fingernails black_pencil_skirt standing at flower shop stall holding bouquet, soft focus background, urban evening lighting, photorealistic 8k"
+  },
+  {
+    "shot_id": "shot_3_hand_ecu_card",
+    "camera_framing": "hand_ecu",
+    "pose": "hand receiving business card",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "red_lipstick: anchor face not in visible_regions",
+      "red_toenails: anchor foot not in visible_regions",
+      "black_pencil_skirt: anchor torso not in visible_regions",
+      "sheer_black_tights: anchor leg not in visible_regions",
+      "stocking_toes: anchor foot not in visible_regions",
+      "black_ankle_boots: anchor foot not in visible_regions"
+    ],
+    "final_prompt": "Extreme close-up of hand receiving business card from stranger, Su Wan 28 Chinese female black long hair mid-part over shoulder fair skin brown eyes long lashes soft jawline wearing red_fingernails, card details blurred, shallow depth of field, photorealistic 8k"
+  },
+  {
+    "shot_id": "shot_4_cu_face_tension",
+    "camera_framing": "cu_face",
+    "pose": "facial expression nervous",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_lipstick"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: anchor hand not in visible_regions",
+      "red_toenails: anchor foot not in visible_regions",
+      "black_pencil_skirt: anchor torso not in visible_regions",
+      "sheer_black_tights: anchor leg not in visible_regions",
+      "stocking_toes: anchor foot not in visible_regions",
+      "black_ankle_boots: anchor foot not in visible_regions"
+    ],
+    "final_prompt": "Close-up face of Su Wan 28 Chinese female black long hair mid-part over shoulder fair skin brown eyes long lashes soft jawline wearing red_lipstick expression tense and nervous eyes widening, soft cinematic lighting, photorealistic 8k"
+  },
+  {
+    "shot_id": "shot_5_hand_ecu_look",
+    "camera_framing": "hand_ecu",
+    "pose": "hand holding card looking",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "red_lipstick: anchor face not in visible_regions",
+      "red_toenails: anchor foot not in visible_regions",
+      "black_pencil_skirt: anchor torso not in visible_regions",
+      "sheer_black_tights: anchor leg not in visible_regions",
+      "stocking_toes: anchor foot not in visible_regions",
+      "black_ankle_boots: anchor foot not in visible_regions"
+    ],
+    "final_prompt": "Extreme close-up of hand holding business card, Su Wan 28 Chinese female black long hair mid-part over shoulder fair skin brown eyes long lashes soft jawline wearing red_fingernails card text visible, shallow depth of field, photorealistic 8k"
+  },
+  {
+    "shot_id": "shot_6_back_walk",
+    "camera_framing": "back_reveal_walking",
+    "pose": "walking away back view",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails",
+      "black_pencil_skirt",
+      "sheer_black_tights",
+      "black_ankle_boots"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "red_lipstick: anchor face not in visible_regions",
+      "red_toenails: anchor foot obscured by footwear",
+      "stocking_toes: mutex conflict resolved to black_ankle_boots"
+    ],
+    "final_prompt": "Back view full body shot of Su Wan 28 Chinese female black long hair mid-part over shoulder fair skin brown eyes long lashes soft jawline walking away wearing red_fingernails black_pencil_skirt sheer_black_tights black_ankle_boots subway exit background motion blur, urban evening lighting, photorealistic 8k"
+  }
+]

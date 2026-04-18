@@ -1,0 +1,261 @@
+We need to generate 6 shots based on the story snippet, with state public_formal. We need to follow VGAI rules: attributes only injected if anchor body region is in framing.visible_regions. We have framing definitions: cu_face, ms_waist_up, three_quarter_knee_up, full_body_standing, feet_ecu, hand_ecu, back_reveal_walking, ws_establishing.
+
+We need to produce shot list: 
+1. establishing (ws_establishing) - likely wide shot of her leaving office building? Or establishing the scene? The story says: "Su Wan 下班走出写字楼。她在地铁出口花店停下看花。" So establishing shot could be wide of the street, building, maybe her walking out? But ws_establishing visible_regions empty, so no attributes injected. However, we still need to include base identity? The final prompt should include base description but vgai_injected_attrs only grooming+wardrobe. In establishing, probably she is visible but far away, so we might still describe her appearance? But according to rules, ws_establishing has visible_regions empty, so we should not inject any attributes because none of the anchors are visible. But base identity (age, gender, hair, skin, eyes) could still be mentioned? The instruction: "base 身份（发/肤/眼等）写在 final_prompt 里但**不**列入 vgai_injected_attrs". So we can include base identity in final prompt even if no attributes injected? Possibly yes, because base identity is always there regardless of framing? But the VGAI rules say "属性只在 anchor 身体区域在 framing.visible_regions 里时写入。" That refers to attributes (grooming, wardrobe). The base identity (like black long hair, fair skin, brown eyes) might be considered part of character description, not an attribute subject to VGAI? The prompt: "你是一名 Director LLM，把小说片段翻译为 Grok Imagine Pro 的生图 prompts." And we have "base 身份，永远在 prompt 里，不算 injected attr". So yes, base identity always included. So for establishing, we can describe her from a distance: "Su Wan, a 28-year-old Chinese woman with long black hair, fair skin, brown eyes, wearing a formal outfit (black pencil skirt, sheer black tights, black ankle boots, red fingernails, red toenails, red lipstick) walking out of an office building." But careful: In establishing, visible_regions empty, so we should not inject grooming/wardrobe attributes because they might not be visible. But base identity is fine. However, the final prompt should be a detailed description for image generation. If we include wardrobe details even though it's a wide shot where they might not be discernible, it's okay? The VGAI rules say we should only inject attributes if the anchor is visible. So for ws_establishing, visible_regions is empty, so we should not inject any of those attributes. That means we should not mention red fingernails, toenails, lipstick, skirt, tights, boots, etc. But we can still mention she's wearing a formal outfit? Possibly we can keep a generic description like "business attire" but not specific items? The base identity includes "public_formal" wardrobe state, but that is a state, not an attribute per se. The attributes are the specific items. According to the rules, we should only inject them if visible. So for establishing, we should not mention them. However, the final prompt should be coherent; we can say "Su Wan, a young Chinese woman in business attire, exits an office building." That doesn't specify details. That would be acceptable. But the instruction says: "base 身份（发/肤/眼等）写在 final_prompt 里但**不**列入 vgai_injected_attrs". So we include base identity. The wardrobe state is not base; it's part of the current state. But we might need to convey that she's in public_formal, but not inject specifics. I think we should follow VGAI strictly: only include attributes if their anchor is in visible_regions. For establishing, none are visible, so vgai_injected_attrs = [] and we don't mention those specifics. But we can still mention she's dressed formally? Possibly as part of the scene: "wearing a black pencil skirt and blouse"? That would be injecting attributes. So better to avoid. We can say "Su Wan, a 28-year-old Chinese woman with long black hair, fair skin, brown eyes, wearing professional attire, walks out of a modern office building." That is generic. That should be fine. But note: the base identity includes "黑长发过肩中分，肤白皙，棕眸长睫毛，柔软下颌线". So we can include that. And we can mention she's in a business outfit without specifics. That's not an attribute; it's just a general description. However, the system might consider "professional attire" as derived from the wardrobe_state, but it's not a specific attribute. I think it's okay.
+
+But we need to produce JSON with vgai_injected_attrs (list of attribute keys) and vgai_dropped_attrs_with_reason (list of objects with attr and reason). For establishing, all attributes would be dropped because visible_regions empty. However, we also have mutex groups to consider. But since none injected, no mutex conflict.
+
+Now shot 2: MS 花店 (ms_waist_up). visible_regions: [face, ear, neck, torso, hand]. So anchors: face, ear, neck, torso, hand. So we can inject attributes whose anchors are among these. Let's list all attributes from grooming and wardrobe:
+
+Grooming:
+- red_fingernails (anchor: hand) -> visible? hand is in visible_regions, yes.
+- red_toenails (anchor: foot, sub_anchor: foot_top) -> foot not visible, drop.
+- red_lipstick (anchor: face) -> face visible, but removable_by: intimate_moment / showering. Not relevant, so keep.
+
+Wardrobe public_formal:
+- black_pencil_skirt (anchor: torso) -> torso visible? Yes, ms_waist_up includes torso. But careful: torso includes both upper body and lower? In framing, ms_waist_up: [face, ear, neck, torso, hand]. Torso likely means the upper body down to waist, but skirt is on lower body? Actually black_pencil_skirt anchor: torso? In the given list, black_pencil_skirt anchor: torso. But is skirt anchored to torso? That seems odd; maybe it's anchored to leg? Let's check: earlier it says: "black_pencil_skirt (anchor: torso)" indeed. That might be a mistake, but we follow given. So if anchor is torso, then it's visible in ms_waist_up. So we inject.
+- sheer_black_tights (anchor: leg) -> leg not visible (ms_waist_up doesn't include leg), so drop.
+- stocking_toes (anchor: foot) -> foot not visible, drop.
+- black_ankle_boots (anchor: foot) -> foot not visible, drop.
+
+Also mutex groups: [stocking_toes, black_ankle_boots] and [sheer_black_tights, bare_legs]. Since none of these are injected, no conflict.
+
+But we also have to consider sub_anchors? For red_toenails sub_anchor foot_top, but foot not visible anyway.
+
+Now, we need to ensure that if an attribute anchor is in visible_regions, we inject it unless explicitly dropped due to pose hiding. The pose for shot 2: "MS 花店" - medium shot at waist-up, she is stopping at flower shop looking at flowers. Pose likely standing, facing forward, maybe hands visible? The pose does not hide any of those anchors. So we inject all that are visible.
+
+Thus vgai_injected_attrs for shot 2: ["red_fingernails", "red_lipstick", "black_pencil_skirt"].
+
+But wait: red_lipstick is grooming, anchor face, so yes.
+
+But we also have base identity: hair, skin, eyes, etc.
+
+Now we need to check mutex groups: none of the injected are in mutex groups.
+
+Now shot 3: 手接名片 ECU (hand_ecu). visible_regions: [hand]. So only hand anchor is visible. So we can inject attributes with anchor hand. That includes red_fingernails. Also, maybe other attributes? Could hand be holding the business card? So we inject red_fingernails. Also, note: hand_ecu is extreme close-up of hand, so only hand visible. So we should not inject any other attributes, even if they might be partially visible (like sleeve? but sleeve not an attribute). So vgai_injected_attrs: ["red_fingernails"]. Also, note: red_lipstick not visible, black_pencil_skirt not visible, etc.
+
+Now shot 4: CU 面部紧张 (cu_face). visible_regions: [face, ear, neck]. So anchors: face, ear, neck. Attributes: red_lipstick (face) is visible. Also, maybe earrings? Not in attributes. So vgai_injected_attrs: ["red_lipstick"]. Also, base identity includes facial features. Also, note: red_fingernails not visible. So only red_lipstick.
+
+Shot 5: 手看名片 ECU (hand_ecu again). Similar to shot 3, but maybe different context: she is looking at the business card in her hand. Still hand_ecu, so same injected: ["red_fingernails"].
+
+Shot 6: 离开背影 (back_reveal_walking). Framing: back_reveal_walking. visible_regions: [torso_back, hand, leg, foot]. So anchors: torso_back (which is back of torso), hand, leg, foot. So we need to inject attributes whose anchors are among these. Let's list attributes with their anchors:
+
+- red_fingernails (hand) -> hand visible, inject.
+- red_toenails (foot) -> foot visible? Yes, foot is in visible_regions. But sub_anchor foot_top? The visible region foot includes top? Probably yes. So inject red_toenails.
+- red_lipstick (face) -> face not visible (back), drop.
+- black_pencil_skirt (anchor: torso) -> is torso_back considered part of torso? The anchor is torso, which includes both front and back? The visible region is torso_back, which is a subset of torso. According to VGAI rules, we need to check if anchor body region is in framing.visible_regions. Here visible_regions includes torso_back. Is torso_back considered a part of torso? Yes, it's the back of torso. So the attribute's anchor (torso) includes that region. So we should inject black_pencil_skirt, because the skirt is on the lower part of torso? Actually skirt covers the lower torso and hips. In a back view, the skirt would be visible. So inject.
+- sheer_black_tights (anchor: leg) -> leg visible, inject.
+- stocking_toes (anchor: foot) -> foot visible, inject? But note mutex with black_ankle_boots.
+- black_ankle_boots (anchor: foot) -> foot visible, but mutex with stocking_toes.
+
+Now we need to handle mutex groups. There are two mutex groups: 
+1. [stocking_toes, black_ankle_boots] - only one can be injected.
+2. [sheer_black_tights, bare_legs] - bare_legs is not an attribute listed? Actually bare_legs might be a default if no tights? But we have sheer_black_tights as attribute. The mutex group says sheer_black_tights and bare_legs are mutually exclusive. Since we are in public_formal state, we have sheer_black_tights. So we will inject sheer_black_tights. There's no bare_legs attribute to consider, so no conflict.
+
+But for group 1, both stocking_toes and black_ankle_boots are attributes. In public_formal state, both are present? Actually wardrobe state includes both? The given: wardrobe state: public_formal includes: black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots. But those are all listed. However, they are mutually exclusive? That seems contradictory: stocking_toes and black_ankle_boots cannot both be worn simultaneously? Actually you could wear stockings and ankle boots, but the toes might be covered by boots, so maybe not visible. But the mutex group indicates they cannot both be present in the same shot because they conflict (boots cover toes). So we need to choose which one to inject based on visibility and pose. In back_reveal_walking, both foot and leg are visible. The boots would cover the foot and part of leg. If she is wearing ankle boots, then the stocking_toes might not be visible because covered by boots. However, the attribute stocking_toes might refer to the toes of stockings, which would be hidden if boots cover them. So we need to decide which is visible based on the pose and framing. In back_reveal_walking, she is walking away, so we see her from behind. She is wearing black ankle boots, so the boots cover her feet. Therefore, the stocking_toes are not visible (they are inside boots). So we should drop stocking_toes and keep black_ankle_boots. Also, we need to consider mutex: if both anchors are in visible_regions, we must choose the visually dominant one. In this case, boots cover toes, so boots are dominant. So we will inject black_ankle_boots and drop stocking_toes. Additionally, we should check if sheer_black_tights are visible? She is wearing tights, but if she is wearing boots, the tights might be visible on the legs above the boots. So yes, sheer_black_tights on legs are visible. So inject sheer_black_tights.
+
+Now also red_toenails: anchor foot, but if she is wearing boots, the toenails are not visible because covered. So we should drop red_toenails because it's not visible. The rule: attribute only injected if anchor body region is in visible_regions. The anchor foot is in visible_regions, but the attribute may be hidden by clothing (boots). The VGAI rules say we should not use negation, but we must decide based on visibility. The anchor foot is visible, but the specific attribute red_toenails is on the foot, but if foot is covered by boots, it's not visible. So we need to drop it. The rule: "属性只在 anchor 身体区域在 framing.visible_regions 里时写入。" That means if the anchor body region is in visible_regions, we write the attribute. But that doesn't account for occlusion by clothing. However, the mutex groups handle conflicts like boots vs stockings. For red_toenails, there is no mutex, but we need to consider if the foot is actually visible (skin) or covered. Since she is wearing boots, the foot is not bare; the boots cover it. So red_toenails would not be visible. Should we drop it? The VGAI rules say: "姿势暗示某个 anchor '可能'在画面内 → 默认保留属性。以下理由不足以 drop: pose-dependent / may not be primary focus / not guaranteed / depends on framing。只在姿势明确隐藏 anchor 时 drop（pure sole-view / 头发完全遮耳 / 完全被物体遮挡）。不确定 → KEEP." So we need to determine if the pose/framing explicitly hides the anchor. In back_reveal_walking, she is wearing ankle boots, which cover the feet. The anchor foot is present, but the attribute red_toenails is on the toenails, which are covered by boots. Is that "完全被物体遮挡"? Yes, the boots are an object that fully covers the feet. So we can drop red_toenails. Similarly, stocking_toes are also covered by boots, so drop. So we will drop red_toenails and stocking_toes, and keep black_ankle_boots.
+
+Now we also need to consider if black_ankle_boots are visible. The anchor foot is visible, but the boots cover the foot. The attribute is the boots themselves, so they are visible. So we keep.
+
+Now for sheer_black_tights: anchor leg, visible? Legs are visible, but the boots cover the lower part of legs? Ankle boots cover ankle and lower part, but the tights are visible on the calf and thigh. So they are partially visible, so we keep.
+
+Now for black_pencil_skirt: anchor torso, visible? Yes, from back, the skirt is visible.
+
+Now for red_fingernails: hand visible, keep.
+
+Now also note: we have base identity, but from back, face not visible, so we don't describe facial features? Actually base identity includes hair (long black hair) which would be visible from back. So we can include that. Also skin tone on neck maybe not visible? But we can still mention she has fair skin? Possibly not visible, but base identity is always included regardless? The instruction: "base 身份（发/肤/眼等）写在 final_prompt 里但**不**列入 vgai_injected_attrs". It says base identity always in prompt, regardless of framing? It says "永远在 prompt 里". So we should include all base identity details even if not visible? That might be odd for back view: we would mention she has brown eyes? That would not be visible. But the instruction says always include. So we must include them. However, in image generation, including invisible details might not harm. So we will include.
+
+Now we need to produce JSON array with shot_id, camera_framing, pose, wardrobe_state_used, vgai_injected_attrs, vgai_dropped_attrs_with_reason, final_prompt.
+
+We need to define shot_id as numbers or strings? Probably 1,2,3,4,5,6.
+
+camera_framing: use the framing names as given: "ws_establishing", "ms_waist_up", "hand_ecu", "cu_face", "hand_ecu", "back_reveal_walking".
+
+pose: descriptive text based on the shot. We need to write a short phrase describing the pose.
+
+wardrobe_state_used: "public_formal" for all shots (since state is same throughout).
+
+vgai_injected_attrs: list of attribute keys (strings) that are injected.
+
+vgai_dropped_attrs_with_reason: list of objects: {"attr": "attr_key", "reason": "explanation"}. We should include all attributes that are in the state but not injected, with reason. But we need to be selective: we should list only those that are not injected due to visibility or mutex, but also note that some attributes may be dropped because anchor not in visible_regions, or because hidden by clothing/pose, or mutex conflict. We should provide reasons accordingly.
+
+We need to follow the VGAI rules: default keep if anchor in visible_regions, unless explicitly hidden. So for each shot, we should list all attributes from grooming + wardrobe that are in the state but not injected, with reason.
+
+Let's list all attributes in state:
+
+Grooming: red_fingernails, red_toenails, red_lipstick.
+Wardrobe: black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots.
+
+Total 7 attributes.
+
+For each shot, we determine which are injected and which are dropped with reason.
+
+We also need to consider mutex groups when both are in visible_regions, we choose one and drop the other with reason "mutex conflict, visually dominant attribute kept". For back view, we will drop stocking_toes because black_ankle_boots is dominant.
+
+Also, for red_toenails, we drop because "covered by boots" or "anchor not visible"? Actually anchor foot is visible, but attribute is hidden by boots. So reason: "foot covered by ankle boots, not visible".
+
+For establishing, all dropped because visible_regions empty: reason "anchor not in visible_regions" for each? But we could group? The output expects list of objects for each dropped attr. We can list each with reason "framing does not include anchor region". However, that would be 7 entries. That's okay.
+
+But we need to ensure that base identity is not listed in these lists (since not injected attr).
+
+Now we need to craft final_prompt for each shot. The prompt should be a detailed description for image generation, in English? The original is Chinese, but the output prompts are likely in English for Grok Imagine Pro? The instruction: "把小说片段翻译为 Grok Imagine Pro 的生图 prompts." It says translate the novel fragment into prompts. So we should output English prompts. We'll write in English.
+
+We need to incorporate the scene description, the action, the character appearance (base identity + injected attributes), and the framing.
+
+We should also include the environment details: office building, flower shop, etc.
+
+We need to be careful with the style: we are generating prompts for an AI image generator, so we should be descriptive but concise, and avoid negation.
+
+We should follow the VGAI rules: no negation, no "not X", no "without". So we describe what is visible.
+
+Now let's design each shot.
+
+First, identify the 6 shots as described:
+
+1. establishing - likely wide shot of the scene: Su Wan leaving office building. Could be a wide angle showing the building, street, maybe her walking out. Framing: ws_establishing. Visible_regions empty. So we describe the environment, her general appearance (base identity) but not specific attributes.
+
+Prompt: "Wide establishing shot of a modern office building at dusk. Su Wan, a 28-year-old Chinese woman with long black hair, fair skin, and brown eyes, wearing professional business attire, walks out of the building, carrying a handbag. The street is busy with people and traffic. The atmosphere is urban and professional."
+
+We should not mention red nails, lipstick, skirt details, etc.
+
+2. MS 花店 - medium shot waist-up at the flower shop. She stops to look at flowers. We can see her torso and hands. So we include injected attributes: red_fingernails, red_lipstick, black_pencil_skirt. Also base identity. Also maybe the flower shop environment.
+
+Prompt: "Medium shot (waist-up) of Su Wan at a flower stall near a subway exit. She is wearing a black pencil skirt and a white blouse (or professional top). Her long black hair is parted in the middle, fair skin, brown eyes with long eyelashes. She has red lipstick and red fingernails. She is looking at the colorful flowers with a slight smile, her hands gently touching a bouquet. The background shows the flower stall with various blooms, the subway entrance, and people passing by."
+
+But we need to be careful: we haven't defined a top. The wardrobe state public_formal likely includes a blouse or something, but it's not specified. We can assume she wears a white blouse or formal top. That's not an attribute, so we can add generic.
+
+3. 手接名片 ECU - extreme close-up of hand receiving a business card from a stranger. We see her hand with red fingernails, the business card being handed over. Possibly also the stranger's hand. So we focus on the hand.
+
+Prompt: "Extreme close-up of a hand with red fingernails receiving a business card from a stranger's hand. The card is white with black text. The hand is feminine, with well-manicured red nails. The stranger's hand is masculine, holding the card. The background is blurred."
+
+We need to include base identity? Possibly we can mention it's Su Wan's hand, but in ECU, we don't see her face. But we can say "Su Wan's hand" to identify. Base identity includes that she is a Chinese woman, but not needed. We can just say "Su Wan's hand". However, base identity is always in prompt, so we could include "Su Wan's hand" but not describe facial features. That's fine.
+
+4. CU 面部紧张 - close-up of face showing tension. She has red lipstick, and facial expression tense.
+
+Prompt: "Close-up of Su Wan's face. She has long black hair, fair skin, brown eyes with long eyelashes, red lipstick. Her expression is tense, eyes slightly wide, lips parted, showing nervousness. The background is blurred, with the flower stall and people out of focus."
+
+5. 手看名片 ECU - hand holding the business card, looking at it. Similar to shot 3 but maybe different angle or the card is being examined.
+
+Prompt: "Extreme close-up of Su Wan's hand holding a business card, red fingernails visible. She is turning the card slightly, reading it. The card shows text. The background is blurred."
+
+6. 离开背影 - back reveal walking away. She walks away, we see her from behind, long black hair, black pencil skirt, sheer black tights, black ankle boots, red fingernails (maybe hands visible as she walks). She is walking away, perhaps with the business card in hand.
+
+Prompt: "Back view of Su Wan walking away. She has long black hair flowing down her back. She is wearing a black pencil skirt, sheer black tights, and black ankle boots. Her red fingernails are visible as she holds a business card. The street is busy, the flower stall is in the background. She is walking with a determined stride."
+
+We should not mention red toenails or stocking toes because they are not visible.
+
+Now, we need to produce JSON with the fields.
+
+Let's structure:
+
+[
+  {
+    "shot_id": 1,
+    "camera_framing": "ws_establishing",
+    "pose": "Su Wan exits the office building, walking, carrying a handbag",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_fingernails", "reason": "anchor hand not in visible_regions"},
+      {"attr": "red_toenails", "reason": "anchor foot not in visible_regions"},
+      {"attr": "red_lipstick", "reason": "anchor face not in visible_regions"},
+      {"attr": "black_pencil_skirt", "reason": "anchor torso not in visible_regions"},
+      {"attr": "sheer_black_tights", "reason": "anchor leg not in visible_regions"},
+      {"attr": "stocking_toes", "reason": "anchor foot not in visible_regions"},
+      {"attr": "black_ankle_boots", "reason": "anchor foot not in visible_regions"}
+    ],
+    "final_prompt": "Wide establishing shot of a modern office building at dusk. Su Wan, a 28-year-old Chinese woman with long black hair, fair skin, and brown eyes, wearing professional business attire, walks out of the building, carrying a handbag. The street is busy with people and traffic. The atmosphere is urban and professional."
+  },
+  {
+    "shot_id": 2,
+    "camera_framing": "ms_waist_up",
+    "pose": "Su Wan standing at flower stall, looking at flowers, hands touching bouquet",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "anchor foot not in visible_regions"},
+      {"attr": "sheer_black_tights", "reason": "anchor leg not in visible_regions"},
+      {"attr": "stocking_toes", "reason": "anchor foot not in visible_regions"},
+      {"attr": "black_ankle_boots", "reason": "anchor foot not in visible_regions"}
+    ],
+    "final_prompt": "Medium shot (waist-up) of Su Wan at a flower stall near a subway exit. She is wearing a black pencil skirt and a white blouse. Her long black hair is parted in the middle, fair skin, brown eyes with long eyelashes. She has red lipstick and red fingernails. She is looking at the colorful flowers with a slight smile, her hands gently touching a bouquet. The background shows the flower stall with various blooms, the subway entrance, and people passing by."
+  },
+  {
+    "shot_id": 3,
+    "camera_framing": "hand_ecu",
+    "pose": "close-up of Su Wan's hand receiving a business card from a stranger",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "anchor foot not in visible_regions"},
+      {"attr": "red_lipstick", "reason": "anchor face not in visible_regions"},
+      {"attr": "black_pencil_skirt", "reason": "anchor torso not in visible_regions"},
+      {"attr": "sheer_black_tights", "reason": "anchor leg not in visible_regions"},
+      {"attr": "stocking_toes", "reason": "anchor foot not in visible_regions"},
+      {"attr": "black_ankle_boots", "reason": "anchor foot not in visible_regions"}
+    ],
+    "final_prompt": "Extreme close-up of Su Wan's hand with red fingernails receiving a business card from a stranger's hand. The card is white with black text. The hand is feminine, with well-manicured red nails. The stranger's hand is masculine, holding the card. The background is blurred."
+  },
+  {
+    "shot_id": 4,
+    "camera_framing": "cu_face",
+    "pose": "close-up of Su Wan's face, tense expression",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_fingernails", "reason": "anchor hand not in visible_regions"},
+      {"attr": "red_toenails", "reason": "anchor foot not in visible_regions"},
+      {"attr": "black_pencil_skirt", "reason": "anchor torso not in visible_regions"},
+      {"attr": "sheer_black_tights", "reason": "anchor leg not in visible_regions"},
+      {"attr": "stocking_toes", "reason": "anchor foot not in visible_regions"},
+      {"attr": "black_ankle_boots", "reason": "anchor foot not in visible_regions"}
+    ],
+    "final_prompt": "Close-up of Su Wan's face. She has long black hair, fair skin, brown eyes with long eyelashes, red lipstick. Her expression is tense, eyes slightly wide, lips parted, showing nervousness. The background is blurred, with the flower stall and people out of focus."
+  },
+  {
+    "shot_id": 5,
+    "camera_framing": "hand_ecu",
+    "pose": "close-up of Su Wan's hand holding and examining the business card",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "anchor foot not in visible_regions"},
+      {"attr": "red_lipstick", "reason": "anchor face not in visible_regions"},
+      {"attr": "black_pencil_skirt", "reason": "anchor torso not in visible_regions"},
+      {"attr": "sheer_black_tights", "reason": "anchor leg not in visible_regions"},
+      {"attr": "stocking_toes", "reason": "anchor foot not in visible_regions"},
+      {"attr": "black_ankle_boots", "reason": "anchor foot not in visible_regions"}
+    ],
+    "final_prompt": "Extreme close-up of Su Wan's hand holding a business card, red fingernails visible. She is turning the card slightly, reading it. The card shows text. The background is blurred."
+  },
+  {
+    "shot_id": 6,
+    "camera_framing": "back_reveal_walking",
+    "pose": "Su Wan walking away from camera, back view, holding business card",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "covered by ankle boots, not visible"},
+      {"attr": "red_lipstick", "reason": "anchor face not in visible_regions"},
+      {"attr": "stocking_toes", "reason": "covered by ankle boots, not visible"}
+    ],
+    "final_prompt": "Back view of Su Wan walking away. She has long black hair flowing down her back. She is wearing a black pencil skirt, sheer black tights, and black ankle boots. Her red fingernails are visible as she holds a business card. The street is busy, the flower stall is in the background. She is walking with a determined stride."
+  }
+]
+
+We need to ensure that in shot 6, we also consider if red_fingernails is visible: hands are in visible_regions, yes. So injected.
+
+Now, we need to check if any other attributes might be dropped due to pose hiding. For example, in shot 2 (ms_waist_up), is black_pencil_skirt fully visible? Possibly the skirt is below waist, but ms_waist_up includes torso, which includes waist area, so the top of the skirt might be visible, but the skirt itself extends below waist. In a waist-up shot, you might not see the skirt below the waist; you only see from waist up. Actually "ms_waist_up" typically shows the subject from the waist up, so the waist is the bottom of the frame. So you would see the top of the skirt at the waist, but not the full skirt. However, the attribute is black_pencil_skirt, and its anchor is torso. The visible region includes torso, which includes the waist where the skirt sits. So part of the skirt is visible. So it's okay to include. But we might consider if the skirt is fully visible? Not needed; we can still mention she is wearing a black pencil skirt, even if only the waistband is visible? In image generation, mentioning the skirt will influence the appearance; the model might show the skirt if it's a waist-up shot? Actually if the shot is waist-up, the lower part is cropped, so the skirt would not be visible below the waist, but we can still say she is wearing a black pencil skirt, which is consistent. So it's fine.
+
+For shot 2, we also injected red_fingernails. Hands are visible, good.
+
+Now, for shot 6, we injected black_ankle_boots. But we need to check mutex: stocking_toes is dropped because covered. Also red_toenails dropped. Good.
+
+Now, we should also consider that in shot 6, the hand might be holding a business card, so red_fingernails visible.
+
+Now, we should ensure that in shot 2, we didn't include any attributes that are not visible. We included black_pencil_skirt, red_fingernails, red_lipstick. All anchors are in visible_regions. Good.
+
+Now, about the base identity: we included long black hair, fair skin, brown eyes, long eyelashes, soft jawline. We should include these in all prompts, even back view. In back view, we mention long black hair, but we might not mention eyes? The instruction says base identity always in prompt. So we could include all base features. However, in back view, describing her eyes might be odd but not harmful. We can include a generic description: "Su Wan, a 28-year-old Chinese woman with long black hair, fair skin, brown eyes" even if not visible. That's fine.
+
+But in the prompts I wrote for shot 6, I said: "She has long black hair flowing down her back. She is wearing a black pencil skirt, sheer black tights, and black ankle boots." I didn't mention skin or eyes. Should I

@@ -1,0 +1,68 @@
+```json
+[
+    {
+        "shot_id": "establishing",
+        "camera_framing": "ws_establishing",
+        "pose": "full_body_standing, walking_out_of_office_building, slight_forward_lean, arms_swinging_naturally",
+        "wardrobe_state_used": "public_formal",
+        "vgai_injected_attrs": ["black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+        "vgai_dropped_attrs_with_reason": [
+            {"attr": "stocking_toes", "reason": "mutex with black_ankle_boots (visible in full_body_standing)"},
+            {"attr": "red_toenails", "reason": "foot covered by black_ankle_boots (anchor: foot not visible in sub_anchor: foot_top)"}
+        ],
+        "final_prompt": "28-year-old Chinese woman, long black hair past shoulders center-parted, fair skin, warm brown eyes with long lashes, soft jawline, wearing a black pencil skirt, sheer black tights, and black ankle boots, full body shot, walking out of a modern office building, slight forward lean, arms swinging naturally, urban cityscape background, cinematic lighting, photorealistic, 8K"
+    },
+    {
+        "shot_id": "ms_flower_shop",
+        "camera_framing": "ms_waist_up",
+        "pose": "standing_in_front_of_flower_shop, torso_slightly_turned, one_hand_holding_purse, other_hand_reaching_toward_flowers, head_tilted_down_looking_at_flowers",
+        "wardrobe_state_used": "public_formal",
+        "vgai_injected_attrs": ["black_pencil_skirt", "red_fingernails"],
+        "vgai_dropped_attrs_with_reason": [
+            {"attr": "sheer_black_tights", "reason": "not in visible_regions for ms_waist_up (anchor: leg not visible)"},
+            {"attr": "black_ankle_boots", "reason": "not in visible_regions for ms_waist_up (anchor: foot not visible)"},
+            {"attr": "red_toenails", "reason": "not in visible_regions for ms_waist_up (anchor: foot not visible)"}
+        ],
+        "final_prompt": "28-year-old Chinese woman, long black hair past shoulders center-parted, fair skin, warm brown eyes with long lashes, soft jawline, wearing a black pencil skirt, red fingernails, medium shot waist up, standing in front of a flower shop, torso slightly turned, one hand holding a purse, other hand reaching toward flowers, head tilted down looking at flowers, vibrant flower display in background, soft natural lighting, photorealistic, 8K"
+    },
+    {
+        "shot_id": "hand_receiving_business_card_ecu",
+        "camera_framing": "hand_ecu",
+        "pose": "hand_extended_forward, fingers_slightly_trembling, palm_up_receiving_business_card, subtle_finger_curl",
+        "wardrobe_state_used": "public_formal",
+        "vgai_injected_attrs": ["red_fingernails"],
+        "vgai_dropped_attrs_with_reason": [],
+        "final_prompt": "28-year-old Chinese woman, close-up extreme detail of hand, fair skin, red fingernails, hand extended forward, fingers slightly trembling, palm up receiving a business card, subtle finger curl, soft diffused lighting, photorealistic, macro shot, 8K"
+    },
+    {
+        "shot_id": "cu_face_tension",
+        "camera_framing": "cu_face",
+        "pose": "face_turned_slightly_away, eyes_downcast, lips_pressed_tight, subtle_tension_in_cheek_muscles, eyebrows_slightly_furrowed",
+        "wardrobe_state_used": "public_formal",
+        "vgai_injected_attrs": ["red_lipstick"],
+        "vgai_dropped_attrs_with_reason": [],
+        "final_prompt": "28-year-old Chinese woman, long black hair past shoulders center-parted, fair skin, warm brown eyes with long lashes, soft jawline, red lipstick, close-up of face, turned slightly away, eyes downcast, lips pressed tight, subtle tension in cheek muscles, eyebrows slightly furrowed, soft cinematic lighting, photorealistic, 8K"
+    },
+    {
+        "shot_id": "hand_looking_at_card_ecu",
+        "camera_framing": "hand_ecu",
+        "pose": "hand_holding_business_card, fingers_gently_curled, card_tilted_slightly, thumb_resting_on_edge",
+        "wardrobe_state_used": "public_formal",
+        "vgai_injected_attrs": ["red_fingernails"],
+        "vgai_dropped_attrs_with_reason": [],
+        "final_prompt": "28-year-old Chinese woman, close-up extreme detail of hand, fair skin, red fingernails, hand holding a business card, fingers gently curled, card tilted slightly, thumb resting on edge, soft diffused lighting, photorealistic, macro shot, 8K"
+    },
+    {
+        "shot_id": "leaving_back_view",
+        "camera_framing": "back_reveal_walking",
+        "pose": "walking_away, torso_slightly_leaning_forward, arms_swinging_naturally, legs_striding_confidently",
+        "wardrobe_state_used": "public_formal",
+        "vgai_injected_attrs": ["black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+        "vgai_dropped_attrs_with_reason": [
+            {"attr": "stocking_toes", "reason": "mutex with black_ankle_boots (visible in back_reveal_walking)"},
+            {"attr": "red_toenails", "reason": "foot covered by black_ankle_boots (anchor: foot not visible in sub_anchor: foot_top)"}
+        ],
+        "final_prompt": "28-year-old Chinese woman, long black hair past shoulders center-parted, fair skin, wearing a black pencil skirt, sheer black tights, and black ankle boots, back view, walking away, torso slightly leaning forward, arms swinging naturally, legs striding confidently, urban street background, cinematic lighting, photorealistic, 8K"
+    }
+]
+```
