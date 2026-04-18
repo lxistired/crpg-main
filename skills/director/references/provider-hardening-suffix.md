@@ -126,6 +126,11 @@ Then the correct outputs look like:
 
 Notice: EVERY final_prompt begins with `<BASE IDENTITY DESCRIPTION>` (hair / skin / eye / age / face — copied verbatim from character_sheet.base), including the hand_ecu shot where no face is visible. Base identity is never gated by framing.
 
+Notice the 2-tier BASE split:
+- `<BASE: age ethnicity skin body>` appears in EVERY final_prompt (region-agnostic identity)
+- `<BASE_FACE: hair eyes jaw>` appears ONLY when camera_framing exposes face/ear/neck
+  (omitted from hand_ecu, feet_ecu, back_reveal_walking to prevent Grok from rendering an unwanted face)
+
 Apply the SAME pattern to the real character passed by the user. The attr names in your output MUST come from the real character_sheet, not from this abstract example.
 ```
 

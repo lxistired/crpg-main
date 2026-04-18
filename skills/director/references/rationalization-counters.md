@@ -80,3 +80,22 @@ Scan the final_prompt text for:
 - `Dutch angle`, `tilted camera`, `canted horizon` → remove (Grok ignores)
 - `3 characters looking at each other`, `gaze triangle` → reduce to ≤2 or make group decorative
 - Aspect ratio not in `{1:1, 3:2, 4:3, 16:9, 19.5:9, 9:16, 3:4}` → fix to nearest
+
+## Pose phrase disambiguation
+
+### "stepping out of X"
+
+- **Correct interpretation**: leaving X as a place/situation (wardrobe UNCHANGED)
+- **Wrong interpretation**: removing X as a garment (wardrobe changed)
+
+Rationale: "stepping out of an office", "stepping out of a cab", "stepping out of high-heels onto pavement" — the English idiom means exiting the location context. It does NOT mean removing wardrobe items unless the surrounding prose explicitly describes undressing (e.g., "她踢掉高跟鞋", "slipping off her heels").
+
+When the pose text uses "stepping out of", "walking out of", "leaving" — keep all wardrobe items in the injected set. Only drop a wardrobe item when the prose explicitly describes its removal.
+
+### Similar phrases to watch for
+
+- "slipping into" — entering a space, not putting on clothes
+- "walking out of" — leaving a place
+- "getting out of" — exiting (car/bed/elevator)
+
+If you're uncertain whether a phrase implies undressing, default to keeping the wardrobe — prose must explicitly say "removed", "undid", "unzipped", "slipped off" before dropping an item.

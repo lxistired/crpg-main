@@ -9,7 +9,10 @@ Translate narrative prose into shot prompts for text-to-image generation. Princi
 
 ## 10 Principles
 
-1. **Base always** — region-independent identity (hair/skin/eye/face/age) goes into every prompt.
+1. **Base identity is region-gated too** — split into two tiers:
+   - **Region-agnostic** (ALWAYS in every final_prompt): age, ethnicity, skin tone, body frame
+   - **Region-specific** (VGAI-gate): hair (anchor=face/neck), eyes (anchor=face), jaw (anchor=face)
+   Tight-crop framings (hand_ecu / feet_ecu / back_reveal_walking) omit face-specific base tokens so Grok doesn't render an unwanted face in the frame. See `references/provider-hardening-suffix.md` for canonical examples.
 
 2. **Grooming travels** — persistent body marks (nail polish, tattoos, scars) always considered; states can suppress explicitly.
 

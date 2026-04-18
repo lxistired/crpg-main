@@ -106,8 +106,36 @@ JSON 数组, 每 shot 含:
   shot_id / camera_framing / pose / wardrobe_state_used /
   vgai_injected_attrs / vgai_dropped_attrs_with_reason / final_prompt
 
-只输出 JSON 数组, 无 markdown 包装。base 身份 (发/肤/眼/年龄/脸) 永远在 final_prompt 开头
-但不列入 vgai_injected_attrs (vgai_injected_attrs 只含 grooming + wardrobe items)。
+只输出 JSON 数组, 无 markdown 包装。
+
+### Base 身份分层 (Principle 1 refined)
+Base 身份分 2 层, final_prompt 按框位组装:
+  - **region-agnostic** (永远写): age / ethnicity / skin tone / body frame
+  - **region-specific** (按 framing.visible_regions 决定写不写):
+    · hair (anchor=face/ear/neck)
+    · eyes (anchor=face)
+    · jaw (anchor=face)
+对 hand_ecu / feet_ecu / back_reveal_walking 等紧密取景, 省略 face-specific base tokens, 否则 Grok 会把脸渲染进去。
+
+Base tokens 从不进 vgai_injected_attrs (它们不是 attr); 只是组装 final_prompt 时按上面 2 层分组。
+vgai_injected_attrs / vgai_dropped 依然只管 grooming + wardrobe。
+
+### Pose 消岐
+"stepping out of X" / "walking out of" / "slipping into" = 进/出场所, 不是脱衣。只在 prose 显式说"脱掉"/"踢掉"/"褪下"时才 drop wardrobe item。
+
+### Layer 描述模板 (for wardrobe covering anchor)
+当 wardrobe item 覆盖一个 anchor 而该 anchor 上还有 attr 时, final_prompt 显式描述 layer:
+
+  错 (并列, 模糊):
+    "feet in tights with red toenails"  ← Grok 可能渲染成 "bare feet with red toenails + separate tights nearby"
+
+  对 (layer 显式):
+    "feet wrapped in sheer tights fabric, red toenail polish visible through the fabric"
+    "hand in thin glove, red nail polish showing beneath"
+    "leg sheathed in black stocking, ankle tattoo faintly visible"
+
+模板: <anchor> <layer-verb> <item>, <attr> visible (through/beneath/on) <item>
+layer-verb: wrapped in / sheathed in / beneath / covered by / under
 
 character_sheet 和 framing-region 表会在 user 消息里给你。
 """

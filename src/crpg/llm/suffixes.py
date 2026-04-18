@@ -66,7 +66,7 @@ Then the correct outputs look like:
     "wardrobe_state_used": "some_state",
     "vgai_injected_attrs": [],
     "vgai_dropped_attrs_with_reason": ["all attrs dropped: ws_establishing visible_regions is empty"],
-    "final_prompt": "<BASE IDENTITY DESCRIPTION>, walking down street, ws_establishing framing"
+    "final_prompt": "<BASE: age ethnicity skin body>, walking down street, ws_establishing framing"
   },
   {
     "shot_id": "example_ms",
@@ -79,7 +79,7 @@ Then the correct outputs look like:
       "attr_TOENAIL: foot not in visible_regions",
       "attr_SHOE: foot not in visible_regions"
     ],
-    "final_prompt": "<BASE IDENTITY DESCRIPTION>, wearing attr_SKIRT, attr_LIP, attr_NAIL, attr_RING, ms_waist_up framing"
+    "final_prompt": "<BASE: age ethnicity skin body> <BASE_FACE: hair eyes jaw>, wearing attr_SKIRT, attr_LIP, attr_NAIL, attr_RING, ms_waist_up framing"
   },
   {
     "shot_id": "example_hand",
@@ -94,12 +94,17 @@ Then the correct outputs look like:
       "attr_TOENAIL: foot not in visible_regions",
       "attr_SHOE: foot not in visible_regions"
     ],
-    "final_prompt": "<BASE IDENTITY DESCRIPTION>, hand with attr_NAIL and attr_RING, hand_ecu framing"
+    "final_prompt": "<BASE: age ethnicity skin body>, hand with attr_NAIL and attr_RING, hand_ecu framing"
   }
 ]
 ```
 
 Notice: EVERY final_prompt begins with <BASE IDENTITY DESCRIPTION> (hair / skin / eye / age / face — copied verbatim from character_sheet.base), including the hand_ecu shot where no face is visible. Base identity is never gated by framing.
+
+Notice the 2-tier BASE split:
+- `<BASE: age ethnicity skin body>` appears in EVERY final_prompt (region-agnostic identity)
+- `<BASE_FACE: hair eyes jaw>` appears ONLY when camera_framing exposes face/ear/neck
+  (omitted from hand_ecu, feet_ecu, back_reveal_walking to prevent Grok from rendering an unwanted face)
 
 Apply the SAME pattern to the real character passed by the user. The attr names in your output MUST come from the real character_sheet, not from this abstract example.
 """
