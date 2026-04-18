@@ -87,6 +87,7 @@ Emit JSON array. That's the deliverable.
 - `references/character-sheet-schema.yaml` — schema for input character sheets
 - `references/narrative-heuristics.md` — prose→shot decomposition
 - `references/rationalization-counters.md` — known rationalizations + counters
+- `references/provider-hardening-suffix.md` — optional system-prompt suffix for throughput-optimized backends (e.g. Groq-hosted) whose default VGAI compliance is weak
 - `examples/worked-example.md` — one minimal worked example
 - `examples/character-sheet-example.yaml` — one minimal populated sheet
 
