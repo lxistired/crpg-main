@@ -7,52 +7,52 @@
         "wardrobe_state_used": "public_formal",
         "vgai_injected_attrs": [],
         "vgai_dropped_attrs_with_reason": [],
-        "final_prompt": "a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, and soft jawline, standing in front of a modern office building at dusk, wearing a black pencil skirt, sheer black tights, and black ankle boots, looking slightly distracted as she exits the building, wide shot"
+        "final_prompt": "a wide shot of a bustling urban street at dusk, neon signs reflecting on wet pavement, a modern office building in the background with employees exiting through glass doors. A 28-year-old Chinese woman with long black hair parted in the middle, fair skin, and soft jawline stands near a subway entrance, her posture relaxed but purposeful, wearing a black pencil skirt, sheer black tights, and black ankle boots. The scene captures the atmosphere of a city after work hours, with distant traffic and pedestrians blurring into motion."
     },
     {
         "shot_id": "ms_flower_shop_02",
         "camera_framing": "ms_waist_up",
         "pose": "leaning_forward_slightly",
         "wardrobe_state_used": "public_formal",
-        "vgai_injected_attrs": [],
+        "vgai_injected_attrs": ["red_fingernails"],
         "vgai_dropped_attrs_with_reason": [],
-        "final_prompt": "a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, and soft jawline, standing in front of a flower shop display, wearing a black pencil skirt, sheer black tights, and black ankle boots, her hands resting lightly on the counter as she examines the flowers, medium shot waist up"
+        "final_prompt": "a medium shot of the same 28-year-old Chinese woman with long black hair parted in the middle, fair skin, and soft jawline, standing in front of a vibrant flower shop display. She leans slightly forward, her hands resting on the glass counter as she admires the flowers, wearing a black pencil skirt, sheer black tights, and black ankle boots. Her red fingernails catch the light as she gently touches a bouquet. The shop is filled with colorful blooms, and soft lighting highlights her focused expression."
     },
     {
-        "shot_id": "ecu_hand_taking_business_card_03",
+        "shot_id": "hand_ecu_receiving_business_card_03",
         "camera_framing": "hand_ecu",
         "pose": "hand_extended_receiving",
         "wardrobe_state_used": "public_formal",
         "vgai_injected_attrs": ["red_fingernails"],
         "vgai_dropped_attrs_with_reason": [],
-        "final_prompt": "a close-up of a woman's hand with red fingernails reaching out to accept a business card from an unseen hand, the fingers slightly trembling, wearing sheer black tights and a black pencil skirt, hand extreme close-up"
+        "final_prompt": "an extreme close-up of a delicate hand with red fingernails, the fingers slightly trembling as they reach out to accept a white business card from an unseen hand. The hand is fair-skinned, with soft, manicured nails, and the card is partially visible, its edges crisp and professional. The background is slightly blurred, focusing entirely on the hand and the moment of contact."
     },
     {
         "shot_id": "cu_face_tension_04",
         "camera_framing": "cu_face",
-        "pose": "head_turned_slightly",
+        "pose": "head_turned_slightly_down",
         "wardrobe_state_used": "public_formal",
         "vgai_injected_attrs": ["red_lipstick"],
         "vgai_dropped_attrs_with_reason": [],
-        "final_prompt": "a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, soft jawline, and red lipstick, looking slightly tense and surprised, her eyes wide as she processes the unexpected interaction, close-up of her face"
+        "final_prompt": "a close-up of the 28-year-old Chinese woman’s face, her long black hair framing her fair-skinned features as she looks down at the business card in her hand. Her soft jawline is slightly tense, and her brown eyes with long lashes flicker with a mix of curiosity and unease. She wears red lipstick, her lips parted slightly as if about to speak. The lighting is soft, casting subtle shadows on her high cheekbones."
     },
     {
-        "shot_id": "ecu_hand_holding_business_card_05",
+        "shot_id": "hand_ecu_examining_card_05",
         "camera_framing": "hand_ecu",
         "pose": "hand_holding_card",
         "wardrobe_state_used": "public_formal",
         "vgai_injected_attrs": ["red_fingernails"],
         "vgai_dropped_attrs_with_reason": [],
-        "final_prompt": "a close-up of a woman's hand with red fingernails holding a business card, her fingers still slightly trembling as she examines the card, wearing sheer black tights, hand extreme close-up"
+        "final_prompt": "an extreme close-up of the same hand with red fingernails, now holding the business card between her thumb and index finger. The card is slightly tilted, revealing a black-and-white logo and a name in elegant script. Her fingers are steady but delicate, the red nails contrasting with the white card. The background is softly blurred, emphasizing the intimacy of the moment."
     },
     {
         "shot_id": "back_reveal_walking_away_06",
         "camera_framing": "back_reveal_walking",
         "pose": "walking_away",
         "wardrobe_state_used": "public_formal",
-        "vgai_injected_attrs": ["black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
-        "vgai_dropped_attrs_with_reason": ["red_toenails": "foot not in visible_regions (back view, boots cover feet)"],
-        "final_prompt": "a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, and soft jawline, walking away from the camera in a black pencil skirt, sheer black tights, and black ankle boots, her posture slightly tense as she leaves the scene, back reveal shot"
+        "vgai_injected_attrs": ["black_pencil_skirt", "black_ankle_boots"],
+        "vgai_dropped_attrs_with_reason": ["sheer_black_tights", "stocking_toes" { "reason": "hidden by skirt length and boots" }],
+        "final_prompt": "a dynamic shot of the 28-year-old Chinese woman walking away from the camera, her long black hair swaying slightly with her movement. She wears a fitted black pencil skirt that hugs her silhouette, paired with sleek black ankle boots. The skirt’s hemline is just above her knees, and her posture is poised but hurried, as if she’s trying to put distance between herself and the flower shop. The background is a busy city street, with pedestrians and traffic blurring into motion."
     }
 ]
 ```

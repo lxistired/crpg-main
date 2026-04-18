@@ -61,6 +61,58 @@ Script 白菜:    minimax/minimax-m2.5                   # 2380 字, $0.002/篇
 Script 露骨:    (尚未广泛测)                          # 先前 Grok 4.20 + DS V3.2 方案备案
 ```
 
+## 追加测试 — minimax-m2.7 + xiaomi mimo-v2 (用户要求，质量优先)
+
+### minimax/minimax-m2.7 (2026-03-18)
+- **Director: 7 真 VGAI 违规** — 反而比 m2.5 更差
+  - shot#0 ws_establishing 注入全套 (3项)
+  - shot#1 ms_waist_up 注入 tights + stocking_toes
+  - shot#3 cu_face 注入 tights ← schema 完全混乱
+- Script: 1852 字，偏短，文学中等
+- **结论**: 先前 session 诊断 "schema 混乱" 在当前 skill 下仍然成立，**Director 弃用**
+
+### xiaomi/mimo-v2-flash (2025-12-15)
+- Director 审计 "zero issues" **但是假象**:
+  - vgai_injected_attrs: `["red_fingernails"]` (drop 了所有 wardrobe)
+  - final_prompt 却写了 `"wearing black pencil skirt, sheer black tights, black ankle boots"`
+  - **这是 schema 和 prompt 严重不一致** — 审计跟踪失效
+- **功能性破坏**: VGAI gate 的存在意义就是把 dropped attrs 从 prompt 中剔除；这个模型 drop 了 schema 但保留在 prose，等于 gate 没开
+- **Director 弃用**（虽然审计 clean，但语义矛盾）
+
+### xiaomi/mimo-v2-pro (2026-03-19) ⭐ 新发现
+- Director: 6 shots，0 真违规 (仅假阳性 torso_back)
+- Script: 2391 字 **正中目标**
+- Script 质量: **与 glm-5.1 同级**，中文原生，分隔符 `***` 清晰，A/B 支线对照明确
+- 延迟 52s，ctx 1M
+- **Script 并列 Top，Director 也通过**
+
+## 质量优先重排（忽略价格）
+
+### Director 纯质量排名 (VGAI 严谨 + 可追溯)
+1. **qwen/qwen3-max-thinking** — thinking trace 完整保留 drop 原因，schema 严密
+2. **moonshotai/kimi-k2-thinking** — 同上但更慢
+3. **z-ai/glm-5.1** — 中文原生，干净
+4. **qwen/qwen3.6-plus** — 最新 qwen，干净
+5. **moonshotai/kimi-k2.5** — 中文原生，干净
+6. **nvidia/nemotron-3-super-120b** — 极干净但 reason 仅英文
+7. **xiaomi/mimo-v2-pro** — 干净（有 1 假阳性）
+8. stepfun/step-3.5-flash — 干净
+9. qwen3.5-397b-a17b — 干净但 script 偏差
+10. kimi-k2-thinking — 干净但极慢
+- ✗ minimax m2.5 / m2.7 — 真违规
+- ✗ mistral-large / mistral-small-creative — 真违规或 schema 失败
+- ✗ ds-v3.2-speciale — schema 失败
+- ✗ xiaomi/mimo-v2-flash — schema 与 prompt 语义不一致
+
+### Script 纯质量排名 (按中文文学密度 + 长度合规 + 双支线结构)
+1. **z-ai/glm-5.1** — 意象最稠，"像一块风干的皮革" "暗冰" 级文学感
+2. **xiaomi/mimo-v2-pro** — 与 1 同级，A/B 用 `***` 干净对照
+3. **mistralai/mistral-large-2512** — 扎实但对话略人工
+4. **minimax/minimax-m2.5** — 朴实自然
+5. **moonshotai/kimi-k2.5** — 质量顶 but 只有 1625-2050 字偏短
+- kimi-k2-thinking / mimo-v2-flash — 过长
+- qwen 系 / step-flash — 偏短或中等
+
 ## 关键发现
 
 1. **开源里 Director 角色合格者极多**: 8/12 通过 VGAI 合规（扣除假阳性）；原本担心 "只有 DS V3.2 能做" 不成立。

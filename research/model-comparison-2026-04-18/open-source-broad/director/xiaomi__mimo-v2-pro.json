@@ -1,0 +1,95 @@
+[
+  {
+    "shot_id": 1,
+    "camera_framing": "ws_establishing",
+    "pose": "walking_away",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_fingernails", "reason": "hand not in visible_regions for ws_establishing"},
+      {"attr": "red_toenails", "reason": "foot not in visible_regions for ws_establishing"},
+      {"attr": "red_lipstick", "reason": "face not in visible_regions for ws_establishing"},
+      {"attr": "black_pencil_skirt", "reason": "torso not in visible_regions for ws_establishing"},
+      {"attr": "sheer_black_tights", "reason": "leg not in visible_regions for ws_establishing"},
+      {"attr": "stocking_toes", "reason": "foot not in visible_regions for ws_establishing"},
+      {"attr": "black_ankle_boots", "reason": "foot not in visible_regions for ws_establishing"}
+    ],
+    "final_prompt": "A wide establishing shot of a city street at dusk. In the background, Su Wan, a 28-year-old Chinese woman with long black hair parted in the middle, pale skin, and brown eyes, is a small figure walking away from a modern office building towards a subway entrance where a flower stall is visible."
+  },
+  {
+    "shot_id": 2,
+    "camera_framing": "ms_waist_up",
+    "pose": "standing_looking_down",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "foot not in visible_regions for ms_waist_up"},
+      {"attr": "sheer_black_tights", "reason": "leg not in visible_regions for ms_waist_up"},
+      {"attr": "stocking_toes", "reason": "foot not in visible_regions for ms_waist_up"},
+      {"attr": "black_ankle_boots", "reason": "foot not in visible_regions for ms_waist_up"}
+    ],
+    "final_prompt": "Medium shot waist-up of Su Wan, a 28-year-old Chinese woman with long black hair parted in the middle, pale skin, and brown eyes with long lashes. She is wearing a black pencil skirt and has red lipstick and red fingernails. She stands at a flower stall near a subway entrance, looking down at the bouquets with a contemplative expression."
+  },
+  {
+    "shot_id": 3,
+    "camera_framing": "hand_ecu",
+    "pose": "hand_reaching",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "foot not in visible_regions for hand_ecu"},
+      {"attr": "red_lipstick", "reason": "face not in visible_regions for hand_ecu"},
+      {"attr": "black_pencil_skirt", "reason": "torso not in visible_regions for hand_ecu"},
+      {"attr": "sheer_black_tights", "reason": "leg not in visible_regions for hand_ecu"},
+      {"attr": "stocking_toes", "reason": "foot not in visible_regions for hand_ecu"},
+      {"attr": "black_ankle_boots", "reason": "foot not in visible_regions for hand_ecu"}
+    ],
+    "final_prompt": "Extreme close-up of a woman's hand with red fingernails reaching out to accept a business card being offered by a man's hand. The shot focuses on the gesture and the slight tremble in the fingers."
+  },
+  {
+    "shot_id": 4,
+    "camera_framing": "cu_face",
+    "pose": "face_tense",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_fingernails", "reason": "hand not in visible_regions for cu_face"},
+      {"attr": "red_toenails", "reason": "foot not in visible_regions for cu_face"},
+      {"attr": "black_pencil_skirt", "reason": "torso not in visible_regions for cu_face"},
+      {"attr": "sheer_black_tights", "reason": "leg not in visible_regions for cu_face"},
+      {"attr": "stocking_toes", "reason": "foot not in visible_regions for cu_face"},
+      {"attr": "black_ankle_boots", "reason": "foot not in visible_regions for cu_face"}
+    ],
+    "final_prompt": "Close-up on the face of Su Wan, a 28-year-old Chinese woman with long black hair, pale skin, and brown eyes. She wears red lipstick. Her expression is tense and guarded as she interacts with the stranger, her lips slightly pressed together."
+  },
+  {
+    "shot_id": 5,
+    "camera_framing": "hand_ecu",
+    "pose": "hand_holding_card",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "red_toenails", "reason": "foot not in visible_regions for hand_ecu"},
+      {"attr": "red_lipstick", "reason": "face not in visible_regions for hand_ecu"},
+      {"attr": "black_pencil_skirt", "reason": "torso not in visible_regions for hand_ecu"},
+      {"attr": "sheer_black_tights", "reason": "leg not in visible_regions for hand_ecu"},
+      {"attr": "stocking_toes", "reason": "foot not in visible_regions for hand_ecu"},
+      {"attr": "black_ankle_boots", "reason": "foot not in visible_regions for hand_ecu"}
+    ],
+    "final_prompt": "Extreme close-up of a woman's hand with red fingernails holding a simple business card. The shot is tight on the hand and card, suggesting she is looking at it after taking it."
+  },
+  {
+    "shot_id": 6,
+    "camera_framing": "back_reveal_walking",
+    "pose": "walking_away",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": [
+      {"attr": "stocking_toes", "reason": "mutex: selected black_ankle_boots as visually dominant over stocking_toes for foot anchor"},
+      {"attr": "bare_legs", "reason": "mutex: selected sheer_black_tights over bare_legs for leg anchor"},
+      {"attr": "red_toenails", "reason": "foot_top likely covered by black_ankle_boots"},
+      {"attr": "red_lipstick", "reason": "face not in visible_regions for back_reveal_walking"}
+    ],
+    "final_prompt": "Rear view shot of Su Wan, a 28-year-old Chinese woman with long black hair, walking away. She is wearing a form-fitting black pencil skirt, sheer black tights, and black ankle boots. Her hands are at her sides, showing red fingernails. The composition shows her back, legs, and feet as she moves down the street after the encounter."
+  }
+]

@@ -1,0 +1,84 @@
+```json
+[
+  {
+    "shot_id": 1,
+    "camera_framing": "ws_establishing",
+    "pose": "standing, walking away from camera",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "black_pencil_skirt",
+      "sheer_black_tights",
+      "black_ankle_boots"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "stocking_toes: mutex conflict with black_ankle_boots, black_ankle_boots visually dominant in full body framing"
+    ],
+    "final_prompt": "Young Chinese woman with long black hair parted in middle, fair skin, brown eyes with long lashes, soft jawline, walking out of office building entrance, evening light, urban street scene, subway exit nearby with flower shop, she is looking at flowers display, full body standing pose, wearing black pencil skirt, sheer black tights, black ankle boots, cinematic lighting, establishing shot, wide angle view of urban scene, bokeh background with city buildings"
+  },
+  {
+    "shot_id": 2,
+    "camera_framing": "ms_waist_up",
+    "pose": "standing, turning to look at man, slight forward lean",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "black_pencil_skirt",
+      "sheer_black_tights",
+      "stocking_toes",
+      "red_lipstick"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "black_ankle_boots: not visible in ms_waist_up framing"
+    ],
+    "final_prompt": "Young Chinese woman with long black hair parted in middle, fair skin, brown eyes with long lashes, soft jawline, red lipstick, standing at flower shop counter, waist-up framing, she is slightly turning, looking at something off-frame left, wearing black pencil skirt, sheer black tights, red manicured nails visible, medium shot, flower shop background with colorful blooms, soft ambient lighting, expression showing slight wariness"
+  },
+  {
+    "shot_id": 3,
+    "camera_framing": "hand_ecu",
+    "pose": "hand open, fingers slightly curled, receiving gesture",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails"
+    ],
+    "vgai_dropped_attrs_with_reason": [],
+    "final_prompt": "Extreme close-up of female hand with red fingernails, pale skin, slender fingers, slightly trembling, fingers gently curled as if receiving something small, hand open palm up in receiving gesture, red nail polish visible in detail, soft lighting on hand, shallow depth of field, focus on hand, urban background slightly blurred"
+  },
+  {
+    "shot_id": 4,
+    "camera_framing": "cu_face",
+    "pose": "slight turn, eyes looking down and to side, tension in expression",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_lipstick",
+      "sheer_black_tights"
+    ],
+    "vgai_dropped_attrs_with_reason": [],
+    "final_prompt": "Close-up portrait of young Chinese woman with long black hair parted in middle framing face, fair porcelain skin, brown eyes looking down and to the side, long lashes, soft jawline, red lipstick on full lips, expression showing nervousness and tension, subtle frown between brows, she seems uncomfortable, shoulder level up, dark background, dramatic lighting emphasizing facial features"
+  },
+  {
+    "shot_id": 5,
+    "camera_framing": "hand_ecu",
+    "pose": "hand holding card, looking down at it",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails"
+    ],
+    "vgai_dropped_attrs_with_reason": [],
+    "final_prompt": "Extreme close-up of female hand holding a business card, red fingernails gripping the card edge, pale skin, slender fingers, hand tilted slightly, card visible between thumb and index finger, looking down at the card, soft lighting on hand, shallow depth of field, focus on hand and card, urban background slightly blurred"
+  },
+  {
+    "shot_id": 6,
+    "camera_framing": "back_reveal_walking",
+    "pose": "walking away, body turned three quarter, slight urgency in gait",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "black_pencil_skirt",
+      "sheer_black_tights",
+      "black_ankle_boots"
+    ],
+    "vgai_dropped_attrs_with_reason": [
+      "stocking_toes: mutex conflict with black_ankle_boots, black_ankle_boots visually dominant in back view"
+    ],
+    "final_prompt": "Back view of young Chinese woman walking away, long black hair flowing down back, wearing black pencil skirt, sheer black tights, black ankle boots, three-quarter turned pose showing back and side profile, walking with slight urgency, flower shop counter visible in background, urban evening setting, soft lighting from street lamps, motion blur on legs suggesting movement, cinematic composition, bokeh background"
+  }
+]
+```

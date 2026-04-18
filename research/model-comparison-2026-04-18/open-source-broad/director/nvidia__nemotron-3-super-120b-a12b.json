@@ -1,27 +1,25 @@
-
-
 [
   {
-    "shot_id": "shot_1",
+    "shot_id": "establishing",
     "camera_framing": "ws_establishing",
-    "pose": "Su Wan walks out of the office building onto a busy city street, late afternoon light",
+    "pose": "Su Wan exits the office building and walks toward the subway exit.",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [],
     "vgai_dropped_attrs_with_reason": [
-      "red_fingernails: not visible in ws_establishing framing",
-      "red_toenails: not visible in ws_establishing framing",
-      "red_lipstick: not visible in ws_establishing framing",
-      "black_pencil_skirt: not visible in ws_establishing framing",
-      "sheer_black_tights: not visible in ws_establishing framing",
-      "stocking_toes: not visible in ws_establishing framing",
-      "black_ankle_boots: not visible in ws_establishing framing"
+      "red_fingernails: not visible in framing",
+      "red_toenails: not visible in framing",
+      "red_lipstick: not visible in framing",
+      "black_pencil_skirt: not visible in framing",
+      "sheer_black_tights: not visible in framing",
+      "stocking_toes: not visible in framing",
+      "black_ankle_boots: not visible in framing"
     ],
-    "final_prompt": "Su Wan, 28, Chinese woman with black shoulder-length hair middle-parted, fair skin, brown eyes long lashes, soft jawline, walking out of a glass office building onto a bustling city street, slight motion blur, late afternoon light"
+    "final_prompt": "Su Wan, 28, Chinese female, black long hair shoulder-length middle-part, fair skin, brown eyes long eyelashes, soft jawline, exiting the office building and walking toward the subway exit."
   },
   {
-    "shot_id": "shot_2",
+    "shot_id": "MS 花店",
     "camera_framing": "ms_waist_up",
-    "pose": "Su Wan stops at a flower shop entrance, gazing at colorful bouquets",
+    "pose": "Su Wan stops at the flower shop outside the subway exit to look at the blooms.",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_fingernails",
@@ -29,71 +27,71 @@
       "black_pencil_skirt"
     ],
     "vgai_dropped_attrs_with_reason": [
-      "red_toenails: not visible in ms_waist_up framing (leg/foot outside frame)",
-      "sheer_black_tights: not visible in ms_waist_up framing (leg/foot outside frame)",
-      "stocking_toes: not visible in ms_waist_up framing (leg/foot outside frame)",
-      "black_ankle_boots: not visible in ms_waist_up framing (leg/foot outside frame)"
+      "red_toenails: not visible in framing",
+      "sheer_black_tights: not visible in framing",
+      "stocking_toes: not visible in framing",
+      "black_ankle_boots: not visible in framing"
     ],
-    "final_prompt": "Su Wan, 28, Chinese woman with black shoulder-length hair middle-parted, fair skin, brown eyes long lashes, soft jawline, standing at a flower shop entrance, gazing at colorful bouquets, wearing a black pencil skirt, red fingernails, red lipstick"
+    "final_prompt": "Su Wan, 28, Chinese female, black long hair shoulder-length middle-part, fair skin, brown eyes long eyelashes, soft jawline, red fingernails, red lipstick, black pencil skirt, stopping at the flower shop outside the subway exit to look at the blooms."
   },
   {
-    "shot_id": "shot_3",
+    "shot_id": "手接名片 ECU",
     "camera_framing": "hand_ecu",
-    "pose": "Close-up of Su Wan's right hand trembling as she receives a white business card from a stranger",
+    "pose": "A stranger hands Su Wan a business card; her fingers tremble as she takes it.",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_fingernails"
     ],
     "vgai_dropped_attrs_with_reason": [
-      "red_lipstick: not visible in hand_ecu framing (face outside frame)",
-      "red_toenails: not visible in hand_ecu framing (foot outside frame)",
-      "black_pencil_skirt: not visible in hand_ecu framing (torso outside frame)",
-      "sheer_black_tights: not visible in hand_ecu framing (leg outside frame)",
-      "stocking_toes: not visible in hand_ecu framing (foot outside frame)",
-      "black_ankle_boots: not visible in hand_ecu framing (foot outside frame)"
+      "red_toenails: not visible in framing",
+      "red_lipstick: not visible in framing",
+      "black_pencil_skirt: not visible in framing",
+      "sheer_black_tights: not visible in framing",
+      "stocking_toes: not visible in framing",
+      "black_ankle_boots: not visible in framing"
     ],
-    "final_prompt": "Su Wan, 28, Chinese woman with black shoulder-length hair middle-parted, fair skin, brown eyes long lashes, soft jawline, close-up of her right hand trembling as she receives a white business card from a stranger, red fingernails visible"
+    "final_prompt": "Su Wan, 28, Chinese female, black long hair shoulder-length middle-part, fair skin, brown eyes long eyelashes, soft jawline, red fingernails, a stranger hands Su Wan a business card; her fingers tremble as she takes it."
   },
   {
-    "shot_id": "shot_4",
+    "shot_id": "CU 面部紧张",
     "camera_framing": "cu_face",
-    "pose": "Close-up of Su Wan's face showing tension, eyebrows furrowed, lips pressed",
+    "pose": "Su Wan's face shows tension as she reads the card.",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_lipstick"
     ],
     "vgai_dropped_attrs_with_reason": [
-      "red_fingernails: not visible in cu_face framing (hand outside frame)",
-      "red_toenails: not visible in cu_face framing (foot outside frame)",
-      "black_pencil_skirt: not visible in cu_face framing (torso outside frame)",
-      "sheer_black_tights: not visible in cu_face framing (leg outside frame)",
-      "stocking_toes: not visible in cu_face framing (foot outside frame)",
-      "black_ankle_boots: not visible in cu_face framing (foot outside frame)"
+      "red_fingernails: not visible in framing",
+      "red_toenails: not visible in framing",
+      "black_pencil_skirt: not visible in framing",
+      "sheer_black_tights: not visible in framing",
+      "stocking_toes: not visible in framing",
+      "black_ankle_boots: not visible in framing"
     ],
-    "final_prompt": "Su Wan, 28, Chinese woman with black shoulder-length hair middle-parted, fair skin, brown eyes long lashes, soft jawline, close-up of her face showing tension, eyebrows furrowed, lips pressed, red lipstick visible"
+    "final_prompt": "Su Wan, 28, Chinese female, black long hair shoulder-length middle-part, fair skin, brown eyes long eyelashes, soft jawline, red lipstick, Su Wan's face shows tension as she reads the card."
   },
   {
-    "shot_id": "shot_5",
+    "shot_id": "手看名片 ECU",
     "camera_framing": "hand_ecu",
-    "pose": "Close-up of Su Wan's hand examining the business card, fingertips touching the edge",
+    "pose": "Su Wan examines the business card in her hand.",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_fingernails"
     ],
     "vgai_dropped_attrs_with_reason": [
-      "red_lipstick: not visible in hand_ecu framing (face outside frame)",
-      "red_toenails: not visible in hand_ecu framing (foot outside frame)",
-      "black_pencil_skirt: not visible in hand_ecu framing (torso outside frame)",
-      "sheer_black_tights: not visible in hand_ecu framing (leg outside frame)",
-      "stocking_toes: not visible in hand_ecu framing (foot outside frame)",
-      "black_ankle_boots: not visible in hand_ecu framing (foot outside frame)"
+      "red_toenails: not visible in framing",
+      "red_lipstick: not visible in framing",
+      "black_pencil_skirt: not visible in framing",
+      "sheer_black_tights: not visible in framing",
+      "stocking_toes: not visible in framing",
+      "black_ankle_boots: not visible in framing"
     ],
-    "final_prompt": "Su Wan, 28, Chinese woman with black shoulder-length hair middle-parted, fair skin, brown eyes long lashes, soft jawline, close-up of her hand examining the business card, fingertips touching the edge, red fingernails visible"
+    "final_prompt": "Su Wan, 28, Chinese female, black long hair shoulder-length middle-part, fair skin, brown eyes long eyelashes, soft jawline, red fingernails, Su Wan examines the business card in her hand."
   },
   {
-    "shot_id": "shot_6",
+    "shot_id": "离开背影",
     "camera_framing": "back_reveal_walking",
-    "pose": "Su Wan walks away from the flower shop, back view, her silhouette moving down the sidewalk",
+    "pose": "Su Wan walks away, back view, heading down the street.",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_fingernails",
@@ -103,9 +101,9 @@
       "black_ankle_boots"
     ],
     "vgai_dropped_attrs_with_reason": [
-      "red_lipstick: not visible in back_reveal_walking framing (face outside frame)",
-      "stocking_toes: mutual exclusion with black_ankle_boots; boot covers toe"
+      "red_lipstick: not visible in framing",
+      "stocking_toes: mutex conflict with black_ankle_boots (dropped stocking_toes as less visually dominant)"
     ],
-    "final_prompt": "Su Wan, 28, Chinese woman with black shoulder-length hair middle-parted, fair skin, brown eyes long lashes, soft jawline, walking away from the flower shop, back view, wearing a black pencil skirt, sheer black tights, black ankle boots, red fingernails, red toenails"
+    "final_prompt": "Su Wan, 28, Chinese female, black long hair shoulder-length middle-part, fair skin, brown eyes long eyelashes, soft jawline, red fingernails, red toenails, black pencil skirt, sheer black tights, black ankle boots, Su Wan walks away, back view, heading down the street."
   }
 ]

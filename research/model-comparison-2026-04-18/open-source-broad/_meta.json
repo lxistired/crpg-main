@@ -3,18 +3,18 @@
     "ok": true,
     "model": "z-ai/glm-5.1",
     "task": "director",
-    "chars": 4914,
-    "elapsed": 65.40151977539062,
+    "chars": 4861,
+    "elapsed": 57.207019090652466,
     "prompt_tokens": 721,
-    "completion_tokens": 3937,
-    "cost": 0.0183322
+    "completion_tokens": 3248,
+    "cost": 0.0153006
   },
   {
     "ok": true,
     "model": "z-ai/glm-5.1",
     "task": "script",
-    "chars": 2353,
-    "elapsed": 57.89931893348694,
+    "chars": 2910,
+    "elapsed": 217.70887231826782,
     "prompt_tokens": 625,
     "completion_tokens": 8000,
     "cost": 0.036075
@@ -23,188 +23,188 @@
     "ok": true,
     "model": "qwen/qwen3.6-plus",
     "task": "director",
-    "chars": 5912,
-    "elapsed": 136.24842500686646,
+    "chars": 5421,
+    "elapsed": 148.46607995033264,
     "prompt_tokens": 749,
-    "completion_tokens": 7437,
-    "cost": 0.014745575
+    "completion_tokens": 8138,
+    "cost": 0.016112525
   },
   {
     "ok": true,
     "model": "qwen/qwen3.6-plus",
     "task": "script",
-    "chars": 1939,
-    "elapsed": 130.07203197479248,
+    "chars": 2220,
+    "elapsed": 160.1765558719635,
     "prompt_tokens": 661,
-    "completion_tokens": 7132,
-    "cost": 0.014122225
+    "completion_tokens": 8722,
+    "cost": 0.017222725
   },
   {
     "ok": true,
     "model": "qwen/qwen3.5-397b-a17b",
     "task": "director",
-    "chars": 5472,
-    "elapsed": 71.35717582702637,
+    "chars": 4576,
+    "elapsed": 201.62052989006042,
     "prompt_tokens": 749,
-    "completion_tokens": 7004,
-    "cost": 0.0256638
+    "completion_tokens": 11100,
+    "cost": 0.02626611
   },
   {
     "ok": true,
     "model": "qwen/qwen3.5-397b-a17b",
     "task": "script",
-    "chars": 461,
-    "elapsed": 273.5156319141388,
+    "chars": 1971,
+    "elapsed": 147.05613684654236,
     "prompt_tokens": 661,
-    "completion_tokens": 8000,
-    "cost": 0.01897779
+    "completion_tokens": 7432,
+    "cost": 0.01764867
   },
   {
     "ok": true,
     "model": "qwen/qwen3-max-thinking",
     "task": "director",
-    "chars": 7880,
-    "elapsed": 61.17623782157898,
+    "chars": 7909,
+    "elapsed": 62.4591109752655,
     "prompt_tokens": 750,
-    "completion_tokens": 1967,
-    "cost": 0.0082563
+    "completion_tokens": 2007,
+    "cost": 0.0084123
   },
   {
     "ok": true,
     "model": "qwen/qwen3-max-thinking",
     "task": "script",
-    "chars": 1736,
-    "elapsed": 42.94964408874512,
+    "chars": 1610,
+    "elapsed": 38.7449631690979,
     "prompt_tokens": 687,
-    "completion_tokens": 1335,
-    "cost": 0.00574236
+    "completion_tokens": 1231,
+    "cost": 0.00533676
   },
   {
     "ok": true,
     "model": "nvidia/nemotron-3-super-120b-a12b",
     "task": "director",
-    "chars": 5986,
-    "elapsed": 78.84525513648987,
+    "chars": 4951,
+    "elapsed": 77.03589105606079,
     "prompt_tokens": 867,
-    "completion_tokens": 1565,
-    "cost": 0.00078228
+    "completion_tokens": 1341,
+    "cost": 0.00068148
   },
   {
     "ok": true,
     "model": "nvidia/nemotron-3-super-120b-a12b",
     "task": "script",
-    "chars": 14105,
-    "elapsed": 36.884347915649414,
+    "chars": 23,
+    "elapsed": 1.2966508865356445,
     "prompt_tokens": 880,
-    "completion_tokens": 8000,
-    "cost": 0.004088
+    "completion_tokens": 7,
+    "cost": 9.15e-05
   },
   {
     "ok": true,
     "model": "mistralai/mistral-large-2512",
     "task": "director",
-    "chars": 5360,
-    "elapsed": 21.421549081802368,
+    "chars": 6122,
+    "elapsed": 23.933294773101807,
     "prompt_tokens": 846,
-    "completion_tokens": 1452,
-    "cost": 0.002601
+    "completion_tokens": 1653,
+    "cost": 0.0029025
   },
   {
     "ok": true,
     "model": "mistralai/mistral-large-2512",
     "task": "script",
-    "chars": 2673,
-    "elapsed": 66.17895078659058,
+    "chars": 4242,
+    "elapsed": 107.1537299156189,
     "prompt_tokens": 869,
-    "completion_tokens": 2663,
-    "cost": 0.004429
+    "completion_tokens": 4232,
+    "cost": 0.0067825
   },
   {
     "ok": true,
     "model": "mistralai/mistral-small-creative",
     "task": "director",
-    "chars": 3472,
-    "elapsed": 8.595399141311646,
+    "chars": 4664,
+    "elapsed": 10.886530637741089,
     "prompt_tokens": 846,
-    "completion_tokens": 928,
-    "cost": 0.000363
+    "completion_tokens": 1171,
+    "cost": 0.0004359
   },
   {
     "ok": true,
     "model": "mistralai/mistral-small-creative",
     "task": "script",
-    "chars": 2082,
-    "elapsed": 17.3621187210083,
+    "chars": 2272,
+    "elapsed": 19.23820185661316,
     "prompt_tokens": 869,
-    "completion_tokens": 2023,
-    "cost": 0.0006938
+    "completion_tokens": 2143,
+    "cost": 0.0007298
   },
   {
     "ok": true,
     "model": "moonshotai/kimi-k2-thinking",
     "task": "director",
-    "chars": 5348,
-    "elapsed": 359.4531719684601,
+    "chars": 4192,
+    "elapsed": 128.07136011123657,
     "prompt_tokens": 711,
-    "completion_tokens": 6649,
-    "cost": 0.0170491
+    "completion_tokens": 4129,
+    "cost": 0.0107491
   },
   {
     "ok": true,
     "model": "moonshotai/kimi-k2-thinking",
     "task": "script",
-    "chars": 4224,
-    "elapsed": 447.57292890548706,
+    "chars": 2640,
+    "elapsed": 140.19643783569336,
     "prompt_tokens": 587,
-    "completion_tokens": 11598,
-    "cost": 0.0293472
+    "completion_tokens": 2839,
+    "cost": 0.0074497
   },
   {
     "ok": true,
     "model": "moonshotai/kimi-k2.5",
     "task": "director",
-    "chars": 5974,
-    "elapsed": 116.96655297279358,
+    "chars": 6572,
+    "elapsed": 98.13952994346619,
     "prompt_tokens": 712,
-    "completion_tokens": 6334,
+    "completion_tokens": 6656,
     "cost": 0
   },
   {
     "ok": true,
     "model": "moonshotai/kimi-k2.5",
     "task": "script",
-    "chars": 1625,
-    "elapsed": 41.23382019996643,
+    "chars": 2050,
+    "elapsed": 32.48640298843384,
     "prompt_tokens": 588,
-    "completion_tokens": 2644,
+    "completion_tokens": 2115,
     "cost": 0
   },
   {
     "ok": true,
     "model": "stepfun/step-3.5-flash",
     "task": "director",
-    "chars": 5108,
-    "elapsed": 106.77288293838501,
-    "prompt_tokens": 754,
-    "completion_tokens": 7172,
-    "cost": 0.002227
+    "chars": 4706,
+    "elapsed": 125.07510900497437,
+    "prompt_tokens": 753,
+    "completion_tokens": 7675,
+    "cost": 0.0023778
   },
   {
     "ok": true,
     "model": "stepfun/step-3.5-flash",
     "task": "script",
-    "chars": 2979,
-    "elapsed": 132.63264417648315,
+    "chars": 4664,
+    "elapsed": 133.30717301368713,
     "prompt_tokens": 623,
-    "completion_tokens": 3974,
-    "cost": 0.0012545
+    "completion_tokens": 5550,
+    "cost": 0.0017273
   },
   {
     "ok": true,
     "model": "deepseek/deepseek-v3.2-speciale",
     "task": "director",
-    "chars": 32037,
-    "elapsed": 341.63139605522156,
+    "chars": 33026,
+    "elapsed": 373.153591632843,
     "prompt_tokens": 741,
     "completion_tokens": 8000,
     "cost": 0.0098964
@@ -213,8 +213,8 @@
     "ok": true,
     "model": "deepseek/deepseek-v3.2-speciale",
     "task": "script",
-    "chars": 12422,
-    "elapsed": 365.6571319103241,
+    "chars": 12687,
+    "elapsed": 365.16927003860474,
     "prompt_tokens": 610,
     "completion_tokens": 8000,
     "cost": 0.009844
@@ -223,20 +223,80 @@
     "ok": true,
     "model": "minimax/minimax-m2.5",
     "task": "director",
-    "chars": 3689,
-    "elapsed": 41.42527508735657,
+    "chars": 4160,
+    "elapsed": 81.92530107498169,
     "prompt_tokens": 796,
-    "completion_tokens": 1483,
-    "cost": 0.001561862
+    "completion_tokens": 1763,
+    "cost": 0.001839062
   },
   {
     "ok": true,
     "model": "minimax/minimax-m2.5",
     "task": "script",
-    "chars": 2380,
-    "elapsed": 27.624634742736816,
+    "chars": 2164,
+    "elapsed": 24.242850065231323,
     "prompt_tokens": 580,
-    "completion_tokens": 1892,
-    "cost": 0.0023574
+    "completion_tokens": 3138,
+    "cost": 0.0039396
+  },
+  {
+    "ok": true,
+    "model": "minimax/minimax-m2.7",
+    "task": "director",
+    "chars": 4681,
+    "elapsed": 82.2144730091095,
+    "prompt_tokens": 708,
+    "completion_tokens": 1623,
+    "cost": 0.00216
+  },
+  {
+    "ok": true,
+    "model": "minimax/minimax-m2.7",
+    "task": "script",
+    "chars": 1852,
+    "elapsed": 25.019082069396973,
+    "prompt_tokens": 579,
+    "completion_tokens": 1523,
+    "cost": 0.0020013
+  },
+  {
+    "ok": true,
+    "model": "xiaomi/mimo-v2-flash",
+    "task": "director",
+    "chars": 3218,
+    "elapsed": 7.499012231826782,
+    "prompt_tokens": 750,
+    "completion_tokens": 843,
+    "cost": 0.00032763
+  },
+  {
+    "ok": true,
+    "model": "xiaomi/mimo-v2-flash",
+    "task": "script",
+    "chars": 4113,
+    "elapsed": 30.314009189605713,
+    "prompt_tokens": 687,
+    "completion_tokens": 2864,
+    "cost": 0.00092772
+  },
+  {
+    "ok": true,
+    "model": "xiaomi/mimo-v2-pro",
+    "task": "director",
+    "chars": 6264,
+    "elapsed": 51.96185779571533,
+    "prompt_tokens": 748,
+    "completion_tokens": 4032,
+    "cost": 0.012844
+  },
+  {
+    "ok": true,
+    "model": "xiaomi/mimo-v2-pro",
+    "task": "script",
+    "chars": 2391,
+    "elapsed": 52.54409384727478,
+    "prompt_tokens": 685,
+    "completion_tokens": 2901,
+    "cost": 0.009388
   }
 ]
