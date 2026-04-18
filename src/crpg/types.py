@@ -9,7 +9,7 @@ Anchor = Literal[
 ]
 
 BeatType = Literal[
-    "narrative", "choice", "check", "merge", "act_break", "ending",
+    "narrative", "choice", "check", "merge", "act_break", "climax", "ending",
 ]
 
 DetailRichness = Literal["concise", "standard", "detailed", "extreme"]
