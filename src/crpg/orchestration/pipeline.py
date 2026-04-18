@@ -68,6 +68,9 @@ async def _process_beat(
         target_shot_count=beat.target_shot_count,
     )
 
+    # Persist shot list BEFORE rendering (so we have audit trail even if xAI fails)
+    writer.write_beat_shots(beat_id=beat.id, shots=shots)
+
     # Assembler + Image
     prompts = [assemble_image_prompt(s) for s in shots]
     out_dir = writer.shots_dir(beat_id=beat.id)

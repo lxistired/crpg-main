@@ -33,6 +33,22 @@ class BundleWriter:
         d.mkdir(parents=True, exist_ok=True)
         return d
 
+    def write_beat_shots(self, *, beat_id: str, shots: list) -> Path:
+        """Write Director's shot list to bundle/shots/<beat_id>/shots.json.
+
+        `shots` is a list of Shot pydantic models. Returns the written path.
+        Co-located with the PNG files for that beat so debugging is trivial:
+          cat bundle/shots/<beat>/shots.json  → see every final_prompt + VGAI info
+        """
+        safe = re.sub(r"[^A-Za-z0-9_-]", "_", beat_id)
+        d = self.out_dir / "shots" / safe
+        d.mkdir(parents=True, exist_ok=True)
+        # Serialize shots — use model_dump(mode="json") for pydantic v2 compatibility
+        blob = [s.model_dump(mode="json") for s in shots]
+        path = d / "shots.json"
+        path.write_text(json.dumps(blob, ensure_ascii=False, indent=2), encoding="utf-8")
+        return path
+
     def write_beat_prose(self, *, beat_id: str, prose: str) -> Path:
         """Write a beat's prose to bundle/prose/<beat_id>.md and return the path."""
         prose_dir = self.out_dir / "prose"

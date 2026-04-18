@@ -41,7 +41,7 @@ SKELETON_SYSTEM = """你是 crpg (互动 noir 小说) 的 Skeleton 生成器。
 
 ### CRITICAL naming convention
 All `persistent_grooming[].name`, `wardrobe_states.*.items[].name`, `mutex_groups` entries
-MUST be snake_case English (e.g. `red_fingernails`, `sheer_black_tights`, `black_ankle_boots`).
+MUST be snake_case English (e.g. `red_fingernails`, `black_dress`, `ankle_boots`).
 This matches Director's internal anchor map. Chinese descriptions go in a separate
 `display_name` field if needed.
 
@@ -54,7 +54,16 @@ This matches Director's internal anchor map. Chinese descriptions go in a separa
    linear: single chain; bifurcating: main→{A,B}; funnel: many→climax; web: graph
 4. Total beats by contentLength:
    short=3, medium=15-18, long=50-60
-5. mutex_groups: physically impossible pairs (e.g. [sheer_black_tights, black_ankle_boots])
+5. mutex_groups — declare ONLY when two items CANNOT both render in the same frame:
+   A mutex exists when:
+     - Occlusion: item A's anchor region is fully covered by item B
+       (e.g. attr_SHOE encloses foot → attr_TOENAIL underneath invisible → [attr_SHOE, attr_TOENAIL])
+     - Alternative state: mutually exclusive values of same layer
+       (e.g. [bare_legs, attr_TIGHTS])
+   A mutex DOES NOT exist when:
+     - Items layer without mutual occlusion (e.g. tights + ankle boots: tights visible above boot top, boots visible below — both render → NO mutex)
+     - Items on different anchors with no spatial overlap
+   Only declare a mutex pair when you can explicitly justify WHY both can't coexist. Use abstract attr_* reasoning, NOT specific wardrobe names as boilerplate.
 6. anchor values: face|ear|neck|hand|torso|torso_back|leg|leg_upper|foot
 
 ### Output format (strict)

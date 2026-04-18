@@ -96,3 +96,41 @@ def test_write_story_md_missing_prose_placeholder(tmp_path):
     writer.write_story_md(story=story)
     content = (tmp_path / "bundle" / "story.md").read_text(encoding="utf-8")
     assert "(prose not yet generated)" in content
+
+
+def test_write_beat_shots_persists_full_shot_data(tmp_path):
+    from crpg.types import Shot
+    shots = [
+        Shot(shot_id="s1", camera_framing="cu_face", pose="face close-up",
+             wardrobe_state_used="office",
+             vgai_injected_attrs=["red_lipstick"],
+             vgai_dropped_attrs_with_reason=["sheer_black_tights: leg not in visible_regions"],
+             final_prompt="anime woman face close-up, red lipstick"),
+        Shot(shot_id="s2", camera_framing="hand_ecu", pose="hand",
+             wardrobe_state_used="office",
+             vgai_injected_attrs=["red_fingernails"],
+             vgai_dropped_attrs_with_reason=[],
+             final_prompt="anime hand with red fingernails"),
+    ]
+    writer = BundleWriter(out_dir=tmp_path / "bundle")
+    path = writer.write_beat_shots(beat_id="intro", shots=shots)
+    assert path == tmp_path / "bundle" / "shots" / "intro" / "shots.json"
+    import json
+    data = json.loads(path.read_text(encoding="utf-8"))
+    assert len(data) == 2
+    assert data[0]["shot_id"] == "s1"
+    assert data[0]["vgai_injected_attrs"] == ["red_lipstick"]
+    assert "red fingernails" in data[1]["final_prompt"]
+
+
+def test_write_beat_shots_sanitizes_id(tmp_path):
+    from crpg.types import Shot
+    writer = BundleWriter(out_dir=tmp_path / "bundle")
+    shots = [Shot(shot_id="x", camera_framing="cu_face", pose="p",
+                  wardrobe_state_used="w",
+                  vgai_injected_attrs=[], vgai_dropped_attrs_with_reason=[],
+                  final_prompt="p")]
+    path = writer.write_beat_shots(beat_id="../hack", shots=shots)
+    resolved = str(path.resolve())
+    shots_root = str((tmp_path / "bundle" / "shots").resolve())
+    assert resolved.startswith(shots_root)

@@ -84,3 +84,13 @@ async def test_pipeline_e2e_mocked(tmp_path, httpx_mock, demo_brief, fixture_pat
     assert (out / "story.md").exists()
     story_md = (out / "story.md").read_text(encoding="utf-8")
     assert "Rainy Noir" in story_md
+
+    # shot lists persisted per beat
+    shots_json_files = list((out / "shots").glob("*/shots.json"))
+    assert len(shots_json_files) == 4  # one shots.json per beat
+    import json
+    first_shots = json.loads(shots_json_files[0].read_text(encoding="utf-8"))
+    assert isinstance(first_shots, list)
+    assert len(first_shots) > 0
+    assert "final_prompt" in first_shots[0]
+    assert "vgai_injected_attrs" in first_shots[0]
