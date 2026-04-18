@@ -1,0 +1,12 @@
+[
+  {"shot_id":"s1","camera_framing":"ms_waist_up","pose":"standing at florist",
+   "wardrobe_state_used":"public_formal",
+   "vgai_injected_attrs":["red_lipstick","red_fingernails","black_pencil_skirt"],
+   "vgai_dropped_attrs_with_reason":["sheer_black_tights: leg not in visible_regions","black_ankle_boots: foot not in visible"],
+   "final_prompt":"28 y.o. Chinese woman, long black hair, fair skin, red lipstick, red fingernails, black pencil skirt, standing at a florist, ms_waist_up"},
+  {"shot_id":"s2","camera_framing":"hand_ecu","pose":"receiving card",
+   "wardrobe_state_used":"public_formal",
+   "vgai_injected_attrs":["red_fingernails"],
+   "vgai_dropped_attrs_with_reason":["red_lipstick: face not in visible_regions"],
+   "final_prompt":"close-up hand with red fingernails receiving a card, hand_ecu"}
+]
