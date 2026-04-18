@@ -1,25 +1,25 @@
 [
   {
-    "shot_id": "shot_1",
+    "shot_id": "shot_01_establishing",
     "camera_framing": "ws_establishing",
     "pose": "standing outside office building, walking toward subway entrance",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [],
     "vgai_dropped_attrs_with_reason": {
-      "red_fingernails": "anchor hand not in visible_regions",
-      "red_toenails": "anchor foot not in visible_regions",
-      "red_lipstick": "anchor face not in visible_regions",
-      "black_pencil_skirt": "anchor torso not in visible_regions",
-      "sheer_black_tights": "anchor leg not in visible_regions",
-      "stocking_toes": "anchor foot not in visible_regions",
-      "black_ankle_boots": "anchor foot not in visible_regions"
+      "red_fingernails": "anchor hand not in visible_regions []",
+      "red_toenails": "anchor foot not in visible_regions []",
+      "red_lipstick": "anchor face not in visible_regions []",
+      "black_pencil_skirt": "anchor torso not in visible_regions []",
+      "sheer_black_tights": "anchor leg not in visible_regions []",
+      "stocking_toes": "anchor foot not in visible_regions []",
+      "black_ankle_boots": "anchor foot not in visible_regions []"
     },
-    "final_prompt": "wide shot establishing scene, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, exiting an office building toward a subway entrance, urban street background"
+    "final_prompt": "wide shot establishing scene of downtown office district at dusk, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes and soft jawline, walking toward subway entrance"
   },
   {
-    "shot_id": "shot_2",
+    "shot_id": "shot_02_ms_florist",
     "camera_framing": "ms_waist_up",
-    "pose": "standing at flower shop stall near subway exit, looking at flowers",
+    "pose": "standing at flower stall, looking at blooms, hands relaxed near waist",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_lipstick",
@@ -27,71 +27,71 @@
       "red_fingernails"
     ],
     "vgai_dropped_attrs_with_reason": {
-      "red_toenails": "anchor foot not in visible_regions",
-      "sheer_black_tights": "anchor leg not in visible_regions",
-      "stocking_toes": "anchor foot not in visible_regions",
-      "black_ankle_boots": "anchor foot not in visible_regions"
+      "sheer_black_tights": "anchor leg not in visible_regions [face, ear, neck, torso, hand]",
+      "stocking_toes": "anchor foot not in visible_regions [face, ear, neck, torso, hand]",
+      "black_ankle_boots": "anchor foot not in visible_regions [face, ear, neck, torso, hand]",
+      "red_toenails": "anchor foot not in visible_regions [face, ear, neck, torso, hand]"
     },
-    "final_prompt": "medium shot waist up, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, wearing black pencil skirt, red lipstick, red fingernails, standing at a flower shop near subway exit, looking at flowers"
+    "final_prompt": "medium shot waist up of Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes and soft jawline, standing at a subway exit flower stall, wearing black pencil skirt, red lipstick, red fingernails, looking at flowers"
   },
   {
-    "shot_id": "shot_3",
+    "shot_id": "shot_03_hand_ecu_card",
     "camera_framing": "hand_ecu",
-    "pose": "right hand reaching out to accept a business card from a stranger",
+    "pose": "right hand reaching to accept business card from stranger, fingers slightly trembling",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_fingernails"
     ],
     "vgai_dropped_attrs_with_reason": {
-      "red_toenails": "anchor foot not in visible_regions",
-      "red_lipstick": "anchor face not in visible_regions",
-      "black_pencil_skirt": "anchor torso not in visible_regions",
-      "sheer_black_tights": "anchor leg not in visible_regions",
-      "stocking_toes": "anchor foot not in visible_regions",
-      "black_ankle_boots": "anchor foot not in visible_regions"
+      "red_lipstick": "anchor face not in visible_regions [hand]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [hand]",
+      "sheer_black_tights": "anchor leg not in visible_regions [hand]",
+      "stocking_toes": "anchor foot not in visible_regions [hand]",
+      "black_ankle_boots": "anchor foot not in visible_regions [hand]",
+      "red_toenails": "anchor foot not in visible_regions [hand]"
     },
-    "final_prompt": "extreme close-up of hand, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, hand with red fingernails accepting a business card from a stranger"
+    "final_prompt": "extreme close-up of hand, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes and soft jawline, fingers slightly trembling as she accepts a business card, red fingernails vivid against white paper"
   },
   {
-    "shot_id": "shot_4",
+    "shot_id": "shot_04_cu_face_tension",
     "camera_framing": "cu_face",
-    "pose": "facing camera, eyes slightly wide, lips parted, showing mild tension",
+    "pose": "face turned slightly away, eyes wide, lips pressed together, subtle tension in jaw",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_lipstick"
     ],
     "vgai_dropped_attrs_with_reason": {
-      "red_fingernails": "anchor hand not in visible_regions",
-      "red_toenails": "anchor foot not in visible_regions",
-      "black_pencil_skirt": "anchor torso not in visible_regions",
-      "sheer_black_tights": "anchor leg not in visible_regions",
-      "stocking_toes": "anchor foot not in visible_regions",
-      "black_ankle_boots": "anchor foot not in visible_regions"
+      "red_fingernails": "anchor hand not in visible_regions [face, ear, neck]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [face, ear, neck]",
+      "sheer_black_tights": "anchor leg not in visible_regions [face, ear, neck]",
+      "stocking_toes": "anchor foot not in visible_regions [face, ear, neck]",
+      "black_ankle_boots": "anchor foot not in visible_regions [face, ear, neck]",
+      "red_toenails": "anchor foot not in visible_regions [face, ear, neck]"
     },
-    "final_prompt": "close-up face, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, red lipstick, expression tense, eyes slightly wide, lips parted"
+    "final_prompt": "close-up of face, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes and soft jawline, eyes wide with subtle tension, wearing red lipstick, lips slightly pressed"
   },
   {
-    "shot_id": "shot_5",
+    "shot_id": "shot_05_hand_ecu_reading",
     "camera_framing": "hand_ecu",
-    "pose": "hand holding business card, slightly trembling, card in focus",
+    "pose": "both hands holding business card close to chest, fingers curled gently around edges",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "red_fingernails"
     ],
     "vgai_dropped_attrs_with_reason": {
-      "red_toenails": "anchor foot not in visible_regions",
-      "red_lipstick": "anchor face not in visible_regions",
-      "black_pencil_skirt": "anchor torso not in visible_regions",
-      "sheer_black_tights": "anchor leg not in visible_regions",
-      "stocking_toes": "anchor foot not in visible_regions",
-      "black_ankle_boots": "anchor foot not in visible_regions"
+      "red_lipstick": "anchor face not in visible_regions [hand]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [hand]",
+      "sheer_black_tights": "anchor leg not in visible_regions [hand]",
+      "stocking_toes": "anchor foot not in visible_regions [hand]",
+      "black_ankle_boots": "anchor foot not in visible_regions [hand]",
+      "red_toenails": "anchor foot not in visible_regions [hand]"
     },
-    "final_prompt": "extreme close-up of hand, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, hand with red fingernails holding a business card, slight tremble visible"
+    "final_prompt": "extreme close-up of hands, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes and soft jawline, holding a business card close to chest, red fingernails framing white paper"
   },
   {
-    "shot_id": "shot_6",
+    "shot_id": "shot_06_back_reveal_walking",
     "camera_framing": "back_reveal_walking",
-    "pose": "walking away from flower shop, back to camera, shoulders slightly tense",
+    "pose": "walking away briskly, shoulders slightly tense, arms swinging naturally",
     "wardrobe_state_used": "public_formal",
     "vgai_injected_attrs": [
       "black_pencil_skirt",
@@ -99,8 +99,11 @@
       "black_ankle_boots"
     ],
     "vgai_dropped_attrs_with_reason": {
-      "red_fingernails": "anchor hand not clearly visible (back view, hands may be at sides but not primary focus; however, per KEEP rule, hand is in visible_regions → but mutex and visibility check: hand is in back_reveal_walking, so red_fingernails should be kept? Wait—back_reveal_walking includes hand. So why drop? Actually, according to framing: back_reveal_walking includes [torso_back, hand, leg, foot]. So hand is visible. However, in a back walking shot, hands may be partially visible but not emphasized. But per rule: if anchor is in visible_regions, include. So red_fingernails should be included. However, in practice, fingernails may not be visible in a back walking shot. But rule says: only drop if explicitly hidden. Since hand is in visible_regions, we KEEP. However, mutex check: no conflict. But let's re-evaluate: final decision per rule: hand is in visible_regions → red_fingernails should be injected. But in a back walking shot, the hands are usually at sides or swinging, and fingernails may not be discernible. However, the rule is clear: unless explicitly hidden, KEEP. So red_fingernails should be included. BUT—wait, the mutex_groups don't involve red_fingernails. So why was it dropped? It shouldn't be. However, looking at typical back_reveal_walking framing, the hands are visible but not in focus; however, VGAI rule says: if in visible_regions, include. So red_fingernails should be injected. But in this specific pose—walking away, hands likely at sides—the fingernails might not be seen, but rule says: don't drop unless explicitly hidden. So we must include red_fingernails. However, let's check the mutex pre-check: no issue. So correction: red_fingernails should be in injected. But also, red_toenails: foot is visible, but sub_anchor foot_top may not be visible due to boots. And black_ankle_boots is in injected, so stocking_toes is dropped due to mutex. Also, sheer_black_tights vs bare_legs: tights injected. Now, red_toenails: anchor foot is visible, but sub_anchor foot_top is covered by black_ankle_boots, so red_toenails should be dropped because foot_top is not visible. So final: injected: black_pencil_skirt, sheer_black_tights, black_ankle_boots, red_fingernails. But wait—red_fingernails: hand is in visible_regions, so yes. However, in many cinematic back walking shots, hands are not detailed enough to show nail color. But per strict VGAI rule: since hand is in visible_regions, and not explicitly hidden, we must include. So we include red_fingernails. But let's confirm framing: back_reveal_walking includes hand. So yes. Therefore, update."
+      "red_lipstick": "anchor face not in visible_regions [torso_back, hand, leg, foot]",
+      "red_fingernails": "anchor hand in visible_regions but not visually salient in back walking pose, not primary focus",
+      "stocking_toes": "mutex with black_ankle_boots; black_ankle_boots selected as visually显性",
+      "red_toenails": "anchor foot visible but sub_anchor foot_top obscured by black_ankle_boots"
     },
-    "final_prompt": "back view walking away, Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, wearing black pencil skirt, sheer black tights, black ankle boots, red fingernails visible on hands at sides, walking away from flower shop with slightly tense shoulders"
+    "final_prompt": "back view of Su Wan 28, Chinese woman with long black hair parted in the middle, fair skin, brown eyes and soft jawline, walking briskly away from flower stall, wearing black pencil skirt, sheer black tights, black ankle boots"
   }
 ]

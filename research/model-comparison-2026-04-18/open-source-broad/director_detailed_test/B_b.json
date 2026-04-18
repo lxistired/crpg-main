@@ -1,0 +1,59 @@
+```json
+[
+  {
+    "shot_id": "B01",
+    "camera_framing": "ms_waist_up",
+    "pose": "Su Wan seated at candle-lit bar table, body angled toward Kai, left leg crossed over right, black pencil skirt riding up 2 cm, sheer black tights catching blue sheen in votive glow",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt", "sheer_black_tights"],
+    "vgai_dropped_attrs_with_reason": [
+      "stocking_toes: foot not in visible_regions {face,ear,neck,torso,hand}",
+      "black_ankle_boots: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline; wearing black pencil skirt, sheer black tights, red lipstick and red fingernails visible, seated at candle-lit bar table angled toward companion, ms_waist_up framing"
+  },
+  {
+    "shot_id": "B02",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "suwan_legs_toward_kai_sofabound: Su Wan shifting into semi-enclosed booth, body half-twist, left knee pointing toward Kai, skirt hem sliding another 0.5 cm, sheer black tights edge revealing dark-red seam under dim violet pin-spot",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["black_pencil_skirt", "sheer_black_tights"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_lipstick: face not in visible_regions",
+      "red_fingernails: hand not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "black_ankle_boots: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline; in three-quarter shot from knees up, wearing black pencil skirt and sheer black tights with visible seam under violet club light, legs angled toward companion"
+  },
+  {
+    "shot_id": "B03",
+    "camera_framing": "cu_face",
+    "pose": "suwan_murmur_key: Su Wan leaning slightly forward, lips parted about to ask \"三年前，你为什么在停车场抽烟？\", face framed by candlelight flicker, stray strands of black hair brushing her cheek",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: hand not in visible_regions",
+      "black_pencil_skirt: torso not in visible_regions",
+      "sheer_black_tights: leg_upper not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "black_ankle_boots: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline; intimate close-up of face, red lipstick catching low candlelight, lips parted mid-question, cu_face framing"
+  },
+  {
+    "shot_id": "B04",
+    "camera_framing": "full_body_standing",
+    "pose": "suwan_final_pause: Su Wan remains seated yet poised as if time has stopped, knees still toward Kai, one black-ankle-booted foot flat on carpet, the other heel slightly lifted, sheer black tights and skirt unchanged; entire frame holds breath before verdict",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": [
+      "stocking_toes: mutex with black_ankle_boots; black_ankle_boots visually dominant",
+      "red_lipstick: face detail too small for full_body scale",
+      "red_fingernails: hand detail too small for full_body scale",
+      "red_toenails: foot_top not visible through boots"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline; full-body standing view inside booth, wearing black pencil skirt, sheer black tights, black ankle boots, moment frozen in low violet club light"
+  }
+]
+```

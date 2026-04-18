@@ -1,0 +1,68 @@
+[
+  {
+    "ok": true,
+    "iter": 1,
+    "chars": 1925,
+    "elapsed": 3.6645700931549072,
+    "cost": 0.002326,
+    "audit": {
+      "parse_ok": true,
+      "beats_count": 5,
+      "edges_count": 5,
+      "chars_count": 1,
+      "beat_issues": [],
+      "char_issues": [],
+      "story_meta": {
+        "title": "雨夜蔷薇",
+        "genre": "都市noir",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      }
+    }
+  },
+  {
+    "ok": true,
+    "iter": 2,
+    "chars": 2191,
+    "elapsed": 3.7266039848327637,
+    "cost": 0.002933,
+    "audit": {
+      "parse_ok": true,
+      "beats_count": 6,
+      "edges_count": 5,
+      "chars_count": 1,
+      "beat_issues": [],
+      "char_issues": [],
+      "story_meta": {
+        "title": "雨夜·静安·玫瑰",
+        "genre": "都市noir",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      }
+    }
+  },
+  {
+    "ok": true,
+    "iter": 3,
+    "chars": 1928,
+    "elapsed": 3.2740769386291504,
+    "cost": 0.002797,
+    "audit": {
+      "parse_ok": true,
+      "beats_count": 5,
+      "edges_count": 4,
+      "chars_count": 1,
+      "beat_issues": [],
+      "char_issues": [],
+      "story_meta": {
+        "title": "雨夜玫瑰",
+        "genre": "都市noir",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      }
+    }
+  }
+]

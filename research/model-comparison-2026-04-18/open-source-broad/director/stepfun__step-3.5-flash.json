@@ -1,57 +1,204 @@
+好的，我现在需要处理用户的请求，将小说片段转换成Grok Imagine Pro的生图prompts。首先，用户提供了故事片段，状态是public_formal，人物是Su Wan，有base identity和持久grooming，还有wardrobe state。用户要求输出6个shot的JSON数组，包括establishing、MS花店、手接名片ECU、CU面部紧张、手看名片ECU和离开背影。
 
-[
-  {
-    "shot_id": 1,
-    "camera_framing": "full_body_standing",
-    "pose": "walking out of office building",
-    "wardrobe_state_used": "public_formal",
-    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
-    "vgai_dropped_attrs_with_reason": ["stocking_toes: mutex with black_ankle_boots, more visible footwear", "red_toenails: foot covered by black ankle boots"],
-    "final_prompt": "Su Wan, a 28-year-old Chinese woman with long black hair in a middle part, fair skin, brown eyes and long eyelashes, soft jawline, walking out of an office building in full body shot, wearing a black pencil skirt, sheer black tights, black ankle boots, red lipstick, and red fingernails. City street background, modern buildings, evening atmosphere."
-  },
-  {
-    "shot_id": 2,
-    "camera_framing": "ms_waist_up",
-    "pose": "stopping at a flower shop to look at flowers",
-    "wardrobe_state_used": "public_formal",
-    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt"],
-    "vgai_dropped_attrs_with_reason": ["sheer_black_tights: leg not visible in medium waist-up shot", "black_ankle_boots: foot not visible", "stocking_toes: mutex with black_ankle_boots", "red_toenails: foot not visible"],
-    "final_prompt": "Su Wan, a 28-year-old Chinese woman with long black hair in a middle part, fair skin, brown eyes and long eyelashes, soft jawline, medium waist-up shot at a flower shop, looking at flowers, wearing a black pencil skirt, red lipstick, and red fingernails. Flower shop interior with colorful bouquets in background."
-  },
-  {
-    "shot_id": 3,
-    "camera_framing": "hand_ecu",
-    "pose": "receiving a business card from a stranger",
-    "wardrobe_state_used": "public_formal",
-    "vgai_injected_attrs": ["red_fingernails"],
-    "vgai_dropped_attrs_with_reason": ["red_lipstick: face not visible", "black_pencil_skirt: torso not visible", "sheer_black_tights: leg not visible", "black_ankle_boots: foot not visible", "stocking_toes: mutex with black_ankle_boots", "red_toenails: foot not visible"],
-    "final_prompt": "Su Wan, a 28-year-old Chinese woman with long black hair in a middle part, fair skin, brown eyes and long eyelashes, soft jawline, extreme close-up of her hand receiving a business card, showing red fingernails, delicate fingers slightly trembling. Blurred background of flower shop."
-  },
-  {
-    "shot_id": 4,
-    "camera_framing": "cu_face",
-    "pose": "showing nervous facial expression",
-    "wardrobe_state_used": "public_formal",
-    "vgai_injected_attrs": ["red_lipstick"],
-    "vgai_dropped_attrs_with_reason": ["red_fingernails: hand not visible", "black_pencil_skirt: torso not visible", "sheer_black_tights: leg not visible", "black_ankle_boots: foot not visible", "stocking_toes: mutex with black_ankle_boots", "red_toenails: foot not visible"],
-    "final_prompt": "Su Wan, a 28-year-old Chinese woman with long black hair in a middle part, fair skin, brown eyes and long eyelashes, soft jawline, close-up of her face showing nervous tension, red lipstick, long black hair framing the face. Blurred background."
-  },
-  {
-    "shot_id": 5,
-    "camera_framing": "hand_ecu",
-    "pose": "looking at the business card in hand",
-    "wardrobe_state_used": "public_formal",
-    "vgai_injected_attrs": ["red_fingernails"],
-    "vgai_dropped_attrs_with_reason": ["red_lipstick: face not visible", "black_pencil_skirt: torso not visible", "sheer_black_tights: leg not visible", "black_ankle_boots: foot not visible", "stocking_toes: mutex with black_ankle_boots", "red_toenails: foot not visible"],
-    "final_prompt": "Su Wan, a 28-year-old Chinese woman with long black hair in a middle part, fair skin, brown eyes and long eyelashes, soft jawline, extreme close-up of her hand holding a business card, red fingernails, fingers slightly trembling, focusing on the card. Blurred background."
-  },
-  {
-    "shot_id": 6,
-    "camera_framing": "back_reveal_walking",
-    "pose": "walking away with back to camera",
-    "wardrobe_state_used": "public_formal",
-    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
-    "vgai_dropped_attrs_with_reason": ["stocking_toes: mutex with black_ankle_boots, more visible footwear", "red_toenails: foot covered by black ankle boots"],
-    "final_prompt": "Su Wan, a 28-year-old Chinese woman with long black hair in a middle part, fair skin, brown eyes and long eyelashes, soft jawline, back view walking away, wearing a black pencil skirt, sheer black tights, black ankle boots, red fingernails, long black hair down. Street background, flower shop behind."
-  }
-]
+首先，我需要理解VGAI规则。属性只在anchor身体区域在framing.visible_regions里时才写入。禁用话术包括否定词、位置微管理、层叠话术和Dutch angle。框位对应不同的可视区域，比如cu_face包括脸、耳朵、脖子，ms_waist_up包括脸、耳朵、脖子、躯干、手，等等。关键原则是默认保留姿势暗示可能在画面内的anchor，除非明确隐藏才drop。mutex预检要求如果两个互斥成员都在survive集合里，必须选一个视觉显性的。
+
+人物Su Wan的base identity是28岁中国女性，黑长发过肩中分，白皙皮肤，棕眸长睫毛，柔软下颌线。持久grooming有red_fingernails（手）、red_toenails（脚，子锚点脚背）、red_lipstick（脸，可被亲密时刻或淋浴移除）。wardrobe state是public_formal，包括black_pencil_skirt（躯干）、sheer_black_tights（腿）、stocking_toes（脚）、black_ankle_boots（脚）。mutex_groups有[stocking_toes, black_ankle_boots]和[sheer_black_tights, bare_legs]，所以同一时间只能选一个。
+
+现在看用户要求的6个shot：
+1. establishing：应该是ws_establishing，可视区域为空，所以可能不需要具体属性，但需要描述场景。
+2. MS花店：medium shot，可能对应ms_waist_up，包括脸、耳朵、脖子、躯干、手。这里Su Wan在看花，所以手可能可见，但不确定是否在画面内。根据关键原则，姿势暗示手可能可见，所以默认保留hand相关属性。但wardrobe中手没有直接项目，但red_fingernails是持久grooming，anchor是hand，所以如果hand在visible_regions里，应该注入red_fingernails。ms_waist_up包括hand，所以应该注入。
+3. 手接名片ECU：extreme close-up hand，对应hand_ecu，可视区域只有hand。这里hand是主要焦点，所以必须注入red_fingernails。wardrobe中hand没有其他项目，但stocking_toes是脚，不相关。black_ankle_boots是脚，也不相关。所以这里只注入red_fingernails。
+4. CU面部紧张：cu_face，包括脸、耳朵、脖子。这里需要注入red_lipstick，因为anchor是face。但用户提到“面部紧张”，可能涉及表情，但属性只写物理特征。red_lipstick是持久grooming，应该注入。但要注意，public_formal状态下，red_lipstick应该存在，除非有移除理由。这里没有移除理由，所以注入。
+5. 手看名片ECU：又是hand_ecu，同样注入red_fingernails。
+6. 离开背影：back_reveal_walking，可视区域是躯干背、手、腿、脚。这里需要检查wardrobe。躯干有black_pencil_skirt，腿有sheer_black_tights，脚有stocking_toes和black_ankle_boots互斥。根据mutex，只能选一个。在public_formal状态下，两者都有？但mutex要求只能选一个。用户给的wardrobe state是public_formal，同时列出了stocking_toes和black_ankle_boots，但mutex组说它们互斥。所以必须决定哪个更显性。在背影中，脚部可能可见，但black_ankle_boots是靴子，stocking_toes是丝袜脚尖效果。通常public_formal可能搭配高跟鞋或靴子，但这里指定了both？需要看哪个更符合。用户说wardrobe state: public_formal，并列出两者，但mutex组要求只能选一个。可能public_formal默认包含两者？但规则说mutex预检必须挑一个。我需要根据视觉显性判断。在背影中，脚部可见，black_ankle_boots可能更显眼，因为靴子覆盖整个脚，而stocking_toes是丝袜细节，可能不那么显性。但stocking_toes是子锚点foot_top，可能在脚背可见。但两者互斥，不能同时存在。我可能需要根据常见搭配选择。用户没有指定优先，但public_formal通常可能穿靴子，但丝袜也是常见。或许在背影中，black_ankle_boots更可能被看到，因为整个脚被靴子覆盖，而stocking_toes需要脱鞋或特定设计。但这里wardrobe同时列出，可能是个错误？或者public_formal状态允许两者？但mutex组明确说互斥。我必须遵守规则，选一个。看用户给的例子：wardrobe state: public_formal - black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots。但mutex_groups有[stocking_toes, black_ankle_boots]和[sheer_black_tights, bare_legs]。所以对于脚部，stocking_toes和black_ankle_boots互斥，不能同时inject。同样，sheer_black_tights和bare_legs互斥，但这里sheer_black_tights存在，所以没问题。
+
+在背影shot中，framing是back_reveal_walking，visible_regions包括torso_back, hand, leg, foot。所以foot在可见区域，因此脚部属性需要决定。由于mutex，我必须选stocking_toes或black_ankle_boots之一。哪个更显性？在背影中，如果穿靴子，脚可能被靴子完全覆盖，看不到stocking_toes；如果穿丝袜配高跟鞋，可能看到脚背。但这里wardrobe有black_ankle_boots，是及踝靴，可能覆盖脚踝，但stocking_toes是丝袜脚尖，通常在穿鞋时不可见，除非是露趾设计。但black_ankle_boots是封闭的，所以stocking_toes可能不可见。因此，如果穿black_ankle_boots，foot区域被靴子覆盖，stocking_toes可能不在visible_regions？但foot锚点包括整个脚，即使穿靴子，脚本身在靴子内，但视觉上看到的是靴子，不是脚部皮肤。根据VGAI规则，属性只在anchor身体区域在framing.visible_regions里时写入。这里foot在visible_regions，但实际看到的是靴子，不是裸露的脚。所以对于black_ankle_boots，它是wardrobe item，anchor是foot，当foot可见时，如果穿靴子，我们注入black_ankle_boots。而stocking_toes也是anchor foot，但它是丝袜脚尖，如果穿靴子，可能不可见。所以根据互斥，只能选一个。在public_formal状态下，可能同时有sheer_black_tights和black_ankle_boots？但mutex说stocking_toes和black_ankle_boots互斥，所以不能同时有。因此，我需要决定在背影中哪个更合理。用户故事中Su Wan下班走出写字楼，地铁出口花店，公共正式场合，可能穿正式鞋如高跟鞋或靴子。black_ankle_boots是靴子，更可能用于正式场合？但pencil skirt通常搭配高跟鞋。不过用户指定了black_ankle_boots，所以可能她穿靴子。而stocking_toes是丝袜脚尖，通常配露趾鞋或凉鞋，但这里可能不搭配。或许在public_formal，她穿sheer_black_tights和black_ankle_boots，但mutex不允许。我可能需要检查mutex组：[stocking_toes, black_ankle_boots]互斥，意思是不能同时有丝袜脚尖和踝靴。所以如果穿踝靴，就不能有丝袜脚尖效果，因为靴子覆盖脚。因此，在背影中，如果她穿black_ankle_boots，那么foot区域可见的是靴子，所以注入black_ankle_boots，而stocking_toes不注入。反之，如果穿stocking_toes，则可能没穿靴子，但wardrobe有black_ankle_boots，矛盾。所以必须选一个。根据常见逻辑，穿及踝靴时，通常不会露出丝袜脚尖，除非靴子有开口。但这里black_ankle_boots是封闭的，所以应该选black_ankle_boots，drop stocking_toes。但用户wardrobe列表同时有两者，可能是个错误，或者public_formal状态默认包含？但规则强制mutex预检，所以必须选。
+
+再看其他shot：在MS花店、手接名片等，framing可能不包含foot，所以foot相关属性可能不注入，因为anchor不在visible_regions。例如，ms_waist_up包括hand，但不包括foot，所以foot属性不注入。同样，hand_ecu只有hand，注入red_fingernails。cu_face只有脸，注入red_lipstick。establishing是ws_establishing，visible_regions空，所以不注入任何属性。离开背影的framing是back_reveal_walking，包括foot，所以需要处理foot属性。
+
+现在，对于每个shot，我需要确定camera_framing，然后根据visible_regions决定注入哪些属性。属性包括持久grooming和wardrobe items，但base identity不算在vgai_injected_attrs里，只写在final_prompt。
+
+首先，列出6个shot的framing：
+1. establishing: ws_establishing
+2. MS花店: 可能ms_waist_up，因为medium shot waist up，但花店场景，她可能站着看花，所以上半身可见。
+3. 手接名片ECU: hand_ecu
+4. CU面部紧张: cu_face
+5. 手看名片ECU: hand_ecu
+6. 离开背影: back_reveal_walking
+
+现在，为每个shot生成vgai_injected_attrs，只包含grooming和wardrobe items，且只在anchor在visible_regions时注入。
+
+持久grooming:
+- red_fingernails: anchor hand
+- red_toenails: anchor foot, sub_anchor foot_top
+- red_lipstick: anchor face
+
+Wardrobe items (public_formal):
+- black_pencil_skirt: anchor torso
+- sheer_black_tights: anchor leg
+- stocking_toes: anchor foot
+- black_ankle_boots: anchor foot
+
+Mutual exclusion:
+- stocking_toes vs black_ankle_boots: 互斥，只能选一个。
+- sheer_black_tights vs bare_legs: 但这里sheer_black_tights存在，所以没问题，除非有bare_legs，但这里没有。
+
+对于每个shot，检查visible_regions是否包含anchor。
+
+Shot 1: establishing (ws_establishing)
+visible_regions: [] 空。所以不注入任何属性。vgai_injected_attrs应为空数组。但final_prompt需要描述场景，包括base identity和wardrobe？不，final_prompt应该包含所有描述，但vgai_injected_attrs只列出额外注入的属性。base identity总是写在final_prompt里，但不在vgai_injected_attrs。同样，wardrobe state可能部分在final_prompt描述，但vgai_injected_attrs只列出当anchor可见时注入的具体项目。对于establishing，可能看不到人物细节，所以final_prompt可能只描述环境，但用户要求输出shot，可能每个shot都涉及Su Wan？故事片段是Su Wan下班，所以establishing可能显示她走出写字楼，因此人物可见。但framing是ws_establishing，通常wide shot showing environment，可能人物小，但visible_regions为空，意味着没有指定锚点区域可见？根据框位定义，ws_establishing的visible_regions是空列表，所以即使人物在画面中，也没有特定body part被指定为可见区域？可能意味着在establishing shot中，我们不考虑具体身体部位属性，因为焦点在环境。所以vgai_injected_attrs应该为空。但final_prompt仍需描述Su Wan的外观，因为她是主角。规则说base identity永远在prompt里，但不算injected attr。所以final_prompt中会写“Su Wan, 28-year-old Chinese woman with black shoulder-length hair...”等，但vgai_injected_attrs只列出额外的grooming和wardrobe items当它们可见时。对于establishing，可能不注入任何，因为visible_regions空。
+
+但关键原则：姿势暗示某个anchor可能在画面内，默认保留。但这里framing是ws_establishing，visible_regions空，可能意味着没有特定区域被强调，所以可能不注入具体属性？或者根据姿势，她走出写字楼，整个身体可能可见，但framing定义说visible_regions空，可能意味着我们不指定任何锚点，所以不注入属性？我需要严格遵循：属性只在anchor身体区域在framing.visible_regions里时写入。对于ws_establishing，visible_regions是空，所以即使身体部分可见，也不写入属性？可能意思是，对于这个framing，我们不考虑锚点属性注入，因为它是环境建立镜头。所以vgai_injected_attrs为空。
+
+类似地，对于其他shot，根据visible_regions列表注入。
+
+现在逐个分析：
+
+Shot 1: establishing
+camera_framing: ws_establishing
+visible_regions: [] 
+pose: 她下班走出写字楼，所以可能是走路姿势，但framing不指定锚点。
+vgai_injected_attrs: 空，因为无可见锚点区域。
+vgai_dropped_attrs_with_reason: 可能有些属性因为不可见而drop，但规则是只在可见时写入，所以不可见就不写，不需要drop理由？输出要求有vgai_dropped_attrs_with_reason，所以需要列出哪些属性被dropped及原因。但属性只有那些在wardrobe和grooming中。对于这个shot，所有属性都可能drop，因为visible_regions空。但drop理由是什么？因为framing不显示任何特定身体区域，所以所有基于锚点的属性都不适用。但根据规则，属性只在anchor在visible_regions时写入，否则不写入，但drop列表应该包括那些本可能但不可见的？用户示例可能期望列出dropped attrs。看输出格式：vgai_dropped_attrs_with_reason。所以对于每个shot，需要说明哪些属性被排除及原因。
+
+但属性集合是哪些？从人物和wardrobe中，所有可能的属性：red_fingernails, red_toenails, red_lipstick, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots。但mutex组中，stocking_toes和black_ankle_boots互斥，所以只能存在一个，但初始wardrobe state列出两者，可能意味着在public_formal状态下，她穿着两者？但mutex禁止同时存在。所以需要先解决mutex。根据mutex预检，在组装前，对于每个mutex组，如果两个成员都在survive集合里，必须挑一个。survive集合是什么？可能指在当前shot中可能可见的属性。但mutex预检是全局还是每shot？规则说“对 character_sheet.mutex_groups 每一对，如果两个成员都在 survive 集合里，必须挑一个”。survive集合可能指在当前shot中根据visible_regions应该保留的属性集合？但pre-check是在组装前，可能意味着在决定注入哪些属性时，先考虑mutex。或许对于整个场景，wardrobe state已经确定，但mutex组要求只能选一个，所以需要根据上下文选择哪个更合理。用户wardrobe state列出两者，但mutex组存在，所以必须决定在public_formal状态下她实际穿哪个。可能public_formal默认包含black_ankle_boots，而stocking_toes是选项？但用户同时列出，可能是个矛盾。我需要基于逻辑选择。
+
+看故事：她下班走出写字楼，地铁出口花店，公共正式场合。穿pencil skirt和丝袜是常见的，鞋子可能是高跟鞋或靴子。black_ankle_boots是及踝靴，可能配丝袜。但stocking_toes是丝袜脚尖效果，通常用于露趾鞋，如果穿及踝靴，脚被覆盖，看不到脚尖，所以stocking_toes可能不适用。因此，在public_formal状态下，她可能穿sheer_black_tights和black_ankle_boots，但mutex组说stocking_toes和black_ankle_boots互斥，所以如果穿black_ankle_boots，就不能有stocking_toes。因此，在wardrobe中，应该只有black_ankle_boots，没有stocking_toes？但用户列表有两者。可能stocking_toes是当穿特定鞋时才有，但这里鞋是black_ankle_boots，所以stocking_toes不应存在。但用户指定wardrobe state包括stocking_toes，可能意味着她穿着有脚尖加固的丝袜，但靴子覆盖，所以不可见。但mutex是互斥，不能同时存在。或许在定义上，stocking_toes是一种丝袜类型，而black_ankle_boots是鞋，它们可以共存？但mutex组明确说互斥，所以不能同时inject。因此，在注入时，如果foot可见，只能选一个。
+
+对于背影shot，foot可见，需要选一个。根据视觉显性，black_ankle_boots更显眼，因为整个脚被靴子覆盖，而stocking_toes是细节，可能被靴子遮盖。所以选black_ankle_boots，drop stocking_toes。
+
+对于其他shot，如果foot不可见，则两者都不注入。
+
+现在，处理每个shot：
+
+Shot 1: establishing
+framing: ws_establishing, visible_regions: [] 
+所以没有锚点可见，因此不注入任何属性。vgai_injected_attrs: [] 
+vgai_dropped_attrs: 所有可能属性都因为不可见而drop。但需要列出具体。可能属性列表：从持久grooming和wardrobe。但drop理由：因为framing不显示任何特定身体区域。或者更具体：因为visible_regions为空，所有基于body part的属性均不适用。
+但用户要求vgai_dropped_attrs_with_reason，应该是一个对象或数组？输出格式是JSON数组，每shot有字段vgai_dropped_attrs_with_reason，可能是一个字符串或对象描述。看示例？用户没给示例，但说“vgai_dropped_attrs_with_reason”，可能是一个字符串解释为什么drop某些属性。或者是一个列表？从上下文，可能是一个字符串描述。但为了JSON，可以是字符串。
+
+我假设vgai_dropped_attrs_with_reason是一个字符串，列出dropped attributes和原因。
+
+但更可能，它是一个对象， mapping attribute to reason? 但用户说“vgai_dropped_attrs_with_reason”，可能类似“red_fingernails: hand not in visible_regions”。但为了简洁，可能用字符串。
+
+看输出要求：每shot含：shot_id / camera_framing / pose / wardrobe_state_used / vgai_injected_attrs / vgai_dropped_attrs_with_reason / final_prompt
+
+wardrobe_state_used 应该是指定的wardrobe state，这里是public_formal。
+
+vgai_injected_attrs 是数组，只包含注入的属性名。
+
+vgai_dropped_attrs_with_reason 可能是字符串，描述哪些属性被排除及原因。
+
+但为了结构化，可能是一个对象。但用户没说格式。我可以用字符串如"red_fingernails: hand not visible; red_lipstick: face not visible"等。
+
+但或许更简单：列出所有可能属性，说明为什么没注入。但可能冗长。另一个想法：vgai_dropped_attrs_with_reason 可能只列出那些在当前shot中由于visible_regions限制而没注入的属性，但本可能在其他shot注入。但每shot独立。
+
+我认为对于每个shot，根据visible_regions，决定注入哪些属性，其余属性都drop，但需要给出理由。理由主要是anchor不在visible_regions里，或mutex冲突。
+
+但mutex预检是全局的，可能在决定注入时就已经处理了互斥，所以 dropped attrs 可能包括因mutex而排除的。
+
+规则：mutepre预检（组装前强制）对mutex_groups每一对，如果两个成员都在survive集合里，必须挑一个。survive集合可能指当前shot中根据visible_regions应该保留的属性集合？但survive集合定义不明确。可能survive集合是那些anchor在visible_regions里的属性集合。然后对于mutex组，如果两个都在survive里，必须选一个视觉显性的注入，另一个drop。
+
+所以步骤：
+1. 对于当前shot，根据visible_regions，确定哪些属性的anchor在列表中。这些属性进入候选集合。
+2. 对于每个mutex组，如果组内两个属性都在候选集合，则根据视觉显性选择一个注入，另一个drop。
+3. 候选集合中剩余属性注入vgai_injected_attrs。
+4. 其他属性（anchor不在visible_regions或因mutex排除）列入vgai_dropped_attrs_with_reason，并给出原因。
+
+现在应用。
+
+首先，定义所有可能属性：
+Grooming: red_fingernails (hand), red_toenails (foot), red_lipstick (face)
+Wardrobe: black_pencil_skirt (torso), sheer_black_tights (leg), stocking_toes (foot), black_ankle_boots (foot)
+
+注意：sheer_black_tights anchor是leg，stocking_toes和black_ankle_boots anchor都是foot，但互斥。
+
+Mutual exclusion groups:
+Group1: [stocking_toes, black_ankle_boots] — 互斥，只能选一个。
+Group2: [sheer_black_tights, bare_legs] — 但这里没有bare_legs，所以不涉及。
+
+现在 per shot:
+
+Shot 1: establishing (ws_establishing)
+visible_regions: [] 
+所以没有anchor在可见区域，因此所有属性的anchor都不在visible_regions，所以候选集合空。因此vgai_injected_attrs为空。
+vgai_dropped_attrs: 所有属性都因为anchor不在visible_regions而drop。但需要列出？可能列出所有，但理由相同。或许可以概括。但为了具体，我列出每个属性及其原因。
+但输出中vgai_dropped_attrs_with_reason可能是一个字符串，我可以用分号分隔。
+例如："red_fingernails: hand not in visible_regions; red_toenails: foot not in visible_regions; ..."
+但wardrobe items同样。
+但mutex组中，由于候选集合空，没有互斥问题。
+
+Shot 2: MS花店 (ms_waist_up)
+visible_regions: [face, ear, neck, torso, hand]
+所以anchor在列表中的有：
+- face: red_lipstick (grooming)
+- torso: black_pencil_skirt (wardrobe)
+- hand: red_fingernails (grooming)
+ear和neck没有特定属性。
+leg和foot不在visible_regions，所以sheer_black_tights, stocking_toes, black_ankle_boots, red_toenails 都不在候选。
+候选集合: red_lipstick, black_pencil_skirt, red_fingernails
+现在检查mutex组：Group1涉及foot属性，但foot不在候选，所以不涉及。Group2涉及leg，但leg不在visible_regions？visible_regions有torso和hand，没有leg。sheer_black_tights anchor是leg，leg不在visible_regions，所以sheer_black_tights不在候选。因此无mutex冲突。
+所以vgai_injected_attrs: ["red_lipstick", "black_pencil_skirt", "red_fingernails"]
+注意：black_pencil_skirt是wardrobe，anchor torso在visible_regions，所以注入。
+dropped attrs: 那些anchor不在visible_regions的：sheer_black_tights (leg not visible), stocking_toes (foot not visible), black_ankle_boots (foot not visible), red_toenails (foot not visible)。原因：对应body part not in visible_regions。
+
+Shot 3: 手接名片ECU (hand_ecu)
+visible_regions: [hand]
+所以只有hand相关属性：red_fingernails (grooming)
+候选: red_fingernails
+其他属性anchor不在visible_regions，drop。
+vgai_injected_attrs: ["red_fingernails"]
+dropped: 所有其他，因为hand是唯一可见区域。
+
+Shot 4: CU面部紧张 (cu_face)
+visible_regions: [face, ear, neck]
+所以face相关：red_lipstick
+候选: red_lipstick
+其他drop。
+vgai_injected_attrs: ["red_lipstick"]
+
+Shot 5: 手看名片ECU (hand_ecu)
+同shot 3，visible_regions: [hand]
+vgai_injected_attrs: ["red_fingernails"]
+
+Shot 6: 离开背影 (back_reveal_walking)
+visible_regions: [torso_back, hand, leg, foot]
+注意：torso_back是躯干背面，hand, leg, foot。
+属性anchor：
+- torso: black_pencil_skirt，但anchor是torso，这里torso_back可见，所以应该注入？wardrobe item black_pencil_skirt anchor是torso，无论正面背面，只要torso可见就注入？规则说anchor身体区域，torso包括背面？在框位定义中，back_reveal_walking包括torso_back，所以torso区域可见，因此black_pencil_skirt应注入。
+- hand: red_fingernails
+- leg: sheer_black_tights (anchor leg)
+- foot: stocking_toes 和 black_ankle_boots 都anchor foot，但互斥。
+所以候选集合初步：black_pencil_skirt, red_fingernails, sheer_black_tights, stocking_toes, black_ankle_boots, red_toenails? red_toenails anchor foot，所以也在候选，但red_toenails是grooming，与wardrobe foot items互斥？mutex组只有stocking_toes和black_ankle_boots，red_toenails是另一个属性，可能可以共存？但逻辑上，如果穿black_ankle_boots，脚被覆盖，red_toenails可能不可见，但属性本身是脚部甲油，如果脚可见则注入。但这里foot可见，所以red_toenails也可能注入，但mutex组只针对stocking_toes和black_ankle_boots，所以red_toenails可以独立。但通常，如果穿靴子，脚趾不可见，所以red_toenails可能不注入，因为foot区域被靴子覆盖，但foot锚点仍然存在？根据规则，属性只在anchor身体区域在visible_regions里时写入。这里foot在visible_regions，但实际看到的是靴子，不是脚部皮肤。但anchor是foot，表示脚部区域，即使穿靴子，脚部区域在物理上存在，但视觉上被遮挡。规则说“属性只在 anchor 身体区域在 framing.visible_regions 里时写入”，意思是如果该身体部分在画面中可见（作为视觉元素），才写入属性。如果穿靴子，脚部被靴子覆盖，可能脚部皮肤不可见，但foot锚点可能仍算可见？需要解释。visible_regions是framing定义的身体区域列表，表示这些区域在画面中是可见的（可能作为身体部分）。如果穿靴子，脚部仍然存在，但被衣物覆盖，是否算“可见”？可能算，因为区域存在，但被覆盖。但规则有禁用话术如“hidden/covered by”，所以如果被覆盖，可能不写入属性？但这里属性是wardrobe items本身，如black_ankle_boots就是覆盖物。所以对于foot区域，如果穿靴子，我们注入black_ankle_boots属性，表示脚上穿着靴子。而red_toenails是脚趾甲油，如果穿靴子，脚趾不可见，则red_toenails不应注入，因为脚趾皮肤不可见。但anchor是foot，包括脚趾？foot_top是子锚点。red_toenails anchor是foot，但可能要求脚部皮肤可见。根据持久grooming，red_toenails anchor foot, sub_anchor foot_top，所以可能要求脚背或脚趾可见。如果穿靴子，脚被覆盖，则不可见，所以不注入。类似，stocking_toes是丝袜脚尖，如果穿靴子，也不可见。
+
+因此，在背影中，foot可见，但穿什么鞋决定哪些foot属性可见。由于mutex，只能选一种鞋。我们需要决定在public_formal状态下她穿哪个。用户wardrobe列表有both，但mutex要求选一。根据场景：下班，地铁出口，可能穿舒适鞋，但public_formal可能仍正式。black_ankle_boots是靴子，可能用于秋冬，但不确定。或许更常见的是穿高跟鞋，但这里指定boots。我假设在public_formal，她穿black_ankle_boots，因为列表中有，而stocking_toes可能用于凉鞋。但mutex组暗示两者不能同时存在，所以必须选。我选black_ankle_boots，因为它是鞋，而stocking_toes是丝袜细节，通常配露趾鞋。在正式场合，及踝靴可能更常见。但pencil skirt常搭配高跟鞋。不过用户指定了black_ankle_boots，所以可能她穿靴子。因此，对于foot，注入black_ankle_boots，drop stocking_toes和red_toenails（因为脚被靴子覆盖，脚趾不可见）。但red_toenails是grooming，如果脚被覆盖，可能不注入。但anchor foot在visible_regions，但实际脚部皮肤被覆盖，所以red_toenails不可见，因此不注入。类似，stocking_toes也不可见。
+
+但mutex组是stocking_toes和black_ankle_boots互斥，意思是如果穿black_ankle_boots，就不能有stocking_toes，反之亦然。所以如果选black_ankle_boots，则stocking_toes被排除。
+
+现在，对于背影shot：
+visible_regions: torso_back, hand, leg, foot
+- torso_back: black_pencil_skirt (wardrobe, anchor torso) — 注入
+- hand: red_fingernails — 注入
+- leg: sheer_black_tights (wardrobe, anchor leg) — 注入？但leg可见，sheer_black_tights是丝袜，应该可见。但mutex组有[sheer_black_tights, bare_legs]，但这里没有bare_legs，所以没问题。
+- foot: 需要决定。候选有stocking_toes, black_ankle_boots, red_toenails。但mutex: stocking_toes和black_ankle_boots互斥。根据视觉显性：在背影中，如果穿black_ankle_boots，靴子明显，而stocking_toes被覆盖不可见，所以选black_ankle_boots。red_toenails脚趾甲油，被靴子覆盖不可见，所以不注入。因此注入black_ankle_boots。
+但red_toenails呢？它不在mutex组，但foot被靴子覆盖，脚趾不可见，所以不应注入。理由：foot被black_ankle_boots覆盖，脚趾皮肤不可见。
+但规则说属性只在anchor身体区域在visible_regions里时写入。foot在visible_regions，但foot区域包括脚趾，如果被靴子覆盖，脚趾是否还算“可见”？可能不算，因为被覆盖。但visible_regions是framing定义的，表示该身体部分在画面中作为独立区域可见？如果穿靴子，脚部整体被靴子覆盖，但foot区域仍然存在，只是被衣物覆盖。但属性如red_toenails需要皮肤可见。所以可能，对于foot，如果被鞋覆盖，则foot皮肤相关属性不注入，但鞋属性注入。因此，red_toenails和stocking_toes（如果被覆盖）不注入，而black_ankle_boots注入。
+
+所以对于foot，我们注入black_ankle_boots，drop stocking_toes和red_toenails。
+
+现在，候选集合：black_pencil_skirt, red_fingernails, sheer_black_tights, black_ankle_boots
+检查mutex：Group1有stocking_toes和black_ankle_boots，但stocking_toes不在候选（因为被覆盖或互斥），所以无冲突。Group2不涉及。
+所以vgai_injected_attrs: ["black_pencil_skirt", "red_fingernails", "sheer_black_tights", "black_ankle_boots"]
+但sheer_black_tights anchor leg，leg在visible_regions，所以注入。但leg可见，丝袜应该可见。
+
+但mutex组有[sheer_black_tights, bare_legs]，但这里没有bare_legs，所以没问题。
+
+现在，dropped attrs: 
+- red_lipstick: face not in visible_regions (因为背影，脸不可见)
+- red_toenails: foot covered by boots, not visible
+- stocking_toes: excluded due to mutex with black_ankle_boots (or not visible under boots)
+但stocking_toes可能因为互斥而drop，即使可见，但因为我们选了black_ankle_boots，所以drop stocking_toes。
+
+但根据mutex预检，在候选集合中，如果两者都在，必须选一个。这里stocking_toes不在候选，因为？在决定候选时，我们根据visible_regions，foot在可见，所以stocking_toes和black_ankle_boots都在候选？不，候选是基于anchor在visible_regions的属性。foot在visible_regions，所以所有foot锚点的属性都在候选：stocking_toes, black_ankle_boots, red_toenails。但mutex组只针对stocking_toes和black_ankle_boots，所以如果两者都在候选，必须选一个。但red_toenails不在mutex组，可以共存？但逻辑上，如果穿black_ankle_boots，stocking_toes可能不适用，但mutex组明确说两者互斥，所以不能同时存在。因此，在候选集合中，stocking_toes和black_ankle_boots不能同时保留。我们需要选一个视觉显性的。在背影中，black_ankle_boots更显性，因为它是鞋，而stocking_toes是丝袜细节，可能被靴子遮盖。所以选black_ankle_boots，drop stocking_toes。red_toenails呢？它不与black_ankle_boots互斥，但如果穿靴子，脚趾不可见，所以red_toenails不应注入，因为foot皮肤被覆盖。但规则没有说被覆盖就不注入，只说anchor在visible_regions。但visible_regions表示该身体区域在画面中可见，如果被靴子覆盖，foot区域仍然可见（作为靴子的一部分？），但foot本身可能不直接可见。可能我们需要interpret：如果身体区域被衣物完全覆盖，是否还视为“可见”？例如，穿长袖，arm可见但皮肤不可见，但wardrobe item如sleeve是覆盖物。对于grooming如red_fingernails，如果手戴手套，则不可见。所以类似，如果foot穿靴子，脚趾皮肤不可见，则red_toenails不注入。但red_toenails的anchor是foot，但sub_anchor foot_top，可能要求脚背可见。如果穿靴子，脚背被覆盖，所以不可见。因此，red_toenails不应注入。
+
+因此，在候选集合中，对于foot，我们只考虑那些在foot可见时适用的属性。但根据visible_regions，foot在列表，意味着foot区域在画面中，但可能被覆盖。属性注入取决于该属性是否在视觉上显性。规则说“属性只在 anchor 身体区域在 framing.visible_regions 里时写入”，

@@ -1,0 +1,130 @@
+```json
+[
+  {
+    "shot_id": "beat01",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "standing on wet pavement, neon-lit Nanjing Rd, slight turn to camera",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: anchor(face) in visible_regions but ambiguous low-light"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, three_quarter_knee_up framing, dim city-night neon, wet pavement reflections"
+  },
+  {
+    "shot_id": "beat02",
+    "camera_framing": "cu_face",
+    "pose": "close-up as she turns toward off-screen male voice, rain mist",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails"],
+    "vgai_dropped_attrs_with_reason": ["black_pencil_skirt: torso not in cu_face visible_regions", "sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, cu_face framing, faint rain mist, city-night bokeh"
+  },
+  {
+    "shot_id": "beat03",
+    "camera_framing": "ms_waist_up",
+    "pose": "inside subway escalator, cool fluorescent, looking aside",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": ["sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, black_pencil_skirt, ms_waist_up framing, subway escalator cool fluorescent light"
+  },
+  {
+    "shot_id": "beat04",
+    "camera_framing": "full_body_standing",
+    "pose": "subway platform end, train headlights approaching back-light",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: anchor(face) exists but low-key lighting keeps subtle"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, full_body_standing framing, subway platform, tunnel back-light"
+  },
+  {
+    "shot_id": "beat05",
+    "camera_framing": "ms_waist_up",
+    "pose": "inside train car, seated by door, neon flicker through glass",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": ["sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, black_pencil_skirt, ms_waist_up framing, subway interior, neon flicker through windows"
+  },
+  {
+    "shot_id": "beat06",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "exiting subway, light rain, umbrella offered",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: subtle under rain haze"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, three_quarter_knee_up framing, night drizzle, subway entrance glow"
+  },
+  {
+    "shot_id": "beat07",
+    "camera_framing": "cu_face",
+    "pose": "inside 24h flower shop, warm overhead light, looking at rose",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails"],
+    "vgai_dropped_attrs_with_reason": ["black_pencil_skirt: torso not in cu_face visible_regions", "sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, cu_face framing, warm flower-shop light, rose in foreground blur"
+  },
+  {
+    "shot_id": "beat08",
+    "camera_framing": "ms_waist_up",
+    "pose": "rain-soaked street, taxi arriving, rose in hand",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": ["sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, black_pencil_skirt, ms_waist_up framing, wet street, taxi headlights, rose in hand"
+  },
+  {
+    "shot_id": "beat09",
+    "camera_framing": "full_body_standing",
+    "pose": "elevator interior mirror walls, holding rose, phone 1%",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: visible but low-key"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, full_body_standing framing, elevator mirror walls, rose, phone glow 1%"
+  },
+  {
+    "shot_id": "beat10",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "entering dim bar corridor, violet neon glow",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: neon tint alters hue"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, three_quarter_knee_up framing, narrow bar corridor, violet neon"
+  },
+  {
+    "shot_id": "beat11",
+    "camera_framing": "ms_waist_up",
+    "pose": "seated in bar booth, candle flicker, penicillin cocktail",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": ["sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, black_pencil_skirt, ms_waist_up framing, candlelit booth, penicillin cocktail glass"
+  },
+  {
+    "shot_id": "beat12",
+    "camera_framing": "cu_face",
+    "pose": "inside dim booth, violet side-light, reflective eyes",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails"],
+    "vgai_dropped_attrs_with_reason": ["black_pencil_skirt: torso not in cu_face visible_regions", "sheer_black_tights: leg not in visible_regions", "stocking_toes: foot not in visible_regions", "black_ankle_boots: foot not in visible_regions"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_lipstick, red_fingernails, cu_face framing, bar violet side-light, reflective pupils"
+  },
+  {
+    "shot_id": "beat13",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "leaving bar at dawn, neon ‘M’ sign behind, rose tucked under arm",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: faint after long night"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, three_quarter_knee_up framing, dawn alley, fading neon ‘M’"
+  },
+  {
+    "shot_id": "beat14",
+    "camera_framing": "full_body_standing",
+    "pose": "empty dawn street, taxi departed, holding rose, soft blue hour",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["red_lipstick: subtle at blue hour"],
+    "final_prompt": "Su Wan, 28, Chinese woman, straight black hair past shoulders center-parted, fair skin, brown eyes long lashes, soft jawline, red_fingernails, black_pencil_skirt, sheer_black_tights, stocking_toes, black_ankle_boots, full_body_standing framing, empty dawn street, rose, soft blue hour"
+  }
+]
+```

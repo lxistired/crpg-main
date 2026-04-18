@@ -1,0 +1,68 @@
+[
+  {
+    "ok": true,
+    "label": "v1_baseline",
+    "iter": 1,
+    "chars": 2161,
+    "elapsed": 9.044361114501953,
+    "cost": 0.004678,
+    "prompt_tokens": 587,
+    "completion_tokens": 1449,
+    "provider": "Groq"
+  },
+  {
+    "ok": true,
+    "label": "v1_baseline",
+    "iter": 2,
+    "chars": 1655,
+    "elapsed": 6.91838812828064,
+    "cost": 0.0039,
+    "prompt_tokens": 587,
+    "completion_tokens": 1147,
+    "provider": "Groq"
+  },
+  {
+    "ok": true,
+    "label": "v1_baseline",
+    "iter": 3,
+    "chars": 1741,
+    "elapsed": 8.148936033248901,
+    "cost": 0.004009,
+    "prompt_tokens": 587,
+    "completion_tokens": 1226,
+    "provider": "Groq"
+  },
+  {
+    "ok": true,
+    "label": "v2_hardened",
+    "iter": 1,
+    "chars": 2268,
+    "elapsed": 8.886019229888916,
+    "cost": 0.004938,
+    "prompt_tokens": 774,
+    "completion_tokens": 1516,
+    "provider": "Groq"
+  },
+  {
+    "ok": true,
+    "label": "v2_hardened",
+    "iter": 2,
+    "chars": 2216,
+    "elapsed": 8.73090386390686,
+    "cost": 0.005283,
+    "prompt_tokens": 774,
+    "completion_tokens": 1503,
+    "provider": "Groq"
+  },
+  {
+    "ok": true,
+    "label": "v2_hardened",
+    "iter": 3,
+    "chars": 2192,
+    "elapsed": 9.123607635498047,
+    "cost": 0.004923,
+    "prompt_tokens": 774,
+    "completion_tokens": 1511,
+    "provider": "Groq"
+  }
+]

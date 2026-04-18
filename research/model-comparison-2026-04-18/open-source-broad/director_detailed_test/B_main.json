@@ -1,0 +1,88 @@
+```json
+[
+  {
+    "shot_id": "shot_01",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "Su Wan strides across the rain-slick granite plaza outside the mall, chin tucked against the collar of her buttoned blazer, city neon flickering across her face",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt", "sheer_black_tights"],
+    "vgai_dropped_attrs_with_reason": [
+      "black_ankle_boots: foot not in visible_regions {face,ear,neck,torso,hand,leg_upper}",
+      "stocking_toes: foot not in visible_regions",
+      "red_toenails: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline, red lipstick, red fingernails, black pencil skirt, sheer black tights, three-quarter knee-up framing, Su Wan strides across the rain-slick granite plaza outside the mall, chin tucked against the collar of her buttoned blazer, city neon flickering across her face"
+  },
+  {
+    "shot_id": "shot_02",
+    "camera_framing": "cu_face",
+    "pose": "close-up as she glances sideways at the stranger, subway entrance green light reflected in her eyes, raindrops sparkling on her lashes",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: hand not in visible_regions {face,ear,neck}",
+      "black_pencil_skirt: torso not in visible_regions",
+      "sheer_black_tights: leg not in visible_regions",
+      "black_ankle_boots: foot not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "red_toenails: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline, red lipstick, cu_face framing, close-up as she glances sideways at the stranger, subway entrance green light reflected in her eyes, raindrops sparkling on her lashes"
+  },
+  {
+    "shot_id": "shot_03",
+    "camera_framing": "ms_waist_up",
+    "pose": "standing inside the subway entrance, one hand holding the strap of her bag, the other brushing rain from her hair, cold fluorescent light washing over her",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": [
+      "sheer_black_tights: leg not in visible_regions {face,ear,neck,torso,hand}",
+      "black_ankle_boots: foot not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "red_toenails: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline, red lipstick, red fingernails, black pencil skirt, ms_waist_up framing, standing inside the subway entrance, one hand holding the strap of her bag, the other brushing rain from her hair, cold fluorescent light washing over her"
+  },
+  {
+    "shot_id": "shot_04",
+    "camera_framing": "full_body_standing",
+    "pose": "on the platform edge, back to the camera, wind from the approaching train whipping her hair and skirt, city lights streaking behind",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_toenails: foot_top not visible through black_ankle_boots (mutex)"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline, red lipstick, red fingernails, black pencil skirt, sheer black tights, stocking toes, black ankle boots, full_body_standing framing, on the platform edge, back to the camera, wind from the approaching train whipping her hair and skirt, city lights streaking behind"
+  },
+  {
+    "shot_id": "shot_05",
+    "camera_framing": "ms_waist_up",
+    "pose": "seated inside the half-empty subway car, hands clasped over her lap, red nails vivid against black skirt, flickering carriage lights casting moving shadows",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick", "red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": [
+      "sheer_black_tights: leg not in visible_regions {face,ear,neck,torso,hand}",
+      "black_ankle_boots: foot not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "red_toenails: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline, red lipstick, red fingernails, black pencil skirt, ms_waist_up framing, seated inside the half-empty subway car, hands clasped over her lap, red nails vivid against black skirt, flickering carriage lights casting moving shadows"
+  },
+  {
+    "shot_id": "shot_06",
+    "camera_framing": "cu_face",
+    "pose": "in the flower shop, soft overhead bulbs lighting her face, she holds the rose stem, eyes locked on the man, tension written in the curve of her brow",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: hand not in visible_regions {face,ear,neck}",
+      "black_pencil_skirt: torso not in visible_regions",
+      "sheer_black_tights: leg not in visible_regions",
+      "black_ankle_boots: foot not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "red_toenails: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black hair parted in the middle past shoulders, fair skin, brown eyes with long lashes, soft jawline, red lipstick, cu_face framing, in the flower shop, soft overhead bulbs lighting her face, she holds the rose stem, eyes locked on the man, tension written in the curve of her brow"
+  }
+]
+```

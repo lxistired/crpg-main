@@ -3,340 +3,219 @@
     "ok": true,
     "model": "z-ai/glm-5.1",
     "task": "director",
-    "chars": 4861,
-    "elapsed": 57.207019090652466,
+    "chars": 5697,
+    "elapsed": 117.23913860321045,
     "prompt_tokens": 721,
-    "completion_tokens": 3248,
-    "cost": 0.0153006
+    "completion_tokens": 5209,
+    "cost": 0.0191432
   },
   {
     "ok": true,
     "model": "z-ai/glm-5.1",
     "task": "script",
-    "chars": 2910,
-    "elapsed": 217.70887231826782,
+    "chars": 2229,
+    "elapsed": 84.19559597969055,
     "prompt_tokens": 625,
+    "completion_tokens": 3868,
+    "cost": 0.0178942
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.6-plus",
+    "task": "director",
+    "chars": 6300,
+    "elapsed": 134.03461813926697,
+    "prompt_tokens": 749,
+    "completion_tokens": 7351,
+    "cost": 0.014577875
+  },
+  {
+    "ok": false,
+    "model": "qwen/qwen3.6-plus",
+    "task": "script",
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 304.33715200424194
+  },
+  {
+    "ok": false,
+    "model": "qwen/qwen3.5-397b-a17b",
+    "task": "director",
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 302.3219938278198
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.5-397b-a17b",
+    "task": "script",
+    "chars": 671,
+    "elapsed": 52.0925829410553,
+    "prompt_tokens": 661,
     "completion_tokens": 8000,
-    "cost": 0.036075
-  },
-  {
-    "ok": true,
-    "model": "qwen/qwen3.6-plus",
-    "task": "director",
-    "chars": 5421,
-    "elapsed": 148.46607995033264,
-    "prompt_tokens": 749,
-    "completion_tokens": 8138,
-    "cost": 0.016112525
-  },
-  {
-    "ok": true,
-    "model": "qwen/qwen3.6-plus",
-    "task": "script",
-    "chars": 2220,
-    "elapsed": 160.1765558719635,
-    "prompt_tokens": 661,
-    "completion_tokens": 8722,
-    "cost": 0.017222725
-  },
-  {
-    "ok": true,
-    "model": "qwen/qwen3.5-397b-a17b",
-    "task": "director",
-    "chars": 4576,
-    "elapsed": 201.62052989006042,
-    "prompt_tokens": 749,
-    "completion_tokens": 11100,
-    "cost": 0.02626611
-  },
-  {
-    "ok": true,
-    "model": "qwen/qwen3.5-397b-a17b",
-    "task": "script",
-    "chars": 1971,
-    "elapsed": 147.05613684654236,
-    "prompt_tokens": 661,
-    "completion_tokens": 7432,
-    "cost": 0.01764867
+    "cost": 0.02836355
   },
   {
     "ok": true,
     "model": "qwen/qwen3-max-thinking",
     "task": "director",
-    "chars": 7909,
-    "elapsed": 62.4591109752655,
+    "chars": 6090,
+    "elapsed": 49.81520891189575,
     "prompt_tokens": 750,
-    "completion_tokens": 2007,
-    "cost": 0.0084123
+    "completion_tokens": 1597,
+    "cost": 0.0068133
   },
   {
     "ok": true,
     "model": "qwen/qwen3-max-thinking",
     "task": "script",
-    "chars": 1610,
-    "elapsed": 38.7449631690979,
+    "chars": 2046,
+    "elapsed": 48.65772604942322,
     "prompt_tokens": 687,
-    "completion_tokens": 1231,
-    "cost": 0.00533676
+    "completion_tokens": 1555,
+    "cost": 0.00660036
   },
   {
     "ok": true,
     "model": "nvidia/nemotron-3-super-120b-a12b",
     "task": "director",
-    "chars": 4951,
-    "elapsed": 77.03589105606079,
+    "chars": 5594,
+    "elapsed": 72.06429409980774,
     "prompt_tokens": 867,
-    "completion_tokens": 1341,
-    "cost": 0.00068148
+    "completion_tokens": 1443,
+    "cost": 0.00072738
   },
   {
     "ok": true,
     "model": "nvidia/nemotron-3-super-120b-a12b",
     "task": "script",
-    "chars": 23,
-    "elapsed": 1.2966508865356445,
-    "prompt_tokens": 880,
-    "completion_tokens": 7,
-    "cost": 9.15e-05
+    "chars": 213,
+    "elapsed": 20.036691904067993,
+    "prompt_tokens": 1026,
+    "completion_tokens": 201,
+    "cost": 0.00018279
   },
   {
     "ok": true,
     "model": "mistralai/mistral-large-2512",
     "task": "director",
-    "chars": 6122,
-    "elapsed": 23.933294773101807,
+    "chars": 5650,
+    "elapsed": 21.58753514289856,
     "prompt_tokens": 846,
-    "completion_tokens": 1653,
-    "cost": 0.0029025
+    "completion_tokens": 1511,
+    "cost": 0.0026895
   },
   {
     "ok": true,
     "model": "mistralai/mistral-large-2512",
     "task": "script",
-    "chars": 4242,
-    "elapsed": 107.1537299156189,
-    "prompt_tokens": 869,
-    "completion_tokens": 4232,
-    "cost": 0.0067825
+    "chars": 2799,
+    "elapsed": 73.55301403999329,
+    "prompt_tokens": 778,
+    "completion_tokens": 2724,
+    "cost": 0.004475
   },
   {
     "ok": true,
     "model": "mistralai/mistral-small-creative",
     "task": "director",
-    "chars": 4664,
-    "elapsed": 10.886530637741089,
+    "chars": 3346,
+    "elapsed": 7.854840040206909,
     "prompt_tokens": 846,
-    "completion_tokens": 1171,
-    "cost": 0.0004359
+    "completion_tokens": 893,
+    "cost": 0.0003525
   },
   {
     "ok": true,
     "model": "mistralai/mistral-small-creative",
     "task": "script",
-    "chars": 2272,
-    "elapsed": 19.23820185661316,
+    "chars": 2424,
+    "elapsed": 19.263000011444092,
     "prompt_tokens": 869,
-    "completion_tokens": 2143,
-    "cost": 0.0007298
+    "completion_tokens": 2281,
+    "cost": 0.0007712
   },
   {
-    "ok": true,
+    "ok": false,
     "model": "moonshotai/kimi-k2-thinking",
     "task": "director",
-    "chars": 4192,
-    "elapsed": 128.07136011123657,
-    "prompt_tokens": 711,
-    "completion_tokens": 4129,
-    "cost": 0.0107491
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 300.50111269950867
   },
   {
-    "ok": true,
+    "ok": false,
     "model": "moonshotai/kimi-k2-thinking",
     "task": "script",
-    "chars": 2640,
-    "elapsed": 140.19643783569336,
-    "prompt_tokens": 587,
-    "completion_tokens": 2839,
-    "cost": 0.0074497
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 305.1481702327728
   },
   {
     "ok": true,
     "model": "moonshotai/kimi-k2.5",
     "task": "director",
-    "chars": 6572,
-    "elapsed": 98.13952994346619,
+    "chars": 5913,
+    "elapsed": 105.80553197860718,
     "prompt_tokens": 712,
-    "completion_tokens": 6656,
+    "completion_tokens": 4951,
     "cost": 0
   },
   {
-    "ok": true,
+    "ok": false,
     "model": "moonshotai/kimi-k2.5",
     "task": "script",
-    "chars": 2050,
-    "elapsed": 32.48640298843384,
-    "prompt_tokens": 588,
-    "completion_tokens": 2115,
-    "cost": 0
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 315.0028519630432
   },
   {
     "ok": true,
     "model": "stepfun/step-3.5-flash",
     "task": "director",
-    "chars": 4706,
-    "elapsed": 125.07510900497437,
-    "prompt_tokens": 753,
-    "completion_tokens": 7675,
-    "cost": 0.0023778
+    "chars": 18219,
+    "elapsed": 42.91191291809082,
+    "prompt_tokens": 754,
+    "completion_tokens": 8000,
+    "cost": 0.0024754
   },
   {
     "ok": true,
     "model": "stepfun/step-3.5-flash",
     "task": "script",
-    "chars": 4664,
-    "elapsed": 133.30717301368713,
+    "chars": 3636,
+    "elapsed": 29.741145849227905,
     "prompt_tokens": 623,
-    "completion_tokens": 5550,
-    "cost": 0.0017273
+    "completion_tokens": 3959,
+    "cost": 0.00125
   },
   {
-    "ok": true,
+    "ok": false,
     "model": "deepseek/deepseek-v3.2-speciale",
     "task": "director",
-    "chars": 33026,
-    "elapsed": 373.153591632843,
-    "prompt_tokens": 741,
-    "completion_tokens": 8000,
-    "cost": 0.0098964
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 302.4220631122589
   },
   {
-    "ok": true,
+    "ok": false,
     "model": "deepseek/deepseek-v3.2-speciale",
     "task": "script",
-    "chars": 12687,
-    "elapsed": 365.16927003860474,
-    "prompt_tokens": 610,
-    "completion_tokens": 8000,
-    "cost": 0.009844
+    "error": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)",
+    "elapsed": 313.3544759750366
   },
   {
     "ok": true,
     "model": "minimax/minimax-m2.5",
     "task": "director",
-    "chars": 4160,
-    "elapsed": 81.92530107498169,
+    "chars": 3466,
+    "elapsed": 44.98908495903015,
     "prompt_tokens": 796,
-    "completion_tokens": 1763,
-    "cost": 0.001839062
+    "completion_tokens": 1953,
+    "cost": 0.002027162
   },
   {
     "ok": true,
     "model": "minimax/minimax-m2.5",
     "task": "script",
-    "chars": 2164,
-    "elapsed": 24.242850065231323,
+    "chars": 2344,
+    "elapsed": 15.755107164382935,
     "prompt_tokens": 580,
-    "completion_tokens": 3138,
-    "cost": 0.0039396
-  },
-  {
-    "ok": true,
-    "model": "minimax/minimax-m2.7",
-    "task": "director",
-    "chars": 4681,
-    "elapsed": 82.2144730091095,
-    "prompt_tokens": 708,
-    "completion_tokens": 1623,
-    "cost": 0.00216
-  },
-  {
-    "ok": true,
-    "model": "minimax/minimax-m2.7",
-    "task": "script",
-    "chars": 1852,
-    "elapsed": 25.019082069396973,
-    "prompt_tokens": 579,
-    "completion_tokens": 1523,
-    "cost": 0.0020013
-  },
-  {
-    "ok": true,
-    "model": "xiaomi/mimo-v2-flash",
-    "task": "director",
-    "chars": 3218,
-    "elapsed": 7.499012231826782,
-    "prompt_tokens": 750,
-    "completion_tokens": 843,
-    "cost": 0.00032763
-  },
-  {
-    "ok": true,
-    "model": "xiaomi/mimo-v2-flash",
-    "task": "script",
-    "chars": 4113,
-    "elapsed": 30.314009189605713,
-    "prompt_tokens": 687,
-    "completion_tokens": 2864,
-    "cost": 0.00092772
-  },
-  {
-    "ok": true,
-    "model": "xiaomi/mimo-v2-pro",
-    "task": "director",
-    "chars": 6264,
-    "elapsed": 51.96185779571533,
-    "prompt_tokens": 748,
-    "completion_tokens": 4032,
-    "cost": 0.012844
-  },
-  {
-    "ok": true,
-    "model": "xiaomi/mimo-v2-pro",
-    "task": "script",
-    "chars": 2391,
-    "elapsed": 52.54409384727478,
-    "prompt_tokens": 685,
-    "completion_tokens": 2901,
-    "cost": 0.009388
-  },
-  {
-    "ok": true,
-    "model": "qwen/qwen3.5-plus-02-15",
-    "task": "director",
-    "chars": 5009,
-    "elapsed": 172.49363017082214,
-    "prompt_tokens": 749,
-    "completion_tokens": 9445,
-    "cost": 0.01492894
-  },
-  {
-    "ok": true,
-    "model": "qwen/qwen3.5-plus-02-15",
-    "task": "script",
-    "chars": 3180,
-    "elapsed": 170.85372710227966,
-    "prompt_tokens": 661,
-    "completion_tokens": 8557,
-    "cost": 0.01352078
-  },
-  {
-    "ok": true,
-    "model": "nex-agi/deepseek-v3.1-nex-n1",
-    "task": "director",
-    "chars": 5426,
-    "elapsed": 25.2636079788208,
-    "prompt_tokens": 740,
-    "completion_tokens": 1480,
-    "cost": 0.0008399
-  },
-  {
-    "ok": true,
-    "model": "nex-agi/deepseek-v3.1-nex-n1",
-    "task": "script",
-    "chars": 3210,
-    "elapsed": 32.1963152885437,
-    "prompt_tokens": 609,
-    "completion_tokens": 2144,
-    "cost": 0.001154215
+    "completion_tokens": 1966,
+    "cost": 0.0024462
   }
 ]

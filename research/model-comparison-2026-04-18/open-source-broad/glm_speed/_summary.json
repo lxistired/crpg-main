@@ -1,0 +1,242 @@
+[
+  {
+    "ok": true,
+    "label": "glm-5.1_fireworks",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Fireworks"
+    ],
+    "iter": 1,
+    "chars": 2042,
+    "elapsed": 188.92277598381042,
+    "prompt_tokens": 625,
+    "completion_tokens": 4827,
+    "cost": 0.02211038,
+    "provider_returned": "Fireworks"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_fireworks",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Fireworks"
+    ],
+    "iter": 2,
+    "chars": 2168,
+    "elapsed": 237.02067875862122,
+    "prompt_tokens": 625,
+    "completion_tokens": 6688,
+    "cost": 0.03029878,
+    "provider_returned": "Fireworks"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_together",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Together"
+    ],
+    "iter": 1,
+    "chars": 11605,
+    "elapsed": 75.16372585296631,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.036075,
+    "provider_returned": "Together"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_together",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Together"
+    ],
+    "iter": 2,
+    "chars": 11933,
+    "elapsed": 70.38335919380188,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.036075,
+    "provider_returned": "Together"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_siliconflow",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "SiliconFlow"
+    ],
+    "iter": 1,
+    "chars": 2646,
+    "elapsed": 163.3400330543518,
+    "prompt_tokens": 625,
+    "completion_tokens": 9125,
+    "cost": 0.041025,
+    "provider_returned": "SiliconFlow"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_siliconflow",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "SiliconFlow"
+    ],
+    "iter": 2,
+    "chars": 2692,
+    "elapsed": 154.60489869117737,
+    "prompt_tokens": 625,
+    "completion_tokens": 8403,
+    "cost": 0.0378482,
+    "provider_returned": "SiliconFlow"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_chutes",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Chutes"
+    ],
+    "iter": 1,
+    "chars": 11584,
+    "elapsed": 316.757737159729,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.02579375,
+    "provider_returned": "Chutes"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_chutes",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Chutes"
+    ],
+    "iter": 2,
+    "chars": 11627,
+    "elapsed": 321.75912499427795,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.02579375,
+    "provider_returned": "Chutes"
+  },
+  {
+    "ok": true,
+    "label": "glm-5-turbo_zai",
+    "model": "z-ai/glm-5-turbo",
+    "providers": [
+      "Z.AI"
+    ],
+    "iter": 1,
+    "chars": 2876,
+    "elapsed": 117.90548396110535,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.03275,
+    "provider_returned": "Z.AI"
+  },
+  {
+    "ok": true,
+    "label": "glm-5-turbo_zai",
+    "model": "z-ai/glm-5-turbo",
+    "providers": [
+      "Z.AI"
+    ],
+    "iter": 2,
+    "chars": 11752,
+    "elapsed": 139.7390661239624,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.03275,
+    "provider_returned": "Z.AI"
+  },
+  {
+    "ok": true,
+    "label": "glm-5-turbo_atlas",
+    "model": "z-ai/glm-5-turbo",
+    "providers": [
+      "AtlasCloud"
+    ],
+    "iter": 1,
+    "chars": 2287,
+    "elapsed": 210.94489097595215,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.03275,
+    "provider_returned": "AtlasCloud"
+  },
+  {
+    "ok": true,
+    "label": "glm-5-turbo_atlas",
+    "model": "z-ai/glm-5-turbo",
+    "providers": [
+      "AtlasCloud"
+    ],
+    "iter": 2,
+    "chars": 2805,
+    "elapsed": 139.4328498840332,
+    "prompt_tokens": 625,
+    "completion_tokens": 4354,
+    "cost": 0.018166,
+    "provider_returned": "AtlasCloud"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_deepinfra_fp4",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "DeepInfra"
+    ],
+    "iter": 1,
+    "chars": 2296,
+    "elapsed": 99.62612509727478,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.036002040000384,
+    "provider_returned": "DeepInfra"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_deepinfra_fp4",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "DeepInfra"
+    ],
+    "iter": 2,
+    "chars": 11705,
+    "elapsed": 116.57034516334534,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.036002040000384,
+    "provider_returned": "DeepInfra"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_baseline_zai",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Z.AI"
+    ],
+    "iter": 1,
+    "chars": 2675,
+    "elapsed": 165.71291303634644,
+    "prompt_tokens": 625,
+    "completion_tokens": 8000,
+    "cost": 0.036075,
+    "provider_returned": "Z.AI"
+  },
+  {
+    "ok": true,
+    "label": "glm-5.1_baseline_zai",
+    "model": "z-ai/glm-5.1",
+    "providers": [
+      "Z.AI"
+    ],
+    "iter": 2,
+    "chars": 3023,
+    "elapsed": 177.62727308273315,
+    "prompt_tokens": 625,
+    "completion_tokens": 6540,
+    "cost": 0.029651,
+    "provider_returned": "Z.AI"
+  }
+]

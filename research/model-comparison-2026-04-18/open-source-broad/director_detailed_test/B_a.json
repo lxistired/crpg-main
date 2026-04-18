@@ -1,0 +1,48 @@
+[
+  {
+    "shot_id": "A01",
+    "camera_framing": "three_quarter_knee_up",
+    "pose": "holding rose and umbrella, turns away from Kai, rain-drenched city sidewalk, neon reflections on wet asphalt",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": ["stocking_toes: foot not in visible_regions {face,ear,neck,torso,hand,leg_upper}"],
+    "final_prompt": "28-year-old Chinese woman, black center-parted hair past shoulders, fair skin, brown eyes, long lashes, soft jawline, holding rose and umbrella, turns away from Kai, rain-drenched city sidewalk, neon reflections on wet asphalt, three_quarter_knee_up framing, wearing black pencil skirt, sheer black tights, black ankle boots, red lipstick and red fingernails"
+  },
+  {
+    "shot_id": "A02",
+    "camera_framing": "ms_waist_up",
+    "pose": "sitting in taxi back seat, rain-blurred city lights through window, rose on lap",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": [
+      "sheer_black_tights: leg not in visible_regions {face,ear,neck,torso,hand}",
+      "stocking_toes: foot not in visible_regions",
+      "black_ankle_boots: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, black center-parted hair past shoulders, fair skin, brown eyes, long lashes, soft jawline, sitting in taxi back seat, rain-blurred city lights through window, rose on lap, ms_waist_up framing, wearing black pencil skirt, red lipstick and red fingernails"
+  },
+  {
+    "shot_id": "A03",
+    "camera_framing": "cu_face",
+    "pose": "phone screen glow on face inside elevator, white overhead light, rose reflected in metal walls",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: hand not in visible_regions {face,ear,neck}",
+      "black_pencil_skirt: torso not in visible_regions",
+      "sheer_black_tights: leg not in visible_regions",
+      "stocking_toes: foot not in visible_regions",
+      "black_ankle_boots: foot not in visible_regions"
+    ],
+    "final_prompt": "28-year-old Chinese woman, black center-parted hair past shoulders, fair skin, brown eyes, long lashes, soft jawline, phone screen glow on face inside elevator, white overhead light, rose reflected in metal walls, cu_face framing, wearing red lipstick"
+  },
+  {
+    "shot_id": "A04",
+    "camera_framing": "full_body_standing",
+    "pose": "backlit in dark corridor, rose under arm, phone dark, thumb poised over blank screen, only emergency exit sign glow",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "red_lipstick", "black_pencil_skirt", "sheer_black_tights", "stocking_toes", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": [],
+    "final_prompt": "28-year-old Chinese woman, black center-parted hair past shoulders, fair skin, brown eyes, long lashes, soft jawline, backlit in dark corridor, rose under arm, phone dark, thumb poised over blank screen, only emergency exit sign glow, full_body_standing framing, wearing black pencil skirt, sheer black tights, black ankle boots, stocking toes, red lipstick and red fingernails"
+  }
+]
