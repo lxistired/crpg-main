@@ -77,3 +77,10 @@ async def test_pipeline_e2e_mocked(tmp_path, httpx_mock, demo_brief, fixture_pat
     assert (out / "meta.json").exists()
     # All beats have shots dirs with rendered PNGs
     assert len(list((out / "shots").iterdir())) == 4
+    # prose + story.md now persisted
+    assert (out / "prose").is_dir()
+    prose_files = list((out / "prose").glob("*.md"))
+    assert len(prose_files) == 4  # one per beat
+    assert (out / "story.md").exists()
+    story_md = (out / "story.md").read_text(encoding="utf-8")
+    assert "Rainy Noir" in story_md

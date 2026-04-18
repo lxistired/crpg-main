@@ -56,6 +56,9 @@ async def _process_beat(
     else:
         prose = await run_script_short(or_client, beat_user_prompt=beat_user)
 
+    # Persist prose to bundle
+    writer.write_beat_prose(beat_id=beat.id, prose=prose)
+
     # Director
     shots = await run_director(
         or_client,
@@ -114,4 +117,5 @@ async def run_pipeline(cfg: ProjectConfig, inputs: PipelineInputs) -> PipelineRe
         suffix_versions={"STRONG": "v1", "FEW_SHOT": "v1", "LENGTH_SHORT": "v1"},
     )
     writer.write(story=story, characters=characters, meta=meta)
+    writer.write_story_md(story=story)
     return PipelineResult(bundle_path=inputs.out_dir, shot_count=total_shots)
