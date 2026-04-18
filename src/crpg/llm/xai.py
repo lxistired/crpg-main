@@ -31,8 +31,15 @@ class XaiImageClient:
         resolution: str = "2k",
         n: int = 1,
         client: httpx.AsyncClient | None = None,
+        retries: int = 3,
+        backoff_base_s: float = 2.0,
     ) -> bytes:
-        """Generate one image. Returns PNG bytes."""
+        """Generate one image. Returns PNG bytes.
+
+        Retries on 429 and 5xx with exponential backoff:
+          wait = backoff_base_s * 2**attempt (e.g. 2s, 4s, 8s for default retries=3)
+        Non-retriable 4xx (other than 429) raises immediately.
+        """
         payload = {
             "model": model,
             "prompt": prompt,
@@ -41,16 +48,25 @@ class XaiImageClient:
             "resolution": resolution,
             "response_format": "b64_json",
         }
-        async with self._sem:
-            owns = client is None
-            c = client or httpx.AsyncClient(timeout=self._timeout)
-            try:
-                r = await c.post(self._endpoint, json=payload, headers=self._headers)
-                if r.status_code != 200:
-                    raise RuntimeError(f"xAI {r.status_code}: {r.text[:400]}")
+        last_status: int | None = None
+        last_body: str = ""
+        for attempt in range(retries + 1):
+            async with self._sem:
+                owns = client is None
+                c = client or httpx.AsyncClient(timeout=self._timeout)
+                try:
+                    r = await c.post(self._endpoint, json=payload, headers=self._headers)
+                finally:
+                    if owns:
+                        await c.aclose()
+            if r.status_code == 200:
                 body = r.json()
-            finally:
-                if owns:
-                    await c.aclose()
-        b64_str = body["data"][0]["b64_json"]
-        return base64.b64decode(b64_str)
+                return base64.b64decode(body["data"][0]["b64_json"])
+            last_status, last_body = r.status_code, r.text[:400]
+            # Non-retriable: 4xx except 429
+            if r.status_code != 429 and not (500 <= r.status_code < 600):
+                raise RuntimeError(f"xAI {r.status_code}: {last_body}")
+            # Retriable: wait then loop (unless this was final attempt)
+            if attempt < retries:
+                await asyncio.sleep(backoff_base_s * (2 ** attempt))
+        raise RuntimeError(f"xAI {last_status} after {retries + 1} attempts: {last_body}")
