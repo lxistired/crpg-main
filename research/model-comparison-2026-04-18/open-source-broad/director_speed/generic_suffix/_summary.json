@@ -1,0 +1,74 @@
+[
+  {
+    "ok": true,
+    "label": "generic_suffix",
+    "iter": 1,
+    "chars": 4494,
+    "elapsed": 4.251024961471558,
+    "prompt_tokens": 1760,
+    "completion_tokens": 1166,
+    "cost": 0.00449,
+    "provider": "Groq",
+    "audit": {
+      "parse_ok": true,
+      "shots": 6,
+      "real_violations": 0,
+      "base_consistency": "6/6",
+      "violations": []
+    }
+  },
+  {
+    "ok": true,
+    "label": "generic_suffix",
+    "iter": 2,
+    "chars": 4537,
+    "elapsed": 3.8615920543670654,
+    "prompt_tokens": 1760,
+    "completion_tokens": 1204,
+    "cost": 0.004988,
+    "provider": "Groq",
+    "audit": {
+      "parse_ok": true,
+      "shots": 6,
+      "real_violations": 0,
+      "base_consistency": "6/6",
+      "violations": []
+    }
+  },
+  {
+    "ok": true,
+    "label": "generic_suffix",
+    "iter": 3,
+    "chars": 4443,
+    "elapsed": 4.521547079086304,
+    "prompt_tokens": 1760,
+    "completion_tokens": 1165,
+    "cost": 0.004487,
+    "provider": "Groq",
+    "audit": {
+      "parse_ok": true,
+      "shots": 6,
+      "real_violations": 0,
+      "base_consistency": "6/6",
+      "violations": []
+    }
+  },
+  {
+    "ok": true,
+    "label": "generic_suffix",
+    "iter": 4,
+    "chars": 5215,
+    "elapsed": 4.483155965805054,
+    "prompt_tokens": 1760,
+    "completion_tokens": 1336,
+    "cost": 0.005384,
+    "provider": "Groq",
+    "audit": {
+      "parse_ok": true,
+      "shots": 6,
+      "real_violations": 0,
+      "base_consistency": "6/6",
+      "violations": []
+    }
+  }
+]
