@@ -298,5 +298,45 @@
     "prompt_tokens": 685,
     "completion_tokens": 2901,
     "cost": 0.009388
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.5-plus-02-15",
+    "task": "director",
+    "chars": 5009,
+    "elapsed": 172.49363017082214,
+    "prompt_tokens": 749,
+    "completion_tokens": 9445,
+    "cost": 0.01492894
+  },
+  {
+    "ok": true,
+    "model": "qwen/qwen3.5-plus-02-15",
+    "task": "script",
+    "chars": 3180,
+    "elapsed": 170.85372710227966,
+    "prompt_tokens": 661,
+    "completion_tokens": 8557,
+    "cost": 0.01352078
+  },
+  {
+    "ok": true,
+    "model": "nex-agi/deepseek-v3.1-nex-n1",
+    "task": "director",
+    "chars": 5426,
+    "elapsed": 25.2636079788208,
+    "prompt_tokens": 740,
+    "completion_tokens": 1480,
+    "cost": 0.0008399
+  },
+  {
+    "ok": true,
+    "model": "nex-agi/deepseek-v3.1-nex-n1",
+    "task": "script",
+    "chars": 3210,
+    "elapsed": 32.1963152885437,
+    "prompt_tokens": 609,
+    "completion_tokens": 2144,
+    "cost": 0.001154215
   }
 ]
