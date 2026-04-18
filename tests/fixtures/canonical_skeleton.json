@@ -1,0 +1,41 @@
+{
+  "story": {
+    "meta": {"title":"Rainy Noir","genre":"都市 noir","contentLength":"short",
+             "detailRichness":"detailed","structure":"bifurcating"},
+    "beats": [
+      {"id":"intro","type":"narrative","synopsis":"Su Wan 下班入雨夜",
+       "valueBefore":"calm","valueAfter":"alert","wardrobe_state":"public_formal",
+       "targetWordCount":2500,"targetShotCount":5,"depends_on":[]},
+      {"id":"main","type":"narrative","synopsis":"花店递玫瑰",
+       "valueBefore":"alert","valueAfter":"unstable","wardrobe_state":"public_formal",
+       "targetWordCount":2500,"targetShotCount":5,"depends_on":["intro"]},
+      {"id":"A_decline","type":"ending","synopsis":"独自回家",
+       "valueBefore":"unstable","valueAfter":"alert","wardrobe_state":"public_formal",
+       "targetWordCount":1500,"targetShotCount":4,"depends_on":["main"]},
+      {"id":"B_accept","type":"ending","synopsis":"去酒吧",
+       "valueBefore":"unstable","valueAfter":"out_of_control","wardrobe_state":"public_formal",
+       "targetWordCount":1500,"targetShotCount":4,"depends_on":["main"]}
+    ],
+    "edges": [
+      {"from":"intro","to":"main"},
+      {"from":"main","to":"A_decline","condition":"decline"},
+      {"from":"main","to":"B_accept","condition":"accept"}
+    ]
+  },
+  "characters": {
+    "Su Wan": {
+      "base":{"age":28,"ethnicity":"Chinese","hair":"long black center-parted","skin":"fair","eyes":"brown","jaw":"soft"},
+      "persistent_grooming":[
+        {"name":"red_fingernails","anchor":"hand"},
+        {"name":"red_toenails","anchor":"foot"},
+        {"name":"red_lipstick","anchor":"face"}
+      ],
+      "wardrobe_states":{"public_formal":{"items":[
+        {"name":"black_pencil_skirt","anchor":"torso"},
+        {"name":"sheer_black_tights","anchor":"leg"},
+        {"name":"black_ankle_boots","anchor":"foot"}
+      ],"removes":[]}},
+      "mutex_groups":[["sheer_black_tights","black_ankle_boots"]]
+    }
+  }
+}
