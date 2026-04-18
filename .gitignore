@@ -9,3 +9,16 @@ research/grok-image-test/*.jpg
 research/grok-image-test/*.webp
 node_modules/
 .DS_Store
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+.ruff_cache/
+dist/
+*.egg-info/
+
+# Secrets & artifacts
+bundles/
