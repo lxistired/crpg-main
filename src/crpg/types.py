@@ -84,6 +84,8 @@ class Shot(BaseModel):
     pose: str
     wardrobe_state_used: str
     vgai_injected_attrs: list[str]
+    # Different LLMs emit either list-of-strings or dict-of-string; Task 3.2 parser
+    # normalizes for downstream consumers.
     vgai_dropped_attrs_with_reason: list[str] | dict[str, str]
     final_prompt: str
 
