@@ -1,0 +1,1191 @@
+[
+  {
+    "brief": "cyberpunk_red_street",
+    "ok": true,
+    "story_issues": [],
+    "char_issues": [],
+    "issue_count": 0,
+    "story": {
+      "meta": {
+        "title": "2077 香港红街",
+        "genre": "赛博朋克",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      },
+      "beats": [
+        {
+          "id": "b1",
+          "type": "narrative",
+          "synopsis": "02:30 霓虹雨幕，Kira 推开义体酒吧的铬合金门，空气混杂机油与杜松子味",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "default",
+          "targetWordCount": 300,
+          "targetShotCount": 4,
+          "depends_on": []
+        },
+        {
+          "id": "b2",
+          "type": "narrative",
+          "synopsis": "Rook 坐在卡座，头戴银色神经接口环，桌上一杯霓虹蓝酒",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "default",
+          "targetWordCount": 250,
+          "targetShotCount": 3,
+          "depends_on": [
+            "b1"
+          ]
+        },
+        {
+          "id": "b3",
+          "type": "narrative",
+          "synopsis": "Rook 递出记忆模块芯片，指尖掠过 Kira 网袜破口下的金属关节",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "default",
+          "targetWordCount": 350,
+          "targetShotCount": 5,
+          "depends_on": [
+            "b2"
+          ]
+        },
+        {
+          "id": "b4",
+          "type": "choice",
+          "synopsis": "她是否中断交易？",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "default",
+          "targetWordCount": 100,
+          "targetShotCount": 1,
+          "depends_on": [
+            "b3"
+          ]
+        },
+        {
+          "id": "b5",
+          "type": "check",
+          "synopsis": "A 强行接入 Rook 头环",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "default",
+          "targetWordCount": 800,
+          "targetShotCount": 6,
+          "depends_on": [
+            "b4"
+          ]
+        },
+        {
+          "id": "b6",
+          "type": "narrative",
+          "synopsis": "B 让芯片贴在网袜破口，直接神经传输",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "torn_net_sock",
+          "targetWordCount": 800,
+          "targetShotCount": 6,
+          "depends_on": [
+            "b4"
+          ]
+        },
+        {
+          "id": "b7",
+          "type": "ending",
+          "synopsis": "A 结局：数据洪流中 Kira 看见自己被通缉的影像",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "default",
+          "targetWordCount": 200,
+          "targetShotCount": 2,
+          "depends_on": [
+            "b5"
+          ]
+        },
+        {
+          "id": "b8",
+          "type": "ending",
+          "synopsis": "B 结局：芯片数据写入完成，Rook 微笑提醒她“已同步”",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "torn_net_sock",
+          "targetWordCount": 200,
+          "targetShotCount": 2,
+          "depends_on": [
+            "b6"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "b1",
+          "to": "b2",
+          "condition": "always"
+        },
+        {
+          "from": "b2",
+          "to": "b3",
+          "condition": "always"
+        },
+        {
+          "from": "b3",
+          "to": "b4",
+          "condition": "always"
+        },
+        {
+          "from": "b4",
+          "to": "b5",
+          "condition": "choice A"
+        },
+        {
+          "from": "b4",
+          "to": "b6",
+          "condition": "choice B"
+        },
+        {
+          "from": "b5",
+          "to": "b7",
+          "condition": "success"
+        },
+        {
+          "from": "b6",
+          "to": "b8",
+          "condition": "success"
+        }
+      ]
+    },
+    "characters": {
+      "Kira": {
+        "base": {
+          "age": 28,
+          "ethnicity": "asian",
+          "hair": "silver_gray_short",
+          "skin": "tan",
+          "eyes": "cybernetic_blue",
+          "jaw": "strong"
+        },
+        "persistent_grooming": [
+          {
+            "name": "cybernetic_arm",
+            "anchor": "hand",
+            "sub_anchor": null,
+            "removable_by": null
+          },
+          {
+            "name": "led_eyelashes",
+            "anchor": "face",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "default": {
+            "items": [
+              {
+                "name": "pvc_trench_coat",
+                "anchor": "torso"
+              },
+              {
+                "name": "net_socks",
+                "anchor": "leg"
+              },
+              {
+                "name": "knee_high_boots",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          },
+          "torn_net_sock": {
+            "items": [
+              {
+                "name": "pvc_trench_coat",
+                "anchor": "torso"
+              },
+              {
+                "name": "torn_net_socks",
+                "anchor": "leg"
+              },
+              {
+                "name": "knee_high_boots",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": [
+          [
+            "net_socks",
+            "torn_net_socks"
+          ]
+        ]
+      },
+      "Rook": {
+        "base": {
+          "age": 32,
+          "ethnicity": "mixed",
+          "hair": "black_medium",
+          "skin": "medium",
+          "eyes": "brown",
+          "jaw": "sharp"
+        },
+        "persistent_grooming": [
+          {
+            "name": "neural_ring",
+            "anchor": "ear",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "default": {
+            "items": [
+              {
+                "name": "hoodie",
+                "anchor": "torso"
+              },
+              {
+                "name": "cargo_pants",
+                "anchor": "leg"
+              },
+              {
+                "name": "sneakers",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": []
+      }
+    }
+  },
+  {
+    "brief": "evening_salon_gown",
+    "ok": true,
+    "story_issues": [],
+    "char_issues": [
+      "韩梦.mutex references unknown 'foot'",
+      "韩梦.mutex references unknown 'toenail_polish'"
+    ],
+    "issue_count": 2,
+    "story": {
+      "meta": {
+        "title": "晚宴长礼服",
+        "genre": "现代 erotic suspense",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      },
+      "beats": [
+        {
+          "id": "1",
+          "type": "narrative",
+          "synopsis": "22:40 上海外滩五星酒店顶层宴会，水晶吊灯下韩梦与陆深共舞，鱼尾礼服随步伐收紧",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "evening",
+          "targetWordCount": 400,
+          "targetShotCount": 4,
+          "depends_on": []
+        },
+        {
+          "id": "2",
+          "type": "choice",
+          "synopsis": "陆深邀韩梦去露台吹风，她感到他掌心温度透过裸背",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "evening",
+          "targetWordCount": 200,
+          "targetShotCount": 2,
+          "depends_on": [
+            "1"
+          ]
+        },
+        {
+          "id": "3",
+          "type": "narrative",
+          "synopsis": "夜风拂面，外滩霓虹在黄浦江面跳动，陆深低声赞她今晚像一条黑鲤",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "evening",
+          "targetWordCount": 300,
+          "targetShotCount": 3,
+          "depends_on": [
+            "2"
+          ]
+        },
+        {
+          "id": "4",
+          "type": "check",
+          "synopsis": "陆深侧身解开她鱼尾裙侧衩的隐形挂钩，指尖探入长裙深处，触到吊带袜扣",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "evening",
+          "targetWordCount": 400,
+          "targetShotCount": 4,
+          "depends_on": [
+            "3"
+          ]
+        },
+        {
+          "id": "5a",
+          "type": "ending",
+          "synopsis": "韩梦按住他手腕，冷声警告后独自返回大厅，鱼尾重新扣好，背影决绝",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "evening",
+          "targetWordCount": 600,
+          "targetShotCount": 6,
+          "depends_on": [
+            "4"
+          ]
+        },
+        {
+          "id": "5b",
+          "type": "ending",
+          "synopsis": "她未阻止，江风掀起长裙开衩至腰，墨黑布料与长发翻飞，陆深俯身继续",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "evening_open",
+          "targetWordCount": 600,
+          "targetShotCount": 6,
+          "depends_on": [
+            "4"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "1",
+          "to": "2",
+          "condition": ""
+        },
+        {
+          "from": "2",
+          "to": "3",
+          "condition": ""
+        },
+        {
+          "from": "3",
+          "to": "4",
+          "condition": ""
+        },
+        {
+          "from": "4",
+          "to": "5a",
+          "condition": "player.resist"
+        },
+        {
+          "from": "4",
+          "to": "5b",
+          "condition": "!player.resist"
+        }
+      ]
+    },
+    "characters": {
+      "韩梦": {
+        "base": {
+          "age": 30,
+          "ethnicity": "汉族",
+          "hair": "long_black_curly",
+          "skin": "porcelain",
+          "eyes": "amber",
+          "jaw": "oval"
+        },
+        "persistent_grooming": [
+          {
+            "name": "red_fingernails",
+            "anchor": "hand",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "evening": {
+            "items": [
+              {
+                "name": "black_mermaid_gown",
+                "anchor": "torso"
+              },
+              {
+                "name": "black_silk_stockings",
+                "anchor": "leg"
+              },
+              {
+                "name": "garter_belt",
+                "anchor": "leg_upper"
+              },
+              {
+                "name": "suede_stilettos",
+                "anchor": "foot"
+              },
+              {
+                "name": "diamond_drop_necklace",
+                "anchor": "neck"
+              }
+            ],
+            "removes": []
+          },
+          "evening_open": {
+            "items": [
+              {
+                "name": "black_mermaid_gown_open",
+                "anchor": "torso"
+              },
+              {
+                "name": "black_silk_stockings",
+                "anchor": "leg"
+              },
+              {
+                "name": "garter_belt",
+                "anchor": "leg_upper"
+              },
+              {
+                "name": "suede_stilettos",
+                "anchor": "foot"
+              },
+              {
+                "name": "diamond_drop_necklace",
+                "anchor": "neck"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": [
+          [
+            "foot",
+            "toenail_polish"
+          ]
+        ]
+      },
+      "陆深": {
+        "base": {
+          "age": 45,
+          "ethnicity": "汉族",
+          "hair": "short_black_slick",
+          "skin": "warm_olive",
+          "eyes": "brown",
+          "jaw": "square"
+        },
+        "persistent_grooming": [],
+        "wardrobe_states": {
+          "evening": {
+            "items": [
+              {
+                "name": "white_tailcoat",
+                "anchor": "torso"
+              },
+              {
+                "name": "white_dress_shirt",
+                "anchor": "torso"
+              },
+              {
+                "name": "black_tuxedo_trousers",
+                "anchor": "leg"
+              },
+              {
+                "name": "patent_oxfords",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": []
+      }
+    }
+  },
+  {
+    "brief": "post_shower_robe",
+    "ok": true,
+    "story_issues": [],
+    "char_issues": [
+      "苏瑗.mutex references unknown 'ankle_boots'",
+      "苏瑗.mutex references unknown 'black_dress'"
+    ],
+    "issue_count": 2,
+    "story": {
+      "meta": {
+        "title": "浴袍出浴",
+        "genre": "都市私情",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      },
+      "beats": [
+        {
+          "id": "opening",
+          "type": "narrative",
+          "synopsis": "2026年春夜，上海老洋房顶楼。23:10，雨声敲窗。苏瑗刚出浴，纯白丝绸浴袍松系，赤足踩在地暖上，发梢滴水。",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "after_bath",
+          "targetWordCount": 300,
+          "targetShotCount": 4,
+          "depends_on": []
+        },
+        {
+          "id": "door",
+          "type": "narrative",
+          "synopsis": "门铃响。透过猫眼，她看见法国邻居Luc举着一把湿伞，借口“看春雨”请求进门。她迟疑片刻，浴袍下锁骨仍带水珠。",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "after_bath",
+          "targetWordCount": 300,
+          "targetShotCount": 4,
+          "depends_on": [
+            "opening"
+          ]
+        },
+        {
+          "id": "choice",
+          "type": "choice",
+          "synopsis": "她要不要让他进来？",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "after_bath",
+          "targetWordCount": 100,
+          "targetShotCount": 1,
+          "depends_on": [
+            "door"
+          ]
+        },
+        {
+          "id": "a_shut",
+          "type": "narrative",
+          "synopsis": "她轻声说“不方便”，迅速合门。背抵墙板，听见他仍站在走廊，雨声与呼吸重叠。",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "after_bath",
+          "targetWordCount": 500,
+          "targetShotCount": 5,
+          "depends_on": [
+            "choice"
+          ]
+        },
+        {
+          "id": "b_let_in",
+          "type": "narrative",
+          "synopsis": "她侧身让路。Luc递上热茶，指尖勾住腰带，丝绸瞬间滑落。",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "robe_open",
+          "targetWordCount": 500,
+          "targetShotCount": 5,
+          "depends_on": [
+            "choice"
+          ]
+        },
+        {
+          "id": "a_end",
+          "type": "ending",
+          "synopsis": "走廊脚步声终远去。她低头系紧腰带，水滴落在足背，春夜微凉。",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "after_bath",
+          "targetWordCount": 300,
+          "targetShotCount": 2,
+          "depends_on": [
+            "a_shut"
+          ]
+        },
+        {
+          "id": "b_end",
+          "type": "ending",
+          "synopsis": "浴袍落地，她抬手掩胸，却迎上他俯身细看的目光。雨声骤大。",
+          "valueBefore": "",
+          "valueAfter": "",
+          "wardrobe_state": "robe_open",
+          "targetWordCount": 300,
+          "targetShotCount": 2,
+          "depends_on": [
+            "b_let_in"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "opening",
+          "to": "door",
+          "condition": ""
+        },
+        {
+          "from": "door",
+          "to": "choice",
+          "condition": ""
+        },
+        {
+          "from": "choice",
+          "to": "a_shut",
+          "condition": "player_choice==shut"
+        },
+        {
+          "from": "choice",
+          "to": "b_let_in",
+          "condition": "player_choice==let_in"
+        },
+        {
+          "from": "a_shut",
+          "to": "a_end",
+          "condition": ""
+        },
+        {
+          "from": "b_let_in",
+          "to": "b_end",
+          "condition": ""
+        }
+      ]
+    },
+    "characters": {
+      "苏瑗": {
+        "base": {
+          "age": 26,
+          "ethnicity": "汉族",
+          "hair": "long straight damp_black",
+          "skin": "fair",
+          "eyes": "black",
+          "jaw": "soft"
+        },
+        "persistent_grooming": [
+          {
+            "name": "damp_hair",
+            "anchor": "face",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "after_bath": {
+            "items": [
+              {
+                "name": "white_silk_robe",
+                "anchor": "torso"
+              },
+              {
+                "name": "bare_foot",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          },
+          "robe_open": {
+            "items": [
+              {
+                "name": "white_silk_robe_open",
+                "anchor": "torso"
+              },
+              {
+                "name": "bare_foot",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": [
+          [
+            "bare_foot",
+            "ankle_boots"
+          ],
+          [
+            "white_silk_robe",
+            "black_dress"
+          ]
+        ]
+      },
+      "Luc": {
+        "base": {
+          "age": 34,
+          "ethnicity": "French",
+          "hair": "short chestnut",
+          "skin": "olive",
+          "eyes": "grey",
+          "jaw": "chiseled"
+        },
+        "persistent_grooming": [
+          {
+            "name": "light_stubble",
+            "anchor": "face",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "default": {
+            "items": [
+              {
+                "name": "grey_tee",
+                "anchor": "torso"
+              },
+              {
+                "name": "dark_jeans",
+                "anchor": "leg"
+              },
+              {
+                "name": "leather_ankle_boots",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": []
+      }
+    }
+  },
+  {
+    "brief": "shanghai_1930s",
+    "ok": true,
+    "story_issues": [],
+    "char_issues": [],
+    "issue_count": 0,
+    "story": {
+      "meta": {
+        "title": "夜舞·上海1937",
+        "genre": "民国noir",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      },
+      "beats": [
+        {
+          "id": "b1",
+          "type": "narrative",
+          "synopsis": "午夜01:00，林雪刚唱完《夜来香》，被沈钧请进二楼包厢。昏黄灯光下，留声机旋转，空气混着雪茄与玫瑰露。",
+          "valueBefore": "",
+          "valueAfter": "aware_of_danger",
+          "wardrobe_state": "stage",
+          "targetWordCount": 600,
+          "targetShotCount": 5,
+          "depends_on": []
+        },
+        {
+          "id": "b2",
+          "type": "choice",
+          "synopsis": "沈钧举杯，桌下皮鞋轻碰她吊带袜扣，试探她的反应。",
+          "valueBefore": "aware_of_danger",
+          "valueAfter": "",
+          "wardrobe_state": "stage",
+          "targetWordCount": 400,
+          "targetShotCount": 3,
+          "depends_on": [
+            "b1"
+          ]
+        },
+        {
+          "id": "b3",
+          "type": "narrative",
+          "synopsis": "林雪察觉敌意，借口补妆离开包厢，转入后台化妆间。",
+          "valueBefore": "aware_of_danger",
+          "valueAfter": "backstage",
+          "wardrobe_state": "stage",
+          "targetWordCount": 700,
+          "targetShotCount": 4,
+          "depends_on": [
+            "b2"
+          ]
+        },
+        {
+          "id": "b4",
+          "type": "check",
+          "synopsis": "她反锁门，卸下珍珠耳坠，从旗袍暗缝抽出微型胶片。",
+          "valueBefore": "backstage",
+          "valueAfter": "film_in_hand",
+          "wardrobe_state": "half_dressed",
+          "targetWordCount": 500,
+          "targetShotCount": 3,
+          "depends_on": [
+            "b3"
+          ]
+        },
+        {
+          "id": "b5",
+          "type": "ending",
+          "synopsis": "胶片在手，她望向镜中疲惫却坚定的自己——任务继续，夜色更深。",
+          "valueBefore": "film_in_hand",
+          "valueAfter": "escape",
+          "wardrobe_state": "half_dressed",
+          "targetWordCount": 300,
+          "targetShotCount": 2,
+          "depends_on": [
+            "b4"
+          ]
+        },
+        {
+          "id": "b6",
+          "type": "narrative",
+          "synopsis": "林雪选择留下，沈钧的手滑进她旗袍开衩，指尖冰凉。",
+          "valueBefore": "aware_of_danger",
+          "valueAfter": "intimate_threat",
+          "wardrobe_state": "stage",
+          "targetWordCount": 800,
+          "targetShotCount": 5,
+          "depends_on": [
+            "b2"
+          ]
+        },
+        {
+          "id": "b7",
+          "type": "narrative",
+          "synopsis": "她微笑迎合，心中却计算每一步——这场游戏，谁才是猎物？",
+          "valueBefore": "intimate_threat",
+          "valueAfter": "double_agent",
+          "wardrobe_state": "stage",
+          "targetWordCount": 700,
+          "targetShotCount": 4,
+          "depends_on": [
+            "b6"
+          ]
+        },
+        {
+          "id": "b8",
+          "type": "ending",
+          "synopsis": "沈钧低声用日语说“合作愉快”，林雪举杯，眼底闪过冷光。",
+          "valueBefore": "double_agent",
+          "valueAfter": "captured",
+          "wardrobe_state": "stage",
+          "targetWordCount": 300,
+          "targetShotCount": 2,
+          "depends_on": [
+            "b7"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "b1",
+          "to": "b2",
+          "condition": "always"
+        },
+        {
+          "from": "b2",
+          "to": "b3",
+          "condition": "player_chooses_leave"
+        },
+        {
+          "from": "b2",
+          "to": "b6",
+          "condition": "player_chooses_stay"
+        },
+        {
+          "from": "b3",
+          "to": "b4",
+          "condition": "always"
+        },
+        {
+          "from": "b4",
+          "to": "b5",
+          "condition": "always"
+        },
+        {
+          "from": "b6",
+          "to": "b7",
+          "condition": "always"
+        },
+        {
+          "from": "b7",
+          "to": "b8",
+          "condition": "always"
+        }
+      ]
+    },
+    "characters": {
+      "林雪": {
+        "base": {
+          "age": 25,
+          "ethnicity": "汉族",
+          "hair": "permed_short",
+          "skin": "pale",
+          "eyes": "deep_brown",
+          "jaw": "soft_pointed"
+        },
+        "persistent_grooming": [
+          {
+            "name": "crimson_lips",
+            "anchor": "face",
+            "sub_anchor": null,
+            "removable_by": null
+          },
+          {
+            "name": "gold_nails",
+            "anchor": "hand",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "stage": {
+            "items": [
+              {
+                "name": "burgundy_gold_piping_cheongsam",
+                "anchor": "torso"
+              },
+              {
+                "name": "nylon_stockings_with_garter",
+                "anchor": "leg_upper"
+              },
+              {
+                "name": "embroidered_stiletto_heels",
+                "anchor": "foot"
+              },
+              {
+                "name": "pearl_drop_earrings",
+                "anchor": "ear"
+              }
+            ],
+            "removes": []
+          },
+          "half_dressed": {
+            "items": [
+              {
+                "name": "burgundy_gold_piping_cheongsam",
+                "anchor": "torso"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": [
+          [
+            "nylon_stockings_with_garter",
+            "bare_leg_upper"
+          ]
+        ]
+      },
+      "沈钧": {
+        "base": {
+          "age": 35,
+          "ethnicity": "大和",
+          "hair": "slick_black",
+          "skin": "olive",
+          "eyes": "charcoal",
+          "jaw": "square"
+        },
+        "persistent_grooming": [
+          {
+            "name": "thin_mustache",
+            "anchor": "face",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "stage": {
+            "items": [
+              {
+                "name": "charcoal_grey_IJA_uniform",
+                "anchor": "torso"
+              },
+              {
+                "name": "black_leather_boots",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": []
+      }
+    }
+  },
+  {
+    "brief": "urban_noir",
+    "ok": true,
+    "story_issues": [],
+    "char_issues": [],
+    "issue_count": 0,
+    "story": {
+      "meta": {
+        "title": "静安夜雨",
+        "genre": "都市noir",
+        "contentLength": "short",
+        "detailRichness": "detailed",
+        "structure": "bifurcating"
+      },
+      "beats": [
+        {
+          "id": "intro",
+          "type": "narrative",
+          "synopsis": "23:40，雨丝如针，Su Wan踩着雨水走出写字楼，黑伞边缘滴水，黑丝袜被路灯映出冷光。",
+          "valueBefore": "职业警觉",
+          "valueAfter": "职业警觉",
+          "wardrobe_state": "office",
+          "targetWordCount": 250,
+          "targetShotCount": 4,
+          "depends_on": []
+        },
+        {
+          "id": "kai_appears",
+          "type": "narrative",
+          "synopsis": "地铁口，Kai撑一把墨绿伞，西装领口微敞，三年前法庭上的对手，如今雨夜里像陌生人。",
+          "valueBefore": "职业警觉",
+          "valueAfter": "职业警觉",
+          "wardrobe_state": "office",
+          "targetWordCount": 250,
+          "targetShotCount": 3,
+          "depends_on": [
+            "intro"
+          ]
+        },
+        {
+          "id": "choice_rose",
+          "type": "choice",
+          "synopsis": "他递来一支深红玫瑰，雨珠滚落花瓣。她接，或拒绝？",
+          "valueBefore": "职业警觉",
+          "valueAfter": "职业警觉",
+          "wardrobe_state": "office",
+          "targetWordCount": 150,
+          "targetShotCount": 2,
+          "depends_on": [
+            "kai_appears"
+          ]
+        },
+        {
+          "id": "recognition",
+          "type": "narrative",
+          "synopsis": "她抬眼，认出这张脸——三年前那场让她声名大噪的败诉。",
+          "valueBefore": "职业警觉",
+          "valueAfter": "模糊失控",
+          "wardrobe_state": "office",
+          "targetWordCount": 200,
+          "targetShotCount": 3,
+          "depends_on": [
+            "choice_rose"
+          ]
+        },
+        {
+          "id": "branch",
+          "type": "narrative",
+          "synopsis": "雨声骤大，她必须选：回家，或跟他去酒吧。",
+          "valueBefore": "模糊失控",
+          "valueAfter": "模糊失控",
+          "wardrobe_state": "office",
+          "targetWordCount": 100,
+          "targetShotCount": 1,
+          "depends_on": [
+            "recognition"
+          ]
+        },
+        {
+          "id": "taxi",
+          "type": "ending",
+          "synopsis": "她微笑拒绝，独自钻进出租车。后座雨痕斑驳，手机亮——Kai的号码静静躺在通话记录。",
+          "valueBefore": "模糊失控",
+          "valueAfter": "克制但动摇",
+          "wardrobe_state": "office",
+          "targetWordCount": 400,
+          "targetShotCount": 5,
+          "depends_on": [
+            "branch"
+          ]
+        },
+        {
+          "id": "bar",
+          "type": "ending",
+          "synopsis": "酒吧灯光暗红，爵士低回。Kai指尖落她膝上丝袜，她没移开，红酒杯沿映出自己湿润的唇。",
+          "valueBefore": "模糊失控",
+          "valueAfter": "失控开始但克制",
+          "wardrobe_state": "office",
+          "targetWordCount": 400,
+          "targetShotCount": 5,
+          "depends_on": [
+            "branch"
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "from": "intro",
+          "to": "kai_appears",
+          "condition": ""
+        },
+        {
+          "from": "kai_appears",
+          "to": "choice_rose",
+          "condition": ""
+        },
+        {
+          "from": "choice_rose",
+          "to": "recognition",
+          "condition": ""
+        },
+        {
+          "from": "recognition",
+          "to": "branch",
+          "condition": ""
+        },
+        {
+          "from": "branch",
+          "to": "taxi",
+          "condition": "player_choice=='拒绝'"
+        },
+        {
+          "from": "branch",
+          "to": "bar",
+          "condition": "player_choice=='去酒吧'"
+        }
+      ]
+    },
+    "characters": {
+      "Su_Wan": {
+        "base": {
+          "age": 28,
+          "ethnicity": "汉族",
+          "hair": "black_long_center_part",
+          "skin": "fair",
+          "eyes": "brown",
+          "jaw": "soft"
+        },
+        "persistent_grooming": [
+          {
+            "name": "red_fingernails",
+            "anchor": "hand",
+            "sub_anchor": null,
+            "removable_by": null
+          },
+          {
+            "name": "red_toenails",
+            "anchor": "foot",
+            "sub_anchor": null,
+            "removable_by": null
+          },
+          {
+            "name": "red_lipstick",
+            "anchor": "face",
+            "sub_anchor": null,
+            "removable_by": null
+          }
+        ],
+        "wardrobe_states": {
+          "office": {
+            "items": [
+              {
+                "name": "black_pencil_skirt",
+                "anchor": "leg"
+              },
+              {
+                "name": "transparent_black_tights",
+                "anchor": "leg"
+              },
+              {
+                "name": "black_stilettos",
+                "anchor": "foot"
+              }
+            ],
+            "removes": []
+          }
+        },
+        "mutex_groups": [
+          [
+            "transparent_black_tights",
+            "bare_legs"
+          ]
+        ]
+      }
+    }
+  }
+]
