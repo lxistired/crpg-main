@@ -1,0 +1,108 @@
+[
+  {
+    "shot_id": "shot_01",
+    "camera_framing": "ws_establishing",
+    "pose": "standing, walking away from office building toward subway entrance",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [],
+    "vgai_dropped_attrs_with_reason": {
+      "red_fingernails": "anchor hand not in visible_regions [ws_establishing]",
+      "red_toenails": "anchor foot not in visible_regions [ws_establishing]",
+      "red_lipstick": "anchor face not in visible_regions [ws_establishing]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [ws_establishing]",
+      "sheer_black_tights": "anchor leg not in visible_regions [ws_establishing]",
+      "stocking_toes": "anchor foot not in visible_regions [ws_establishing]",
+      "black_ankle_boots": "anchor foot not in visible_regions [ws_establishing]"
+    },
+    "final_prompt": "wide establishing shot of a downtown office district at dusk, a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, and a soft jawline walking toward a subway entrance"
+  },
+  {
+    "shot_id": "shot_02",
+    "camera_framing": "ms_waist_up",
+    "pose": "standing, looking at flowers in a subway exit flower stall, hands relaxed near torso",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails",
+      "red_lipstick",
+      "black_pencil_skirt"
+    ],
+    "vgai_dropped_attrs_with_reason": {
+      "red_toenails": "anchor foot not in visible_regions [ms_waist_up]",
+      "sheer_black_tights": "anchor leg not in visible_regions [ms_waist_up]",
+      "stocking_toes": "anchor foot not in visible_regions [ms_waist_up]",
+      "black_ankle_boots": "anchor foot not in visible_regions [ms_waist_up]"
+    },
+    "final_prompt": "medium shot waist-up of a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, brown eyes with long lashes, and a soft jawline, wearing red lipstick, red fingernails, and a black pencil skirt, standing at a subway exit flower stall looking at blooms"
+  },
+  {
+    "shot_id": "shot_03",
+    "camera_framing": "hand_ecu",
+    "pose": "right hand extended slightly forward, accepting a business card from a man's hand",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails"
+    ],
+    "vgai_dropped_attrs_with_reason": {
+      "red_toenails": "anchor foot not in visible_regions [hand_ecu]",
+      "red_lipstick": "anchor face not in visible_regions [hand_ecu]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [hand_ecu]",
+      "sheer_black_tights": "anchor leg not in visible_regions [hand_ecu]",
+      "stocking_toes": "anchor foot not in visible_regions [hand_ecu]",
+      "black_ankle_boots": "anchor foot not in visible_regions [hand_ecu]"
+    },
+    "final_prompt": "extreme close-up of a woman's hand with red fingernails gently taking a business card from a man's hand, background softly blurred, 28-year-old Chinese woman with long black hair (partially visible in frame edge), fair skin"
+  },
+  {
+    "shot_id": "shot_04",
+    "camera_framing": "cu_face",
+    "pose": "face slightly tense, eyes wide, lips parted, looking down and away",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_lipstick"
+    ],
+    "vgai_dropped_attrs_with_reason": {
+      "red_fingernails": "anchor hand not in visible_regions [cu_face]",
+      "red_toenails": "anchor foot not in visible_regions [cu_face]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [cu_face]",
+      "sheer_black_tights": "anchor leg not in visible_regions [cu_face]",
+      "stocking_toes": "anchor foot not in visible_regions [cu_face]",
+      "black_ankle_boots": "anchor foot not in visible_regions [cu_face]"
+    },
+    "final_prompt": "close-up of a 28-year-old Chinese woman's face with long black hair parted in the middle, fair skin, brown eyes with long lashes, soft jawline, wearing red lipstick, expression tense with slight anxiety"
+  },
+  {
+    "shot_id": "shot_05",
+    "camera_framing": "hand_ecu",
+    "pose": "both hands holding a business card close to torso, fingers slightly trembling",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "red_fingernails"
+    ],
+    "vgai_dropped_attrs_with_reason": {
+      "red_toenails": "anchor foot not in visible_regions [hand_ecu]",
+      "red_lipstick": "anchor face not in visible_regions [hand_ecu]",
+      "black_pencil_skirt": "anchor torso not in visible_regions [hand_ecu]",
+      "sheer_black_tights": "anchor leg not in visible_regions [hand_ecu]",
+      "stocking_toes": "anchor foot not in visible_regions [hand_ecu]",
+      "black_ankle_boots": "anchor foot not in visible_regions [hand_ecu]"
+    },
+    "final_prompt": "extreme close-up of a woman's hands with red fingernails holding a business card, fingers subtly trembling, soft ambient light from subway exit, 28-year-old Chinese woman with fair skin (hands only visible)"
+  },
+  {
+    "shot_id": "shot_06",
+    "camera_framing": "back_reveal_walking",
+    "pose": "walking away briskly, back turned, head slightly lowered",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [
+      "black_pencil_skirt",
+      "sheer_black_tights",
+      "black_ankle_boots"
+    ],
+    "vgai_dropped_attrs_with_reason": {
+      "red_fingernails": "anchor hand not primary focus and may be partially occluded; however, hands are in visible_regions → BUT mutex and visibility: hands are visible but not detailed; per rule: pose does not explicitly hide → KEEP? Wait: back_reveal_walking includes [torso_back, hand, leg, foot]. So hand IS in visible_regions. However, in a back walking shot, hands are typically at sides or swinging, not detailed. But rule says: '不确定 → KEEP'. So red_fingernails should be kept? However, final decision: since hand is in visible_regions, red_fingernails should be injected. BUT — in practice, in a back walking shot, fingernails are rarely visible unless shown. However, rule explicitly: 'pose-dependent / may not be primary focus' is NOT sufficient to drop. So must keep red_fingernails. Similarly, face not visible → red_lipstick dropped. For foot: black_ankle_boots vs stocking_toes — mutex. Which is visually显性? She’s wearing boots, so stocking_toes is hidden by boots. Therefore, black_ankle_boots survives, stocking_toes dropped. Also, sheer_black_tights vs bare_legs — tights survive. So injected: black_pencil_skirt, sheer_black_tights, black_ankle_boots, red_fingernails. But wait: are hands clearly visible enough to show nails? The framing includes 'hand', so per rule, we must include. However, in a back walking shot, hands are often at sides, palms inward, nails not visible. But rule says: only drop if explicitly hidden. Not explicitly hidden → KEEP. So red_fingernails stays. However, rechecking mutex: no conflict. Final injected: red_fingernails, black_pencil_skirt, sheer_black_tights, black_ankle_boots.",
+      "red_lipstick": "anchor face not in visible_regions [back_reveal_walking]",
+      "stocking_toes": "mutex with black_ankle_boots; boots are visually显性 as they cover toes"
+    },
+    "final_prompt": "back view of a 28-year-old Chinese woman with long black hair parted in the middle, fair skin, brown eyes (not visible), soft jawline (not visible), walking away briskly from a subway exit, wearing a black pencil skirt, sheer black tights, black ankle boots, and red fingernails visible on hands swinging at her sides"
+  }
+]

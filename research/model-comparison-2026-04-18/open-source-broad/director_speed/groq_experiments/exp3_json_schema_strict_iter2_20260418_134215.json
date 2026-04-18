@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "label": "exp3_json_schema_strict_iter2",
+  "status": 404,
+  "error": "{\"error\":{\"message\":\"No endpoints found for moonshotai/kimi-k2-0905.\",\"code\":404},\"user_id\":\"user_3CVrGVGDgTAAhtcucdwzdvnByJL\"}",
+  "elapsed": 1.34840989112854,
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens",
+    "seed",
+    "response_format"
+  ]
+}

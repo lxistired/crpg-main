@@ -1,0 +1,203 @@
+[
+  {
+    "label": "exp0_baseline_groq_t07_repro_iter1",
+    "ok": true,
+    "elapsed": 4.08,
+    "chars": 3342,
+    "completion_tokens": 897,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 11,
+    "violation_types": [
+      "anchor_not_visible",
+      "mutex_both_injected"
+    ],
+    "cost": 0.003146
+  },
+  {
+    "label": "exp0_baseline_groq_t07_repro_iter2",
+    "ok": true,
+    "elapsed": 4.57,
+    "chars": 4549,
+    "completion_tokens": 1091,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": false,
+    "n_shots": 0,
+    "violation_count": 1,
+    "violation_types": [
+      "parse_fail"
+    ],
+    "cost": 0.003728
+  },
+  {
+    "label": "exp1_temp0_seed42_iter1",
+    "ok": true,
+    "elapsed": 5.31,
+    "chars": 4703,
+    "completion_tokens": 1070,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 2,
+    "violation_types": [
+      "anchor_not_visible"
+    ],
+    "cost": 0.003665
+  },
+  {
+    "label": "exp1_temp0_seed42_iter2",
+    "ok": true,
+    "elapsed": 5.97,
+    "chars": 5724,
+    "completion_tokens": 1265,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 5,
+    "violation_types": [
+      "anchor_not_visible"
+    ],
+    "cost": 0.004506
+  },
+  {
+    "label": "exp2_json_object_mode_iter1",
+    "ok": true,
+    "elapsed": 3.65,
+    "chars": 2733,
+    "completion_tokens": 660,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 2,
+    "violation_types": [
+      "anchor_not_visible",
+      "mutex_both_injected"
+    ],
+    "cost": 0.002439
+  },
+  {
+    "label": "exp2_json_object_mode_iter2",
+    "ok": true,
+    "elapsed": 5.82,
+    "chars": 4539,
+    "completion_tokens": 1068,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 1,
+    "violation_types": [
+      "mutex_both_injected"
+    ],
+    "cost": 0.003663
+  },
+  {
+    "label": "exp3_json_schema_strict_iter1",
+    "ok": false,
+    "elapsed": 1.24,
+    "status": 404,
+    "error": "{\"error\":{\"message\":\"No endpoints found for moonshotai/kimi-k2-0905.\",\"code\":404},\"user_id\":\"user_3CVrGVGDgTAAhtcucdwzdvnByJL\"}"
+  },
+  {
+    "label": "exp3_json_schema_strict_iter2",
+    "ok": false,
+    "elapsed": 1.35,
+    "status": 404,
+    "error": "{\"error\":{\"message\":\"No endpoints found for moonshotai/kimi-k2-0905.\",\"code\":404},\"user_id\":\"user_3CVrGVGDgTAAhtcucdwzdvnByJL\"}"
+  },
+  {
+    "label": "exp4_strong_system_suffix_iter1",
+    "ok": true,
+    "elapsed": 4.3,
+    "chars": 3681,
+    "completion_tokens": 918,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": [],
+    "cost": 0.003402
+  },
+  {
+    "label": "exp4_strong_system_suffix_iter2",
+    "ok": true,
+    "elapsed": 4.48,
+    "chars": 3638,
+    "completion_tokens": 978,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": [],
+    "cost": 0.003582
+  },
+  {
+    "label": "exp5_max_tokens_16k_iter1",
+    "ok": true,
+    "elapsed": 4.22,
+    "chars": 3507,
+    "completion_tokens": 829,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 3,
+    "violation_types": [
+      "anchor_not_visible"
+    ],
+    "cost": 0.002942
+  },
+  {
+    "label": "exp5_max_tokens_16k_iter2",
+    "ok": true,
+    "elapsed": 5.25,
+    "chars": 3774,
+    "completion_tokens": 907,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 7,
+    "violation_types": [
+      "anchor_not_visible",
+      "mutex_both_injected"
+    ],
+    "cost": 0.003176
+  },
+  {
+    "label": "exp6_few_shot_example_iter1",
+    "ok": true,
+    "elapsed": 4.0,
+    "chars": 3727,
+    "completion_tokens": 915,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": [],
+    "cost": 0.003495
+  },
+  {
+    "label": "exp6_few_shot_example_iter2",
+    "ok": true,
+    "elapsed": 7.87,
+    "chars": 4021,
+    "completion_tokens": 975,
+    "provider": "Groq",
+    "finish_reason": "stop",
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": [],
+    "cost": 0.003547
+  }
+]

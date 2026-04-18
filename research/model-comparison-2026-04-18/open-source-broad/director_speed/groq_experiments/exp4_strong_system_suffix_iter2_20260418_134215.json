@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "label": "exp4_strong_system_suffix_iter2",
+  "elapsed": 4.477871894836426,
+  "chars": 3638,
+  "prompt_tokens": 904,
+  "completion_tokens": 978,
+  "cost": 0.003582,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens",
+    "seed"
+  ],
+  "finish_reason": "stop",
+  "violations": [],
+  "violation_count": 0,
+  "n_shots": 6,
+  "parse_ok": true
+}

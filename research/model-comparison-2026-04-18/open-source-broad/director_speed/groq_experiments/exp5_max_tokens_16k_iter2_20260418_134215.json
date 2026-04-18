@@ -1,0 +1,94 @@
+{
+  "ok": true,
+  "label": "exp5_max_tokens_16k_iter2",
+  "elapsed": 5.2527899742126465,
+  "chars": 3774,
+  "prompt_tokens": 711,
+  "completion_tokens": 907,
+  "cost": 0.003176,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens",
+    "seed"
+  ],
+  "finish_reason": "stop",
+  "violations": [
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "ms_waist_up",
+      "framing": "ms_waist_up",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": [
+        "ear",
+        "face",
+        "hand",
+        "neck",
+        "torso"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "hand_ecu",
+      "framing": "hand_ecu",
+      "attr": "stocking_toes",
+      "anchor": "foot",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "hand_ecu",
+      "framing": "hand_ecu",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "mutex_both_injected",
+      "shot_id": "hand_ecu",
+      "pair": [
+        "black_ankle_boots",
+        "stocking_toes"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "hand_ecu",
+      "framing": "hand_ecu",
+      "attr": "stocking_toes",
+      "anchor": "foot",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "hand_ecu",
+      "framing": "hand_ecu",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "mutex_both_injected",
+      "shot_id": "hand_ecu",
+      "pair": [
+        "black_ankle_boots",
+        "stocking_toes"
+      ]
+    }
+  ],
+  "violation_count": 7,
+  "n_shots": 6,
+  "parse_ok": true
+}

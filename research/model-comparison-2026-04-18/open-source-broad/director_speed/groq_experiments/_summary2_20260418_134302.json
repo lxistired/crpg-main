@@ -1,0 +1,122 @@
+[
+  {
+    "label": "exp7_strong_t07_iter1",
+    "ok": true,
+    "elapsed": 4.79,
+    "completion_tokens": 1077,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp7_strong_t07_iter2",
+    "ok": true,
+    "elapsed": 4.74,
+    "completion_tokens": 1237,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp7_strong_t07_iter3",
+    "ok": true,
+    "elapsed": 4.72,
+    "completion_tokens": 1115,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp7_strong_t07_iter4",
+    "ok": true,
+    "elapsed": 4.56,
+    "completion_tokens": 1205,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp8_fewshot_t07_iter1",
+    "ok": true,
+    "elapsed": 4.73,
+    "completion_tokens": 941,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp8_fewshot_t07_iter2",
+    "ok": true,
+    "elapsed": 3.72,
+    "completion_tokens": 968,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp8_fewshot_t07_iter3",
+    "ok": true,
+    "elapsed": 4.15,
+    "completion_tokens": 967,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp8_fewshot_t07_iter4",
+    "ok": true,
+    "elapsed": 4.94,
+    "completion_tokens": 910,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp9_combined_t07_iter1",
+    "ok": true,
+    "elapsed": 3.72,
+    "completion_tokens": 916,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp9_combined_t07_iter2",
+    "ok": true,
+    "elapsed": 3.7,
+    "completion_tokens": 920,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp9_combined_t07_iter3",
+    "ok": true,
+    "elapsed": 3.29,
+    "completion_tokens": 793,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  },
+  {
+    "label": "exp9_combined_t07_iter4",
+    "ok": true,
+    "elapsed": 4.06,
+    "completion_tokens": 952,
+    "parse_ok": true,
+    "n_shots": 6,
+    "violation_count": 0,
+    "violation_types": []
+  }
+]

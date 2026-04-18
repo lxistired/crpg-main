@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "label": "exp9_combined_t07_iter1",
+  "elapsed": 3.7235100269317627,
+  "chars": 3667,
+  "prompt_tokens": 1198,
+  "completion_tokens": 916,
+  "cost": 0.003434,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens"
+  ],
+  "finish_reason": "stop",
+  "violations": [],
+  "violation_count": 0,
+  "n_shots": 6,
+  "parse_ok": true
+}

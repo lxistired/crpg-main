@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "label": "exp0_baseline_groq_t07_repro_iter2",
+  "elapsed": 4.570470094680786,
+  "chars": 4549,
+  "prompt_tokens": 711,
+  "completion_tokens": 1091,
+  "cost": 0.003728,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens"
+  ],
+  "finish_reason": "stop",
+  "violations": [
+    {
+      "type": "parse_fail",
+      "raw_preview": "[{\"shot_id\":1,\"camera_framing\":\"ws_establishing\",\"pose\":\"Su Wan strides out of a glass office tower onto a lantern-lit evening street\",\"wardrobe_state_used\":\"public_formal\",\"vgai_injected_attrs\":[\"bla"
+    }
+  ],
+  "violation_count": 1,
+  "n_shots": 0,
+  "parse_ok": false
+}

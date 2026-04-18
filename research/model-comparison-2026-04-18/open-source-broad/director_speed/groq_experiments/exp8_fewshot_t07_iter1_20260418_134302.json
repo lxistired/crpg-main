@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "label": "exp8_fewshot_t07_iter1",
+  "elapsed": 4.7345662117004395,
+  "chars": 3775,
+  "prompt_tokens": 1006,
+  "completion_tokens": 941,
+  "cost": 0.003445,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens"
+  ],
+  "finish_reason": "stop",
+  "violations": [],
+  "violation_count": 0,
+  "n_shots": 6,
+  "parse_ok": true
+}

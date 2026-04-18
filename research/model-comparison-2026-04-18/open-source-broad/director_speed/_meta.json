@@ -1,0 +1,128 @@
+[
+  {
+    "ok": true,
+    "label": "qwen3-max-nonthinking-run1",
+    "model": "qwen/qwen3-max",
+    "providers": null,
+    "chars": 6907,
+    "elapsed": 54.26529407501221,
+    "prompt_tokens": 750,
+    "completion_tokens": 1737,
+    "cost": 0.0073593,
+    "provider_returned": "Alibaba"
+  },
+  {
+    "ok": true,
+    "label": "qwen3-max-nonthinking-run2",
+    "model": "qwen/qwen3-max",
+    "providers": null,
+    "chars": 7540,
+    "elapsed": 61.23838782310486,
+    "prompt_tokens": 750,
+    "completion_tokens": 1957,
+    "cost": 0.0082173,
+    "provider_returned": "Alibaba"
+  },
+  {
+    "ok": true,
+    "label": "kimi-k2-0905-run1",
+    "model": "moonshotai/kimi-k2-0905",
+    "providers": null,
+    "chars": 4518,
+    "elapsed": 52.121511936187744,
+    "prompt_tokens": 711,
+    "completion_tokens": 1189,
+    "cost": 0.0033991,
+    "provider_returned": "AtlasCloud"
+  },
+  {
+    "ok": true,
+    "label": "kimi-k2-0905-run2",
+    "model": "moonshotai/kimi-k2-0905",
+    "providers": null,
+    "chars": 4423,
+    "elapsed": 4.106906175613403,
+    "prompt_tokens": 711,
+    "completion_tokens": 1053,
+    "cost": 0.00387,
+    "provider_returned": "Groq"
+  },
+  {
+    "ok": false,
+    "label": "kimi-k2.5-fireworks-run1",
+    "model": "moonshotai/kimi-k2.5",
+    "providers": [
+      "Fireworks"
+    ],
+    "status": 429,
+    "error": "{\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"moonshotai/kimi-k2.5 is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations\",\"provider_name\":\"Fireworks\",\"is_byok\":false}},\"user_id\":\"user_3CVrGVGDgTAAhtcucdwzdvnByJL\"}",
+    "elapsed": 1.5305099487304688
+  },
+  {
+    "ok": false,
+    "label": "kimi-k2.5-fireworks-run2",
+    "model": "moonshotai/kimi-k2.5",
+    "providers": [
+      "Fireworks"
+    ],
+    "status": 429,
+    "error": "{\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"moonshotai/kimi-k2.5 is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations\",\"provider_name\":\"Fireworks\",\"is_byok\":false}},\"user_id\":\"user_3CVrGVGDgTAAhtcucdwzdvnByJL\"}",
+    "elapsed": 1.6029889583587646
+  },
+  {
+    "ok": true,
+    "label": "kimi-k2.5-together-run1",
+    "model": "moonshotai/kimi-k2.5",
+    "providers": [
+      "Together"
+    ],
+    "chars": 5879,
+    "elapsed": 46.700331687927246,
+    "prompt_tokens": 712,
+    "completion_tokens": 5153,
+    "cost": 0.0147844,
+    "provider_returned": "Together"
+  },
+  {
+    "ok": true,
+    "label": "kimi-k2.5-together-run2",
+    "model": "moonshotai/kimi-k2.5",
+    "providers": [
+      "Together"
+    ],
+    "chars": 5069,
+    "elapsed": 66.80815196037292,
+    "prompt_tokens": 712,
+    "completion_tokens": 7103,
+    "cost": 0.0202444,
+    "provider_returned": "Together"
+  },
+  {
+    "ok": true,
+    "label": "kimi-k2.5-deepinfra-run1",
+    "model": "moonshotai/kimi-k2.5",
+    "providers": [
+      "DeepInfra"
+    ],
+    "chars": 5770,
+    "elapsed": 107.57523274421692,
+    "prompt_tokens": 712,
+    "completion_tokens": 6240,
+    "cost": 0.014336080000128,
+    "provider_returned": "DeepInfra"
+  },
+  {
+    "ok": true,
+    "label": "kimi-k2.5-deepinfra-run2",
+    "model": "moonshotai/kimi-k2.5",
+    "providers": [
+      "DeepInfra"
+    ],
+    "chars": 6844,
+    "elapsed": 94.61063194274902,
+    "prompt_tokens": 712,
+    "completion_tokens": 5444,
+    "cost": 0.012545080000128,
+    "provider_returned": "DeepInfra"
+  }
+]

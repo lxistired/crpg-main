@@ -1,0 +1,91 @@
+[
+  {
+    "shot_id": "establishing",
+    "camera_framing": "ws_establishing",
+    "pose": "leaving office building",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": [],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: framing does not show hand",
+      "red_toenails: framing does not show foot",
+      "black_pencil_skirt: framing too wide to confirm",
+      "sheer_black_tights: framing too wide to confirm",
+      "stocking_toes: framing does not show foot",
+      "black_ankle_boots: framing does not show foot"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black center-parted hair, fair skin, warm brown eyes, long lashes, soft jawline, leaving modern glass office tower, urban dusk, soft sodium streetlights"
+  },
+  {
+    "shot_id": "ms_florist",
+    "camera_framing": "ms_waist_up",
+    "pose": "pausing at florist stall, looking at flowers",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails", "black_pencil_skirt"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_toenails: framing does not show foot",
+      "sheer_black_tights: framing does not show leg",
+      "stocking_toes: framing does not show foot",
+      "black_ankle_boots: framing does not show foot"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black center-parted hair, fair skin, warm brown eyes, long lashes, soft jawline, red fingernails, black pencil skirt, browsing vibrant flower buckets outside subway florist stand, soft evening light"
+  },
+  {
+    "shot_id": "hand_business_card_ecu",
+    "camera_framing": "hand_ecu",
+    "pose": "receiving business card, fingers tremble",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_toenails: framing does not show foot",
+      "black_pencil_skirt: framing does not show torso",
+      "sheer_black_tights: framing does not show leg",
+      "stocking_toes: framing does not show foot",
+      "black_ankle_boots: framing does not show foot"
+    ],
+    "final_prompt": "28-year-old Chinese woman, red fingernails, delicate hand trembling slightly as it accepts a crisp white business card from off-frame man, soft city night bokeh in background"
+  },
+  {
+    "shot_id": "cu_tension",
+    "camera_framing": "cu_face",
+    "pose": "turning away, tension in eyes",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_lipstick"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: framing does not show hand",
+      "red_toenails: framing does not show foot",
+      "black_pencil_skirt: framing does not show torso",
+      "sheer_black_tights: framing does not show leg",
+      "stocking_toes: framing does not show foot",
+      "black_ankle_boots: framing does not show foot"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black center-parted hair, fair skin, warm brown eyes, long lashes, soft jawline, red lipstick, subtle tension in expression as she turns away, shallow depth of field"
+  },
+  {
+    "shot_id": "hand_read_card_ecu",
+    "camera_framing": "hand_ecu",
+    "pose": "holding business card, reading it",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["red_fingernails"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_toenails: framing does not show foot",
+      "black_pencil_skirt: framing does not show torso",
+      "sheer_black_tights: framing does not show leg",
+      "stocking_toes: framing does not show foot",
+      "black_ankle_boots: framing does not show foot"
+    ],
+    "final_prompt": "28-year-old Chinese woman, red fingernails, manicured hand delicately pinching a white business card, faint city lights in background blur"
+  },
+  {
+    "shot_id": "walking_away_back",
+    "camera_framing": "back_reveal_walking",
+    "pose": "turning and walking away",
+    "wardrobe_state_used": "public_formal",
+    "vgai_injected_attrs": ["black_pencil_skirt", "sheer_black_tights", "black_ankle_boots"],
+    "vgai_dropped_attrs_with_reason": [
+      "red_fingernails: pose orientation hides hands",
+      "red_toenails: viewpoint not visible",
+      "stocking_toes: covered by black_ankle_boots per mutex"
+    ],
+    "final_prompt": "28-year-old Chinese woman, long straight black center-parted hair swaying, fair skin, black pencil skirt, sheer black tights, black ankle boots, back view walking briskly away along dimly lit urban sidewalk, soft streetlamp glow"
+  }
+]

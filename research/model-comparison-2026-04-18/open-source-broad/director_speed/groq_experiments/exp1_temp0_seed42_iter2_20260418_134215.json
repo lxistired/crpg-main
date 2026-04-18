@@ -1,0 +1,76 @@
+{
+  "ok": true,
+  "label": "exp1_temp0_seed42_iter2",
+  "elapsed": 5.967756032943726,
+  "chars": 5724,
+  "prompt_tokens": 711,
+  "completion_tokens": 1265,
+  "cost": 0.004506,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens",
+    "seed"
+  ],
+  "finish_reason": "stop",
+  "violations": [
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "establishing",
+      "framing": "ws_establishing",
+      "attr": "black_pencil_skirt",
+      "anchor": "torso",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "establishing",
+      "framing": "ws_establishing",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "establishing",
+      "framing": "ws_establishing",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "ms_waist_up",
+      "framing": "ms_waist_up",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": [
+        "ear",
+        "face",
+        "hand",
+        "neck",
+        "torso"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "ms_waist_up",
+      "framing": "ms_waist_up",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": [
+        "ear",
+        "face",
+        "hand",
+        "neck",
+        "torso"
+      ]
+    }
+  ],
+  "violation_count": 5,
+  "n_shots": 6,
+  "parse_ok": true
+}

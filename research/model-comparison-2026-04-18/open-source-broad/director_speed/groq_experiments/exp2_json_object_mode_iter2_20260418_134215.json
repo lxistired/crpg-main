@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "label": "exp2_json_object_mode_iter2",
+  "elapsed": 5.8197021484375,
+  "chars": 4539,
+  "prompt_tokens": 715,
+  "completion_tokens": 1068,
+  "cost": 0.003663,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens",
+    "seed",
+    "response_format"
+  ],
+  "finish_reason": "stop",
+  "violations": [
+    {
+      "type": "mutex_both_injected",
+      "shot_id": "back_reveal_walking",
+      "pair": [
+        "black_ankle_boots",
+        "stocking_toes"
+      ]
+    }
+  ],
+  "violation_count": 1,
+  "n_shots": 6,
+  "parse_ok": true
+}

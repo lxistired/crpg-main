@@ -1,0 +1,70 @@
+{
+  "file": "kimi-k2-0905-run2.json",
+  "parse_ok": true,
+  "n_shots": 6,
+  "violation_count": 7,
+  "violations": [
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "01_establishing",
+      "framing": "ws_establishing",
+      "attr": "black_pencil_skirt",
+      "anchor": "torso",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "01_establishing",
+      "framing": "ws_establishing",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "01_establishing",
+      "framing": "ws_establishing",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "01_establishing",
+      "framing": "ws_establishing",
+      "attr": "red_toenails",
+      "anchor": "foot",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "01_establishing",
+      "framing": "ws_establishing",
+      "attr": "red_fingernails",
+      "anchor": "hand",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "01_establishing",
+      "framing": "ws_establishing",
+      "attr": "red_lipstick",
+      "anchor": "face",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": "02_ms_waist_up",
+      "framing": "ms_waist_up",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": [
+        "ear",
+        "face",
+        "hand",
+        "neck",
+        "torso"
+      ]
+    }
+  ]
+}

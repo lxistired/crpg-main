@@ -1,0 +1,123 @@
+{
+  "ok": true,
+  "label": "exp0_baseline_groq_t07_repro_iter1",
+  "elapsed": 4.076115846633911,
+  "chars": 3342,
+  "prompt_tokens": 711,
+  "completion_tokens": 897,
+  "cost": 0.003146,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens"
+  ],
+  "finish_reason": "stop",
+  "violations": [
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 1,
+      "framing": "ws_establishing",
+      "attr": "black_pencil_skirt",
+      "anchor": "torso",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 1,
+      "framing": "ws_establishing",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 1,
+      "framing": "ws_establishing",
+      "attr": "stocking_toes",
+      "anchor": "foot",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 1,
+      "framing": "ws_establishing",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": []
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 1,
+      "framing": "ws_establishing",
+      "attr": "red_toenails",
+      "anchor": "foot",
+      "visible": []
+    },
+    {
+      "type": "mutex_both_injected",
+      "shot_id": 1,
+      "pair": [
+        "black_ankle_boots",
+        "stocking_toes"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 2,
+      "framing": "ms_waist_up",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": [
+        "ear",
+        "face",
+        "hand",
+        "neck",
+        "torso"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 3,
+      "framing": "hand_ecu",
+      "attr": "sheer_black_tights",
+      "anchor": "leg",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 3,
+      "framing": "hand_ecu",
+      "attr": "stocking_toes",
+      "anchor": "foot",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "anchor_not_visible",
+      "shot_id": 3,
+      "framing": "hand_ecu",
+      "attr": "black_ankle_boots",
+      "anchor": "foot",
+      "visible": [
+        "hand"
+      ]
+    },
+    {
+      "type": "mutex_both_injected",
+      "shot_id": 3,
+      "pair": [
+        "black_ankle_boots",
+        "stocking_toes"
+      ]
+    }
+  ],
+  "violation_count": 11,
+  "n_shots": 6,
+  "parse_ok": true
+}

@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "label": "exp6_few_shot_example_iter2",
+  "elapsed": 7.874537229537964,
+  "chars": 4021,
+  "prompt_tokens": 1006,
+  "completion_tokens": 975,
+  "cost": 0.003547,
+  "provider_returned": "Groq",
+  "payload_keys": [
+    "model",
+    "messages",
+    "provider",
+    "temperature",
+    "max_tokens",
+    "seed"
+  ],
+  "finish_reason": "stop",
+  "violations": [],
+  "violation_count": 0,
+  "n_shots": 6,
+  "parse_ok": true
+}
