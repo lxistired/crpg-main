@@ -26,34 +26,55 @@ as needed. Never invent rules — always consult the file.
 ## Workflow (follow this order strictly)
 
 1. Call `read_brief()` to get the user's input (keywords / sentence / paragraph).
-2. Call `read_skill("skeleton")` and read its references to understand how
-   to structure the story. Then emit exactly one structure:
-   - Call `write_story(story_dict)` with the full story schema (meta + beats
-     + edges). On VALIDATION_ERROR, fix and retry.
-   - Call `write_characters(characters_dict)` with every character's base +
-     grooming + wardrobe_states (including `covers` on every wardrobe item)
-     + mutex_groups. On VALIDATION_ERROR, fix and retry.
-3. For each beat in the story (in topological order):
-   a. Call `read_skill("script")` (just once — you can cache it mentally for
-      subsequent beats). Read its references on first use.
-   b. Write prose for the beat respecting `detailRichness` and `poeticMode`
-      from story.meta. Call `write_beat_prose(beat_id, prose)`.
-4. For each beat:
-   a. Call `read_skill("director")` (once for the whole run).
-   b. Design the shot list respecting `targetShotCount` from the beat.
-   c. Call `validate_vgai(shots, character_name)`.
-   d. If DIRTY, fix the shots (drop attrs whose anchor is not in the
-      framing's visible_regions, drop attrs whose sub_anchor is fully
-      occluded by a wardrobe item's `covers`, and never paper over
-      occlusion with see-through rationalizations) and re-validate until
-      CLEAN.
-   e. Call `write_beat_shots(beat_id, shots)`.
-   f. For each shot in the beat, call `render_image(beat_id, shot_id,
-      final_prompt, aspect_ratio)`. On RENDER_ERROR, you may retry once
-      with a slightly adjusted prompt; on second failure, continue to
-      next shot (log but don't abort).
-5. When every beat has prose + shots + images, call
-   `finish_bundle(summary)` with a short human-readable summary.
+2. Call `read_skill("skeleton")` + read its references. Then emit in ONE call each:
+   - `write_story(story)` — full structure (meta with REQUIRED `poeticMode` +
+     beats + edges). On VALIDATION_ERROR, fix and retry.
+   - `write_characters(characters)` — **every named character appearing in
+     ANY beat, in a SINGLE call** (POV + all NPCs). Do NOT call twice to
+     add characters one-at-a-time. Every wardrobe_state item MUST populate
+     `visual_description` (30-80 word verbatim canonical string — Visual
+     DNA Layer 3); for high-prior garments also populate
+     `disambiguation_layers`.
+3. For each beat in topological order:
+   a. Read script skill once (cache mentally).
+   b. Write prose respecting `detailRichness`, `poeticMode`, and
+      `targetWordCount`. The `write_beat_prose` tool REJECTS prose outside
+      ±10% of the beat's targetWordCount — expand or trim and re-emit.
+4. Read director skill once.
+5. **ANCHORS (before any shot)** — for EACH named character, emit TWO anchor
+   renders:
+   - `render_anchor(char, "body", prompt_body)` — neutral pose, full
+     outfit visible, minimal background; prompt = Style Preamble verbatim
+     + anchor preamble variant + base identity + every wardrobe item's
+     `visual_description` verbatim.
+   - `render_anchor(char, "face", prompt_face)` — portrait CU, clean
+     neutral backdrop, face clearly readable.
+   Do NOT include scene-specific cues (no "subway entrance at night"),
+   the anchors must transfer across all scenes.
+6. For each beat:
+   a. Design the shot list respecting `targetShotCount` and applying all
+      Director principles 0, 0b, 0c, 0d (style preamble verbatim,
+      Direction Layer, anchor_ref per framing, wardrobe visual_description
+      verbatim).
+   b. `validate_vgai(shots, character_name, extra_character_names=[...])`
+      — pass EVERY character appearing in any of these shots via
+      extra_character_names (Kai must not come up as unknown_attr in a
+      two-character scene).
+   c. If DIRTY, fix (drop attrs whose anchor is not in visible_regions;
+      drop occluded grooming; never use see-through rationalizations) and
+      re-validate until CLEAN.
+   d. `write_beat_shots(beat_id, shots)`.
+   e. `render_image(beat_id, shot_id, final_prompt, aspect_ratio,
+      anchor_ref)` for each shot. Pick anchor_ref:
+      - cu_face / ms_waist_up / any portrait crop → `<char>:face`
+      - full_body_standing / three_quarter_knee_up / back_reveal_walking
+        → `<char>:body`
+      - ws_establishing → omit anchor_ref (subject too small)
+      - multi-character frame → use POV character's anchor
+      On MODERATION_BLOCKED the shot is skipped with a tracked failure;
+      continue to next shot without aborting the bundle.
+7. When every beat has prose + shots + (renderable) images done, call
+   `finish_bundle(summary)`.
 
 ## Hard rules
 
@@ -63,6 +84,11 @@ as needed. Never invent rules — always consult the file.
   through `write_beat_prose`.
 - Do NOT call `render_image` before `validate_vgai` returns CLEAN for that
   shot's parent beat.
+- Do NOT call `render_image` with an anchor_ref before the corresponding
+  `render_anchor` has been called (will return ERROR).
+- Every `final_prompt` for a shot MUST begin with the Style Preamble
+  byte-for-byte (Director Principle 0) and MUST include a Direction
+  section (Principle 0b).
 - Chinese bracket quotes 「」 for any dialogue inside prose. Never ASCII "".
 - Snake_case English for all grooming/wardrobe/mutex names.
 

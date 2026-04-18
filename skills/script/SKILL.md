@@ -67,7 +67,9 @@ Pick the right style profile for `detailRichness`:
 | detailed | ~2500 | 6-8 per stanza | 2-3 exchanges |
 | extreme | 40-80 per beat | short, punchy | optional |
 
-Exact word budgets in `references/three-modes-script.md`. Never exceed `beat.targetWordCount` from the skeleton; use it verbatim.
+Exact word budgets in `references/three-modes-script.md`.
+
+**HARD RULE — targetWordCount is a window, not a ceiling**: you must hit within **±10%** of `beat.targetWordCount` (measured as Chinese characters via `len(prose)`). The `write_beat_prose` tool REJECTS prose outside that window and asks you to re-draft. If you feel tempted to write shorter to "keep it tight" — don't; short-changing the target means the reader gets a skeletal scene, not a detailed one. Expand with more sensory ticks, more dialogue exchanges, more concrete actions — per daisy V6 Game Writing Rules — until the length hits the window.
 
 ## Workflow per beat
 

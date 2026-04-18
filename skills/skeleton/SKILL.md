@@ -74,7 +74,8 @@ Return two JSON objects (via separate tool calls: `write_story_json` + `write_ch
     "genre": "...",
     "contentLength": "short|medium|long",
     "detailRichness": "concise|standard|detailed|extreme",
-    "structure": "linear|bifurcating|funnel|web"
+    "structure": "linear|bifurcating|funnel|web",
+    "poeticMode": true
   },
   "controllingIdea": {"finalValue": "...", "cause": "..."},
   "antagonism": {"force": "...", "dominant_dimension": "physical|social|personal|intellectual|moral", "justification": "..."},
@@ -109,7 +110,13 @@ Return two JSON objects (via separate tool calls: `write_story_json` + `write_ch
     "wardrobe_states": {
       "<state_name>": {
         "items": [
-          {"name": "black_stilettos", "anchor": "foot", "covers": ["toes", "foot_top_inner"]}
+          {
+            "name": "black_stilettos",
+            "anchor": "foot",
+            "covers": ["toes", "foot_top_inner"],
+            "visual_description": "glossy black patent-leather stiletto pumps, pointed toe, closed back, 10cm spike heel, no ankle strap, matte underside",
+            "disambiguation_layers": []
+          }
         ],
         "removes": []
       }
@@ -118,6 +125,17 @@ Return two JSON objects (via separate tool calls: `write_story_json` + `write_ch
   }
 }
 ```
+
+### `visual_description` — verbatim canonical outfit string (REQUIRED)
+
+Every wardrobe item MUST populate `visual_description` with a complete, vivid, byte-for-byte canonical description the Director will copy literally into every shot prompt. This is the single biggest lever for wardrobe consistency across shots.
+
+Guidance:
+- 30-80 English words per item
+- Material + cut + color + closure + silhouette + any signature detail
+- Avoid ambiguous terms ("tights" → "sheer 15-denier black nylon pantyhose with no visible waistband")
+- Avoid aesthetic words ("sexy", "elegant") — use geometric/material facts
+- For high-prior garments (see `references/mutex-coverage.md` High-Prior list), ALSO populate `disambiguation_layers`: 3+ independent visual cues that prevent Grok from snapping the item to the nearest training-distribution peak (e.g. "upper boundary: meets pencil skirt hem at mid-thigh — NOT pantyhose, no waist band visible")
 
 ## Naming convention (hard rule)
 

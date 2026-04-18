@@ -7,7 +7,19 @@ description: Use when translating prose narrative (novel excerpt, story.md, scen
 
 Translate narrative prose into shot prompts for text-to-image generation. Principles below apply to any story, character, or genre. Examples in `examples/`; load only when needed.
 
-## 10 Principles
+## 12 Principles
+
+**0. Style Preamble is byte-for-byte locked** — the first section of EVERY `final_prompt` is the Visual DNA Style Preamble copied verbatim from `references/style-preamble.md`. No paraphrasing. Same preamble → same film feel across shots. This is the single highest-ROI lever for visual continuity.
+
+**0b. Direction Layer is mandatory** — every `final_prompt` includes a Direction section that frames the shot as a candid mid-action moment (present-continuous verbs, specific muscle-level tells, photographic reference by name). See `references/direction-layer.md`. Without it, Grok defaults to stock-photo staged portraits.
+
+**0c. Anchors before shots** — for every named character, two anchors (`body` + `face`) are rendered BEFORE any scene shot. Every scene shot's `Shot.anchor_ref` points at one of these anchors so Grok's `image_url` mode anchors the face/outfit across scenes. Pick anchor by framing:
+  - `cu_face`, `ms_waist_up`, or any portrait crop → `<char>:face`
+  - `three_quarter_knee_up`, `full_body_standing`, `back_reveal_walking` → `<char>:body`
+  - `ws_establishing` → no anchor (subject too small)
+  - Multi-character frame → use the POV character's anchor
+
+**0d. Wardrobe visual_description is verbatim** — every wardrobe_state item in characters.json has a `visual_description` field. Copy it byte-for-byte into the Character section of `final_prompt`. NEVER paraphrase, shorten, or creatively restate. Outfit drift is ~50% caused by paraphrasing; lock the string.
 
 1. **Base identity is region-gated too** — split into two tiers:
    - **Region-agnostic** (ALWAYS in every final_prompt): age, ethnicity, skin tone, body frame
@@ -37,27 +49,42 @@ Translate narrative prose into shot prompts for text-to-image generation. Princi
 ## Workflow (per shot)
 
 ```
+0. BEFORE any shots: render anchors (once per run)
+   - For EACH named character in characters.json:
+     - render_anchor(char, "body", anchor_body_prompt)
+     - render_anchor(char, "face", anchor_face_prompt)
+   - Anchor prompts = STYLE_PREAMBLE verbatim + anchor-preamble variant
+     + base identity + wardrobe.visual_description verbatim. Zero scene cues.
+
+PER SHOT:
+
 1. Read beat → classify (establishing/exposition/emotional/revelation/confrontation/transition)
 2. Pick framing + pose + wardrobe_state (from character sheet)
 3. Assemble candidate attrs:
    grooming ∪ state.items − state.removes
 4. Gate by framing visible_regions (VGAI)
+4b. Occlusion drop: for each candidate grooming G with sub_anchor S, if any
+    injected wardrobe item i has S ∈ i.covers → DROP G with reason
+    "occluded by i". NEVER write 'visible through' / 'showing beneath'.
 5. Gate by pose visibility (Principle 5: DEFAULT KEEP)
    ⚠ Phrases like "pose-dependent", "may not be primary focus",
       "not guaranteed", "depends on framing" are NOT sufficient reasons to drop.
-      Drop ONLY when the pose unambiguously hides the anchor (pure sole view,
-      hair fully covers ear, character fully behind opaque object).
-      If ambiguous → KEEP.
-6. Mutex resolve (MANDATORY pre-assembly check):
-   For each pair in character_sheet.mutex_groups, if BOTH members are in the
-   surviving attr set, pick ONE based on which is visually dominant in the
-   pose context (e.g., shoes on feet → keep shoes, drop stocking_toes).
-   Never emit two mutex-conflicting attrs in vgai_injected_attrs.
-7. Assemble prompt: ANIME_PREAMBLE + base + pose + scene + framing_directive + gated_attrs
-   Note: base identity (hair/skin/eye/face/age) goes in the base segment,
-   NOT in vgai_injected_attrs — base is always injected as part of the
-   character preamble, it is not a gated attribute.
-8. Sanity check against rationalization-counters.md red flags
+      Drop ONLY when the pose unambiguously hides the anchor.
+6. Mutex resolve (MANDATORY pre-assembly check)
+7. Pick anchor_ref for this shot (Principle 0c)
+8. Assemble final_prompt — in this exact order:
+   - Style Preamble (verbatim from references/style-preamble.md)
+   - Character: region-agnostic base + wardrobe.visual_description verbatim
+     (one block per character in frame); append disambiguation_layers for
+     any high-prior garment in frame (see references/occlusion.md §garment)
+   - Direction: mid-action verbs + tells + gaze + photographic reference
+     (per references/direction-layer.md)
+   - Scene: the ONLY free-form section — setting, props, weather, time
+   - Framing: camera_framing + composition notes
+9. Sanity check against rationalization-counters.md red flags + Principle 0/0b/0c/0d
+10. Emit the Shot object with shot_id / camera_framing / pose / wardrobe_state_used
+    / vgai_injected_attrs / vgai_dropped_attrs_with_reason / final_prompt
+    / aspect_ratio / anchor_ref / characters_in_frame
 ```
 
 ## Red flags — if any appear, STOP and fix
@@ -85,13 +112,15 @@ Emit JSON array. That's the deliverable.
 
 ## Reference files (load when applying the principle)
 
+- `references/style-preamble.md` — **Principle 0**; byte-for-byte locked style string
+- `references/direction-layer.md` — **Principle 0b**; mid-action tells + photographic references
+- `references/occlusion.md` — **Principle 4b**; full / partial / no occlusion branches
 - `references/vgai.md` — VGAI rule + 9 failure modes
 - `references/framing-region-map.yaml` — framing→visible regions lookup
 - `references/shot-grammar.yaml` — shot vocabulary + reliability tags
 - `references/grok-constraints.md` — hard limits + allowed aspect ratios
 - `references/character-sheet-schema.yaml` — schema for input character sheets
 - `references/narrative-heuristics.md` — prose→shot decomposition
-- `references/occlusion.md` — full / partial / no occlusion branches; when to drop, when to describe on non-occluded part
 - `references/rationalization-counters.md` — known rationalizations + counters
 - `references/provider-hardening-suffix.md` — optional system-prompt suffix for throughput-optimized backends (e.g. Groq-hosted) whose default VGAI compliance is weak
 - `examples/worked-example.md` — one minimal worked example

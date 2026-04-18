@@ -30,6 +30,7 @@ class XaiImageClient:
         aspect_ratio: str = "16:9",
         resolution: str = "2k",
         n: int = 1,
+        image_url: str | None = None,
         client: httpx.AsyncClient | None = None,
         retries: int = 3,
         backoff_base_s: float = 2.0,
@@ -40,7 +41,7 @@ class XaiImageClient:
           wait = backoff_base_s * 2**attempt (e.g. 2s, 4s, 8s for default retries=3)
         Non-retriable 4xx (other than 429) raises immediately.
         """
-        payload = {
+        payload: dict = {
             "model": model,
             "prompt": prompt,
             "n": n,
@@ -48,6 +49,11 @@ class XaiImageClient:
             "resolution": resolution,
             "response_format": "b64_json",
         }
+        # image_url enables Grok Imagine's image-to-image / editing mode —
+        # the model applies the prompt as a natural-language edit on top of
+        # the reference image. Used for character identity anchor lock.
+        if image_url is not None:
+            payload["image_url"] = image_url
         last_status: int | None = None
         last_body: str = ""
         for attempt in range(retries + 1):

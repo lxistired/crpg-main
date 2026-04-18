@@ -29,3 +29,13 @@ class AgentState:
     # Last-seen story / characters data, cached for validate_vgai cross-lookups
     story_data: dict[str, Any] | None = None
     characters_data: dict[str, Any] | None = None
+
+    # Character anchors: {char_name: {"body": Path, "face": Path}} — populated
+    # via render_anchor before any shot renders; render_image consults this
+    # map when a Shot has anchor_ref="<char>:<body|face>".
+    anchors: dict[str, dict[str, Path]] = field(default_factory=dict)
+
+    # Shots that could not be rendered (e.g. Grok moderation blocked after
+    # all retries). Each entry: {beat_id, shot_id, reason}. Surfaced in
+    # finish_bundle's summary so the user knows what's missing.
+    failed_shots: list[dict[str, str]] = field(default_factory=list)
