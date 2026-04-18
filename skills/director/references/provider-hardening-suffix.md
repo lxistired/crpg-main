@@ -46,7 +46,7 @@ For every shot, before writing vgai_injected_attrs, verify each attribute's anch
 | full_body_standing | {face, ear, neck, torso, hand, leg, foot} |
 | hand_ecu | {hand} |
 | feet_ecu | {foot} |
-| back_reveal_walking | {torso_back, hand, leg, foot} |
+| back_reveal_walking | {torso, torso_back, hand, leg, foot} |
 
 Procedure for each shot:
 1. Look up visible_regions for the chosen camera_framing.

@@ -42,3 +42,10 @@ def test_bundle_shot_dir(tmp_path):
     d = writer.shots_dir(beat_id="intro")
     assert d == tmp_path / "bundle" / "shots" / "intro"
     assert d.exists()
+
+def test_bundle_shot_dir_sanitizes_beat_id(tmp_path):
+    writer = BundleWriter(out_dir=tmp_path / "bundle")
+    d = writer.shots_dir(beat_id="../../etc/passwd")
+    assert d.parent == tmp_path / "bundle" / "shots"
+    # Path must stay inside shots dir
+    assert str(d.resolve()).startswith(str((tmp_path / "bundle" / "shots").resolve()))

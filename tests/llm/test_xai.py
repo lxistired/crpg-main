@@ -10,7 +10,7 @@ async def test_generate_image(httpx_mock):
         json={"data":[{"b64_json": FAKE_PNG_B64}]},
     )
     client = XaiImageClient(api_key="xai-test", concurrency=3)
-    png_bytes = await client.generate(prompt="test prompt", model="grok-imagine-pro")
+    png_bytes = await client.generate(prompt="test prompt")
     assert png_bytes.startswith(b"\x89PNG")
 
 @pytest.mark.asyncio
@@ -19,3 +19,16 @@ async def test_xai_error(httpx_mock):
     client = XaiImageClient(api_key="xai-test", concurrency=3)
     with pytest.raises(RuntimeError, match="500"):
         await client.generate(prompt="p")
+
+@pytest.mark.asyncio
+async def test_generate_sends_aspect_ratio_and_resolution(httpx_mock):
+    httpx_mock.add_response(json={"data":[{"b64_json": FAKE_PNG_B64}]})
+    client = XaiImageClient(api_key="xai-test", concurrency=3)
+    await client.generate(prompt="p", aspect_ratio="1:1", resolution="2k")
+    req = httpx_mock.get_requests()[0]
+    import json as j
+    body = j.loads(req.read())
+    assert body["aspect_ratio"] == "1:1"
+    assert body["resolution"] == "2k"
+    assert body["model"] == "grok-imagine-image-pro"
+    assert "size" not in body  # MUST NOT send size

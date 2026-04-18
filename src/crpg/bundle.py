@@ -1,5 +1,6 @@
 """BundleWriter — writes story.json / characters.json / shots/ / meta.json."""
 import json
+import re
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from crpg.types import Story, Character
@@ -20,7 +21,9 @@ class BundleWriter:
         (self.out_dir / "shots").mkdir(exist_ok=True)
 
     def shots_dir(self, *, beat_id: str) -> Path:
-        d = self.out_dir / "shots" / beat_id
+        # Sanitize: strip any path-traversal or separators; only alphanumerics + underscore/hyphen
+        safe = re.sub(r"[^A-Za-z0-9_-]", "_", beat_id)
+        d = self.out_dir / "shots" / safe
         d.mkdir(parents=True, exist_ok=True)
         return d
 

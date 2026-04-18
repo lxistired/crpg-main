@@ -26,14 +26,21 @@ class XaiImageClient:
         self,
         *,
         prompt: str,
-        model: str = "grok-imagine-pro",
-        size: str = "1024x1024",
+        model: str = "grok-imagine-image-pro",
+        aspect_ratio: str = "16:9",
+        resolution: str = "2k",
         n: int = 1,
         client: httpx.AsyncClient | None = None,
     ) -> bytes:
         """Generate one image. Returns PNG bytes."""
-        payload = {"model": model, "prompt": prompt, "n": n, "size": size,
-                   "response_format": "b64_json"}
+        payload = {
+            "model": model,
+            "prompt": prompt,
+            "n": n,
+            "aspect_ratio": aspect_ratio,
+            "resolution": resolution,
+            "response_format": "b64_json",
+        }
         async with self._sem:
             owns = client is None
             c = client or httpx.AsyncClient(timeout=self._timeout)

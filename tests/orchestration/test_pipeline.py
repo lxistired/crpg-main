@@ -11,34 +11,51 @@ async def test_pipeline_e2e_mocked(tmp_path, httpx_mock, demo_brief, fixture_pat
     script_text = (fixture_path / "canonical_script_short.md").read_text(encoding="utf-8")
     shots_json = (fixture_path / "canonical_shots.json").read_text(encoding="utf-8")
 
+    def add_script(n: int = 1) -> None:
+        for _ in range(n):
+            httpx_mock.add_response(
+                url="https://openrouter.ai/api/v1/chat/completions",
+                json={"choices":[{"message":{"content":script_text},"finish_reason":"stop"}], "usage":{}},
+            )
+
+    def add_director(n: int = 1) -> None:
+        for _ in range(n):
+            httpx_mock.add_response(
+                url="https://openrouter.ai/api/v1/chat/completions",
+                json={"choices":[{"message":{"content":shots_json},"finish_reason":"stop"}], "usage":{}},
+            )
+
     # Responses added in order of expected calls:
+    # detailRichness="detailed" → run_script_detailed per beat (3 calls: main, branch_A, branch_B)
+    #
+    # DAG layers from canonical_skeleton.json:
+    #   Layer 1: [intro]            — sequential: 3 script + 1 director
+    #   Layer 2: [main]             — sequential: 3 script + 1 director
+    #   Layer 3: [A_decline, B_accept] — concurrent pair via asyncio.gather:
+    #       asyncio interleaving: A.main, B.main (sequential awaits), then
+    #       A.branch_A+A.branch_B+B.branch_A+B.branch_B (all 4 concurrent),
+    #       then A.director, B.director.
+    #       So: 2 main-script + 4 branch-script + 2 director (in that layered order).
+
     # 1. Skeleton
     httpx_mock.add_response(
         url="https://openrouter.ai/api/v1/chat/completions",
         json={"choices":[{"message":{"content":skeleton_json},"finish_reason":"stop"}], "usage":{}},
     )
-    # 4 beats × (1 script + 1 director) = 8 more chat calls
-    # Canonical skeleton has 4 beats (intro, main, A_decline, B_accept),
-    # story.meta.detailRichness="detailed" → each beat uses DETAILED segmented (3 script calls + 1 director)
-    # But the test asserts each beat does 1 script + 1 director call — this means the pipeline uses
-    # run_script_short for detailed too (or only one script call per beat).
-    # Actually re-reading: the pipeline orchestrator code calls run_script_detailed which is 3 calls.
-    # So 4 beats × (3 script + 1 director) = 16 chat calls total.
-    # Wait the test setup only adds 4 × 2 = 8 chat calls (1 script + 1 director per beat).
-    # This means the orchestrator must choose short mode for the test despite detailRichness="detailed".
-    # Resolution: the orchestrator uses run_script_short regardless for now (Milestone 1 simplification).
-    # For correctness of this test, we use 1 script + 1 director per beat.
-    for _ in range(4):
-        # Script per beat
-        httpx_mock.add_response(
-            url="https://openrouter.ai/api/v1/chat/completions",
-            json={"choices":[{"message":{"content":script_text},"finish_reason":"stop"}], "usage":{}},
-        )
-        # Director per beat
-        httpx_mock.add_response(
-            url="https://openrouter.ai/api/v1/chat/completions",
-            json={"choices":[{"message":{"content":shots_json},"finish_reason":"stop"}], "usage":{}},
-        )
+    # Layer 1: intro (3 script + 1 director)
+    add_script(3)
+    add_director(1)
+    # Layer 2: main (3 script + 1 director)
+    add_script(3)
+    add_director(1)
+    # Layer 3: A_decline + B_accept concurrent
+    #   Step 1: each beat awaits main-script sequentially → 2 main calls
+    add_script(2)
+    #   Step 2: all branch calls run concurrently → 4 branch calls (all prose, order irrelevant)
+    add_script(4)
+    #   Step 3: each beat awaits director sequentially → 2 director calls
+    add_director(2)
+
     # Image generation: each director returns 2 shots, 4 beats = 8 images
     for _ in range(8):
         httpx_mock.add_response(

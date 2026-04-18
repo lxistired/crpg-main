@@ -10,7 +10,9 @@ async def render_shots_to_disk(
     shots: list[Shot],
     out_dir: Path,
     prompts: list[str],
-    model: str = "grok-imagine-pro",
+    model: str = "grok-imagine-image-pro",
+    aspect_ratio: str = "16:9",
+    resolution: str = "2k",
 ) -> list[Path]:
     """Render each shot's prompt to a PNG under out_dir/shot-NNN.png.
 
@@ -22,7 +24,8 @@ async def render_shots_to_disk(
     out_dir.mkdir(parents=True, exist_ok=True)
 
     async def _one(i: int, prompt: str) -> Path:
-        png_bytes = await client.generate(prompt=prompt, model=model)
+        png_bytes = await client.generate(prompt=prompt, model=model,
+                                          aspect_ratio=aspect_ratio, resolution=resolution)
         path = out_dir / f"shot-{i+1:03d}.png"
         path.write_bytes(png_bytes)
         return path

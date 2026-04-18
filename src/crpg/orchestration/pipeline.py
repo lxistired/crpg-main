@@ -7,7 +7,7 @@ from crpg.config import ProjectConfig
 from crpg.llm.openrouter import OpenRouterClient
 from crpg.llm.xai import XaiImageClient
 from crpg.passes.skeleton import run_skeleton
-from crpg.passes.script import run_script_short
+from crpg.passes.script import run_script_short, run_script_detailed
 from crpg.passes.director import run_director
 from crpg.passes.assembler import assemble_image_prompt
 from crpg.passes.image import render_shots_to_disk
@@ -47,9 +47,14 @@ async def _process_beat(
     pov_name, pov_char = next(iter(characters.items()))
     wardrobe_state = beat.wardrobe_state or next(iter(pov_char.wardrobe_states.keys()))
 
-    # Script: always short mode for Milestone 1 (detailed segmented is a follow-up optimization)
     beat_user = _format_beat_user_prompt(beat, story)
-    prose = await run_script_short(or_client, beat_user_prompt=beat_user)
+
+    # Script: detailed mode uses segmented main→A‖B
+    if story.meta.detail_richness in ("detailed", "extreme"):
+        main, a, b = await run_script_detailed(or_client, scene_brief=beat_user)
+        prose = f"{main}\n\n\n{a}\n\n\n{b}"
+    else:
+        prose = await run_script_short(or_client, beat_user_prompt=beat_user)
 
     # Director
     shots = await run_director(
@@ -65,12 +70,24 @@ async def _process_beat(
     out_dir = writer.shots_dir(beat_id=beat.id)
     await render_shots_to_disk(
         xai_client, shots=shots, out_dir=out_dir, prompts=prompts,
+        aspect_ratio="16:9", resolution="2k",
     )
     return len(shots)
 
 async def run_pipeline(cfg: ProjectConfig, inputs: PipelineInputs) -> PipelineResult:
-    or_client = OpenRouterClient(api_key=cfg.openrouter_key, concurrency=cfg.concurrency)
-    xai_client = XaiImageClient(api_key=cfg.xai_key, concurrency=min(cfg.concurrency, 20))
+    # TODO(M2): connection pool reuse — pass shared httpx.AsyncClient through all passes
+    # to reduce TCP handshakes from O(beats*2) to 2. Requires adding client kwarg to
+    # skeleton/script/director signatures.
+    or_client = OpenRouterClient(
+        api_key=cfg.openrouter_key,
+        endpoint=cfg.openrouter_endpoint,
+        concurrency=cfg.concurrency,
+    )
+    xai_client = XaiImageClient(
+        api_key=cfg.xai_key,
+        endpoint=cfg.xai_endpoint,
+        concurrency=min(cfg.concurrency, 20),
+    )
     writer = BundleWriter(out_dir=inputs.out_dir)
 
     # Pass 1: Skeleton
@@ -93,7 +110,7 @@ async def run_pipeline(cfg: ProjectConfig, inputs: PipelineInputs) -> PipelineRe
         generated_at=dt.datetime.now(dt.UTC).isoformat(),
         text_model=cfg.text_model,
         text_provider=cfg.text_provider,
-        image_model="grok-imagine-pro",
+        image_model="grok-imagine-image-pro",
         suffix_versions={"STRONG": "v1", "FEW_SHOT": "v1", "LENGTH_SHORT": "v1"},
     )
     writer.write(story=story, characters=characters, meta=meta)
