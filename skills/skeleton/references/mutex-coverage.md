@@ -6,7 +6,7 @@ The Director skill's VGAI validator enforces these at shot level. If Skeleton em
 
 ## Anchor / sub_anchor taxonomy
 
-Anchors are body regions. Sub_anchors are named parts within an anchor. Use exactly this vocabulary:
+Anchors are body regions. Sub_anchors are named parts within an anchor. Use exactly this vocabulary — **do NOT invent variants** (e.g. use `toes`, not `toenails`; use `lips`, not `lipstick_zone`).
 
 | anchor | sub_anchors |
 |--------|-------------|
@@ -19,7 +19,38 @@ Anchors are body regions. Sub_anchors are named parts within an anchor. Use exac
 | leg | shin, calf, ankle |
 | foot | toes, foot_top_inner, foot_top_outer, heel, sole |
 
-When in doubt, use the anchor only (no sub_anchor). Don't invent vocabulary.
+When in doubt, use the anchor only (omit sub_anchor). Don't invent vocabulary.
+
+## Grooming → sub_anchor mapping (standard library)
+
+When emitting `persistent_grooming` entries, pick sub_anchor from this table. These are the physical regions grooming lives in — NOT the grooming name itself.
+
+| grooming kind | anchor | sub_anchor |
+|---------------|--------|------------|
+| nail polish on fingers (`red_fingernails`, `french_manicure`, etc.) | hand | `fingernails` |
+| nail polish on toes (`red_toenails`, `black_toenails`, etc.) | foot | `toes` |
+| lipstick / lip gloss / lip tint | face | `lips` |
+| eye makeup / eyeliner / mascara accents | face | `eyes` |
+| lash extensions | face | `lashes` |
+| eyebrow tint / shaped brows | face | `brows` |
+| blush / cheek contour | face | `cheeks` |
+| ear piercing / stud | ear | `earlobe` |
+| neck tattoo / necklace-resting-on-collarbone / chains | neck | `throat` or `collarbone` |
+| wrist tattoo / bracelet | hand | `wrist` |
+| back-of-hand tattoo | hand | `back_of_hand` |
+| décolletage tattoo / chest scar | torso | `cleavage` or `front` |
+| shoulder tattoo | torso | `shoulders` |
+| back tattoo | torso | `torso_back` |
+| thigh tattoo (front) | leg_upper | `thigh_front` |
+| thigh tattoo (back) | leg_upper | `thigh_back` |
+| knee scar / knee tattoo | leg_upper | `knee` |
+| calf tattoo | leg | `calf` |
+| shin scar | leg | `shin` |
+| ankle tattoo / anklet | leg | `ankle` |
+| foot-top tattoo (inner side) | foot | `foot_top_inner` |
+| foot-top tattoo (outer side) | foot | `foot_top_outer` |
+
+**Important**: the sub_anchor is the *region*, not the *grooming object*. `red_toenails` is a grooming name (what it IS); `toes` is the sub_anchor (where it LIVES). The validator matches sub_anchor against wardrobe `covers` for occlusion — so using `toenails` as a sub_anchor breaks occlusion detection because no shoe's `covers` list contains `toenails` (they contain `toes`).
 
 ## The `covers` field on wardrobe items
 

@@ -20,6 +20,8 @@ Translate narrative prose into shot prompts for text-to-image generation. Princi
 
 4. **VGAI gate** — inject attr IFF its `anchor` region is in the framing's visible regions. See `references/framing-region-map.yaml`.
 
+4b. **Occlusion gate** — even if an attr's anchor is visible, if another wardrobe item (that you are ALSO injecting) declares the attr's `sub_anchor` in its `covers` list, DROP the attr and record the reason `"occluded by <item>"`. Never paper over with "visible through" or "showing beneath" — that instructs the image model to open the occluding item (peep-toe where a closed pump should be, sheer where opaque should be). See `references/occlusion.md`.
+
 5. **Default KEEP on uncertainty** — ambiguous pose visibility → keep the attr. Grok handles partial visibility. Drop only on clear evidence (pure sole / pure back / fully occluded).
 
 6. **Fact over instruction** — attribute values are positive factual statements. See `references/rationalization-counters.md` for banned phrasings.
@@ -89,6 +91,7 @@ Emit JSON array. That's the deliverable.
 - `references/grok-constraints.md` — hard limits + allowed aspect ratios
 - `references/character-sheet-schema.yaml` — schema for input character sheets
 - `references/narrative-heuristics.md` — prose→shot decomposition
+- `references/occlusion.md` — full / partial / no occlusion branches; when to drop, when to describe on non-occluded part
 - `references/rationalization-counters.md` — known rationalizations + counters
 - `references/provider-hardening-suffix.md` — optional system-prompt suffix for throughput-optimized backends (e.g. Groq-hosted) whose default VGAI compliance is weak
 - `examples/worked-example.md` — one minimal worked example
