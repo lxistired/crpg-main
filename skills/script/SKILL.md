@@ -88,6 +88,14 @@ Exact word budgets in `references/three-modes-script.md`.
 7. Emit via write_beat_prose tool — one call per beat
 ```
 
+## Synopsis is a contract (not a suggestion)
+
+The Skeleton stage emits a `synopsis` per beat. Treat it as a binding contract, not a prose seed:
+
+1. **Quoted lines are mandated verbatim.** If the synopsis contains text inside `「」` or `『』`, those exact lines MUST appear in the prose, character-for-character identical. They are the beat's value-shift pivot, placed deliberately by Skeleton. The tool rejects prose missing any mandated quote.
+2. **Negative constraints are binding.** If the synopsis says the protagonist is poised, hesitant, or undecided at beat-end, the prose must end on that state — not on the executed action. (Relevant for `choice` beats — see `skills/skeleton/references/node-types.md`.)
+3. **Positive beats are non-negotiable.** If the synopsis specifies "protagonist discovers X" / "opponent reveals Y", the prose must render that discovery / revelation explicitly, not allude to it.
+
 ## Self-check before emit
 
 - Does the prose turn valueBefore → valueAfter explicitly (not just conceptually)?
@@ -97,7 +105,9 @@ Exact word budgets in `references/three-modes-script.md`.
 - Max ONE physical sensation per beat?
 - Zero emotion names verbatim (恐惧 / 愤怒 / 悲伤 used as bare nouns)?
 - Chinese bracket quotes 「」 for all dialogue (never ASCII `""`)?
-- Prose length within ±5% of beat.targetWordCount?
+- Prose length within ±10% of beat.targetWordCount, **measured in CJK ideographs only** (U+4E00–U+9FFF)? ASCII, digits, punctuation, whitespace, and self-reported word-count annotations do NOT count and are tool-rejected if present.
+- Every synopsis-mandated quote (text in 「」/『』 in `beat.synopsis`) appears verbatim in the prose?
+- Every character-to-character exchange in the beat is rendered as explicit 「」-quoted lines, never summarized ("they talked" / "he said something important") or elided ("the rest she couldn't remember")?
 - If `poeticMode=true`: metaphors are present but underlying action still advances stakes
 - If `poeticMode=false`: keywords appear as concrete story elements (objects, characters, locations), not as metaphors
 

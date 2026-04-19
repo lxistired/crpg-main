@@ -223,6 +223,54 @@ def write_characters(ctx: RunContextWrapper[AgentState], characters: Any) -> str
 
 # ---------- prose ------------------------------------------------------------
 
+# Regex matching a single CJK Unified Ideograph (the "real" Chinese characters)
+_CJK_CHAR = re.compile(r"[\u4e00-\u9fff]")
+
+# Patterns that indicate the agent is hallucinating a self-reported word count
+# ("（约二百五十字）" / "共约 2500 字" / "约2500字数" etc.) to fool length checks.
+_WORD_COUNT_SELF_REPORT = re.compile(
+    r"[（(]\s*(?:约|共约|大约|约?计)?\s*[一二三四五六七八九十百千万零两0-9]+\s*字"
+    r"(?:数|符|元)?[^）)]*[）)]"
+)
+
+# Phrases the agent has been caught using to elide key dialogue in crisis scenes
+# (daisy V6 Anti-Melodrama + Game Writing Rule R8). If any appear in a beat's
+# prose, the tool rejects — elision violates "dialogue is gameplay".
+_DIALOGUE_ELISION_MARKERS = [
+    "她不记得具体说了什么",
+    "她记不清他说了什么",
+    "他不记得她说了什么",
+    "那些话她后来记不清",
+    "那些话他后来记不清",
+    "他们谈了很久",
+    "他们聊了一会儿",
+    "模糊的对话",
+    "无意义的对话",
+    "只是些无关紧要的话",
+    "只是闲聊",
+]
+
+
+def _cjk_char_count(text: str) -> int:
+    """Count CJK ideographs only — ignore ASCII, punctuation, whitespace,
+    and common agent hallucinations like word-count self-reports."""
+    # Strip self-report parentheticals first so they don't inflate
+    cleaned = _WORD_COUNT_SELF_REPORT.sub("", text)
+    return len(_CJK_CHAR.findall(cleaned))
+
+
+def _extract_mandated_quotes(synopsis: str) -> list[str]:
+    """Return any quoted lines in the beat synopsis that MUST appear verbatim
+    in the prose. Looks for Chinese bracket quotes 「」 and 『』."""
+    out: list[str] = []
+    # Simple non-greedy match — stops at first matching close bracket
+    for m in re.finditer(r"「([^」]+)」", synopsis):
+        out.append(m.group(1))
+    for m in re.finditer(r"『([^』]+)』", synopsis):
+        out.append(m.group(1))
+    return out
+
+
 @function_tool
 def write_beat_prose(
     ctx: RunContextWrapper[AgentState],
@@ -231,10 +279,24 @@ def write_beat_prose(
 ) -> str:
     """Persist one beat's prose to bundle/prose/<beat_id>.md.
 
-    HARD CHECK: prose length must be within ±10% of beat.targetWordCount
-    (measured in Chinese characters — `len(prose)` with CJK chars counting
-    as 1 each). If outside the window, the tool REJECTS the prose and
-    returns a diagnostic so the agent expands or trims and re-emits.
+    HARD CHECKS (rejections):
+
+    1. Length window: CJK character count must be within ±10% of
+       beat.targetWordCount. **Only CJK ideographs count** (U+4E00–U+9FFF).
+       ASCII, punctuation, whitespace, digits, and hallucinated word-count
+       self-reports ("（约2500字）") do NOT count toward length.
+
+    2. No dialogue elision: phrases like "她不记得具体说了什么" /
+       "他们谈了很久" are BANNED (daisy V6 Game Writing Rule R8 — dialogue
+       is gameplay, never elide key exchanges).
+
+    3. No self-report footnotes: "（X字）" / "共约 X 字" style annotations
+       are stripped silently (they don't count toward length) AND their
+       presence warns the agent.
+
+    4. Mandated dialogue: if the beat's synopsis contains quoted lines in
+       「」 or 『』, those lines MUST appear verbatim in the prose. Skeleton
+       places them there deliberately — they're load-bearing.
 
     Args:
         beat_id: the beat id as it appears in story.beats.
@@ -244,12 +306,48 @@ def write_beat_prose(
     """
     state = ctx.context
     target: int | None = None
+    synopsis: str = ""
     if state.story_data is not None:
         for b in state.story_data.get("beats", []):
             if b.get("id") == beat_id:
                 target = b.get("targetWordCount") or b.get("target_word_count")
+                synopsis = b.get("synopsis", "") or ""
                 break
-    length = len(prose)
+
+    # Check 2: dialogue elision
+    for phrase in _DIALOGUE_ELISION_MARKERS:
+        if phrase in prose:
+            return (
+                f"REJECTED prose/{beat_id}.md — 含禁用套路 {phrase!r}（对话 elision "
+                f"违反 Game Writing Rule R8: dialogue 必须实写，不能省略或概述）。"
+                f"把那句改成 2-3 行具体对白：对方说了什么可辨识的信息 / 暗示 / 试探，"
+                f"Su Wan 回了什么，对方接了什么。每一行承载信息或张力。"
+            )
+
+    # Check 3: self-report footnote warning
+    if _WORD_COUNT_SELF_REPORT.search(prose):
+        return (
+            f"REJECTED prose/{beat_id}.md — 检测到字数自报括号（如 '（约2500字）'）"
+            f"这种 footnote 是 banned：它骗长度检查，但会被 sonnet 读者一眼识破。"
+            f"把这类括号**整段删掉**，用真实的 prose 长度重新提交。"
+        )
+
+    # Check 4: mandated dialogue from synopsis
+    mandated = _extract_mandated_quotes(synopsis)
+    missing_lines: list[str] = []
+    for line in mandated:
+        if line not in prose:
+            missing_lines.append(line)
+    if missing_lines:
+        quoted = "\n".join(f"    「{m}」" for m in missing_lines)
+        return (
+            f"REJECTED prose/{beat_id}.md — synopsis 里指定的以下台词没有逐字出现在 prose 中:\n"
+            f"{quoted}\n"
+            f"这些台词是 Skeleton 阶段定好的 value-shift 关键句，必须原文复制进对话里 "
+            f"(用 「」包裹)。不能换措辞、不能删、不能只写动作不写台词。"
+        )
+
+    length = _cjk_char_count(prose)  # ← ONLY CJK ideographs
     if target is not None:
         low = int(target * 0.9)
         high = int(target * 1.1)

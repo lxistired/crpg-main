@@ -51,6 +51,16 @@ Even world-building scenes should have the protagonist DOING something (explorin
 - Bad: `这是一座繁华的东方都市，霓虹闪烁，人群熙攘。`
 - Good: `Su Wan走出写字楼，被地铁口的风掀了一下裙摆。她下意识拎起裙角，雨点落在她腕表的玻璃面上。`
 
+## Rule 8 — Dialogue is rendered, never mentioned
+
+Rule 5 says *when there is dialogue, each line must carry gameplay weight*. Rule 8 closes the sibling loophole: **you cannot remove the dialogue by narrating-over it**.
+
+If the beat contains a character-to-character exchange, that exchange MUST appear as explicit spoken lines (「」-quoted) on the page. Summaries of exchanges, narrations of exchanges, and elisions of exchanges all fail this rule because they reduce the scene from present-tense witness to past-tense narration — the reader is told a conversation happened instead of witnessing it.
+
+Test: read the beat aloud to yourself. Can you *hear* the characters speak, in their own voices, saying distinguishable sentences? If no — if you heard only the narrator summarizing the fact of a conversation — rewrite so every key line is on the page.
+
+This applies most strictly to value-shift moments: whenever the beat's `valueBefore → valueAfter` hinges on what a character says, the exact lines are load-bearing and cannot be summarized.
+
 ## When these rules don't apply
 
 - **Dreams / memory / voiceover** — a brief interior scene can be 3-4 sentences of description without action. But don't do this more than once per story.

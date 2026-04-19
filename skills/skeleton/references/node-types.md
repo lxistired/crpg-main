@@ -15,8 +15,24 @@ A prose scene. Most common beat type. Has `valueBefore`, `valueAfter`, `wardrobe
 The player is presented with 2-4 incompatible options. Must be a genuine dilemma (rule 3 in mckee-principles.md).
 
 - **Outgoing edges**: one per option, 2-4 total
-- **Edge `condition`**: the option text (e.g. `"拒绝玫瑰"`, `"跟他去酒吧"`) — this is what the UI shows
+- **Edge `condition`**: the option text — this is what the UI shows
 - **Director**: typically 1-2 shots (the decision moment itself)
+
+### Structural contract — choice beats end UNDECIDED
+
+A `choice` beat's prose MUST end at the **decision threshold**: the protagonist has accepted the dilemma, collected the information, and arrived at the action point — but has NOT yet executed any option. The motor/verbal act of choosing belongs to the OPENING of the branch beat that the edge points to.
+
+Why this is a structural contract rather than a stylistic suggestion: if the prose of the choice beat contains the protagonist's executed decision, the reader enters the next beat as a passive witness to a decision already made. The bifurcation is then fait accompli at the story level — no player agency, no real dilemma.
+
+Skeleton's job on a choice beat:
+
+- `valueBefore → valueAfter` should capture the internal shift that brings the protagonist TO the decision point, not across it.
+- Any `synopsis` wording must describe the decision as **still open** at beat end. Avoid language like "chooses X" / "decides Y" / "accepts Z"; prefer "stands at the threshold of", "is confronted with", "must decide between".
+- Quoted decision words (if any) belong in the synopsis of the branch beat, not the choice beat.
+
+Downstream (Script): the prose ends with a poised-but-unexecuted action — the protagonist physically at the crux, all options still open. The branch beat's synopsis then re-opens with the decision being executed.
+
+Downstream (Director): shots for the choice beat frame the poised moment (hesitation, threshold, crux) rather than any post-decision action.
 
 ## check
 
