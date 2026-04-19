@@ -757,19 +757,334 @@ def finish_bundle(
     )
 
 
+# ---------- script worker (combo-mode: reasoning orchestrator + fast worker) -
+
+# Dedicated fast model invoked via its own client. Defaults target a pairing
+# where a reasoning main agent (e.g. grok-4-1-fast-reasoning) delegates prose
+# writing to a fast non-reasoning worker (grok-4-1-fast-non-reasoning) on the
+# same xAI key. Override via env vars for other combos.
+import os as _os  # noqa: E402  (late import keeps top-of-file list clean)
+
+WORKER_MODEL = _os.environ.get("CRPG_WORKER_MODEL", "grok-4-1-fast-non-reasoning")
+WORKER_BASE_URL = _os.environ.get("CRPG_WORKER_BASE_URL", "https://api.x.ai/v1")
+WORKER_API_KEY_ENV = _os.environ.get("CRPG_WORKER_API_KEY_ENV", "XAI_API_KEY")
+
+_worker_client = None
+
+
+def _get_worker_client():
+    global _worker_client
+    if _worker_client is None:
+        import httpx  # noqa: E402
+        from openai import AsyncOpenAI  # noqa: E402
+        key = _os.environ.get(WORKER_API_KEY_ENV)
+        if not key:
+            raise RuntimeError(
+                f"{WORKER_API_KEY_ENV} not set for invoke_script_worker"
+            )
+        _worker_client = AsyncOpenAI(
+            api_key=key,
+            base_url=WORKER_BASE_URL,
+            timeout=httpx.Timeout(connect=15.0, read=300.0, write=30.0, pool=30.0),
+        )
+    return _worker_client
+
+
+@function_tool(strict_mode=False)
+async def invoke_script_worker(
+    ctx: RunContextWrapper[AgentState],
+    beat_id: str,
+    worker_prompt: str,
+) -> str:
+    """Delegate prose writing for `beat_id` to the fast worker model. The
+    worker sees the full script skill as its system prompt + your
+    worker_prompt as user message. Its prose is validated with the SAME
+    checks as write_beat_prose (CJK window, dialogue elision, mandated
+    quotes) and saved to the bundle on success. You receive back a short
+    OK/REJECT status — prose never enters your context.
+
+    Use this tool in combo-mode runs instead of write_beat_prose; the
+    main agent orchestrates (plans beat, crafts worker brief), the worker
+    writes long Chinese prose efficiently.
+
+    Args:
+        beat_id: beat id as it appears in story.beats.
+        worker_prompt: brief for the worker. Include verbatim the beat
+            synopsis (with any 「」/『』 quoted lines), value shift
+            valueBefore→valueAfter, wardrobe state, any prior-beat
+            continuity cue, target CJK character count. Do NOT paste skill
+            rules — the worker already reads script SKILL.md.
+    """
+    state = ctx.context
+    target: int | None = None
+    synopsis: str = ""
+    if state.story_data is not None:
+        for b in state.story_data.get("beats", []):
+            if b.get("id") == beat_id:
+                target = b.get("targetWordCount") or b.get("target_word_count")
+                synopsis = b.get("synopsis", "") or ""
+                break
+    if target is None:
+        return f"ERROR unknown beat_id {beat_id!r}"
+
+    script_skill = (
+        state.project_root / "skills" / "script" / "SKILL.md"
+    ).read_text(encoding="utf-8")
+    system = (
+        "You are a Chinese narrative prose writer working as a script "
+        "worker. Follow the rules in this skill:\n\n"
+        f"{script_skill}\n\n"
+        "OUTPUT RULES (strict):\n"
+        "- Output ONLY the Chinese prose. No markdown, no headings, no "
+        "English, no preamble, no word-count annotation, no comments.\n"
+        "- Dialogue uses Chinese bracket quotes 「」.\n"
+        f"- Length target: between {int(target*0.9)} and {int(target*1.1)} "
+        "CJK ideographs (U+4E00–U+9FFF). Do NOT pad with ASCII or "
+        "punctuation — only CJK characters count.\n"
+        "- If the prompt contains quoted 「」/『』 lines that must appear, "
+        "include them verbatim."
+    )
+
+    client = _get_worker_client()
+    try:
+        resp = await client.chat.completions.create(
+            model=WORKER_MODEL,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": worker_prompt},
+            ],
+            max_tokens=int(target * 2.5),
+            temperature=0.7,
+        )
+    except Exception as e:
+        return f"ERROR worker call failed: {type(e).__name__}: {str(e)[:200]}"
+
+    prose = (resp.choices[0].message.content or "").strip()
+
+    # Same validation pipeline as write_beat_prose.
+    for phrase in _DIALOGUE_ELISION_MARKERS:
+        if phrase in prose:
+            return (
+                f"REJECTED worker-prose/{beat_id}.md — worker wrote banned "
+                f"elision phrase {phrase!r}. Adjust worker_prompt to "
+                f"explicitly demand literal dialogue, never summaries."
+            )
+    if _WORD_COUNT_SELF_REPORT.search(prose):
+        return (
+            f"REJECTED worker-prose/{beat_id}.md — worker包含字数自报括号。"
+            f"在 worker_prompt 明确禁止使用括号字数标注。"
+        )
+    mandated = _extract_mandated_quotes(synopsis)
+    missing = [m for m in mandated if m not in prose]
+    if missing:
+        return (
+            f"REJECTED worker-prose/{beat_id}.md — missing mandated quotes: "
+            f"{missing!r}. Re-run with worker_prompt explicitly listing these "
+            f"lines and requiring verbatim inclusion."
+        )
+    length = _cjk_char_count(prose)
+    low = int(target * 0.9)
+    high = int(target * 1.1)
+    hist = state.prose_retry_history.setdefault(beat_id, [])
+    hist.append(length)
+    retry = len(hist)
+    if length < low:
+        pct = int(length / target * 100)
+        return (
+            f"REJECTED worker-prose/{beat_id}.md (attempt {retry}): "
+            f"worker wrote {length}/{target}={pct}%, below floor {low}. "
+            f"Adjust worker_prompt: add explicit length target ~"
+            f"{int(target*0.98)}, specify N dialogue exchanges, sensory "
+            f"anchors, action beats. Do not just repeat the same prompt."
+        )
+    if length > high:
+        excess = length - high
+        return (
+            f"REJECTED worker-prose/{beat_id}.md (attempt {retry}): "
+            f"worker wrote {length}/{target}, over ceiling {high} by "
+            f"{excess} chars. Ask worker to trim filler adjectives / "
+            f"transition words, target ~{int(target*1.02)}."
+        )
+    path = state.bundle_writer.write_beat_prose(beat_id=beat_id, prose=prose)
+    state.beats_with_prose.add(beat_id)
+    rel = path.relative_to(state.bundle_writer.out_dir)
+    return (
+        f"OK worker wrote {rel} ({length}/{target}="
+        f"{int(length/target*100)}% of target)"
+    )
+
+
+# ---------- free-form mode worker (no state dependency) ---------------------
+
+@function_tool(strict_mode=False)
+async def freeform_script_worker(
+    ctx: RunContextWrapper[AgentState],
+    beat_id: str,
+    target_chars: int,
+    worker_prompt: str,
+) -> str:
+    """Free-form-combo worker. No story.json / state lookups. Accepts
+    `target_chars` and `worker_prompt` directly from the main agent. Calls
+    the fast worker model with the script skill in its system prompt,
+    writes the returned Chinese prose to bundle/prose/<beat_id>.md, and
+    returns a compact OK line ({length}/{target_chars}={pct}%). No
+    validation is performed — the main agent decides if the length is
+    acceptable or if another call is needed.
+
+    Args:
+        beat_id: beat id used as the prose filename stem.
+        target_chars: target CJK character count for the worker.
+        worker_prompt: brief for the worker. Include synopsis verbatim
+            (with any 「」/『』 quoted lines), value shift, wardrobe
+            state, prior-beat cues, tone, and target_chars.
+    """
+    state = ctx.context
+    script_skill = (
+        state.project_root / "skills" / "script" / "SKILL.md"
+    ).read_text(encoding="utf-8")
+    low = int(target_chars * 0.9)
+    high = int(target_chars * 1.1)
+    system = (
+        "You are a Chinese narrative prose writer. Follow these rules:\n\n"
+        + script_skill
+        + "\n\nOUTPUT RULES (strict):\n"
+        "- Output ONLY the Chinese prose. No markdown, no headings, no "
+        "English, no preamble, no word-count annotation, no comments.\n"
+        "- Dialogue uses Chinese bracket quotes 「」.\n"
+        f"- Length target: between {low} and {high} CJK ideographs "
+        "(U+4E00–U+9FFF). Only CJK chars count.\n"
+        "- If the prompt contains 「」/『』 quoted lines that must appear, "
+        "include them verbatim."
+    )
+    client = _get_worker_client()
+    try:
+        resp = await client.chat.completions.create(
+            model=WORKER_MODEL,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": worker_prompt},
+            ],
+            max_tokens=int(target_chars * 2.5),
+            temperature=0.7,
+        )
+    except Exception as e:
+        return f"ERROR worker call failed: {type(e).__name__}: {str(e)[:200]}"
+    prose = (resp.choices[0].message.content or "").strip()
+    length = _cjk_char_count(prose)
+    path = state.bundle_writer.write_beat_prose(beat_id=beat_id, prose=prose)
+    state.beats_with_prose.add(beat_id)
+    rel = path.relative_to(state.bundle_writer.out_dir)
+    return (
+        f"OK worker wrote {rel} ({length}/{target_chars}="
+        f"{int(length/target_chars*100)}%)"
+    )
+
+
 # ---------- bundle of tools for Agent construction ---------------------------
 
+# read_brief, read_skill, list_skill_references, read_skill_reference are
+# deliberately NOT in ALL_TOOLS — their contents are pre-injected into the
+# agent's system prompt by main_agent.build_main_agent(), which eliminates
+# 4 tool types and reduces tool-call-mode bias toward short outputs.
 ALL_TOOLS = [
-    read_brief,
-    read_skill,
-    list_skill_references,
-    read_skill_reference,
     write_story,
     write_characters,
     write_beat_prose,
+    invoke_script_worker,
     write_beat_shots,
     validate_vgai,
     render_anchor,
     render_image,
     finish_bundle,
+]
+
+# Free-form solo mode: ONE tool (image gen). Everything else is produced as
+# markdown text in the agent's response messages.
+FREEFORM_SOLO_TOOLS = [render_image]
+
+# Free-form combo mode: image gen + freeform_script_worker. Main agent
+# delegates prose to worker (which writes to bundle file directly). Main
+# writes everything else as markdown text.
+FREEFORM_COMBO_TOOLS = [render_image, freeform_script_worker]
+
+# Hybrid solo mode: prose in markdown, structured Director tools enforce
+# Style Preamble byte-lock + VGAI + occlusion gate.
+HYBRID_SOLO_TOOLS = [
+    render_image,
+    render_anchor,
+    write_beat_shots,
+    validate_vgai,
+]
+
+# Hybrid combo mode: prose via worker, structured Director tools.
+HYBRID_COMBO_TOOLS = [
+    render_image,
+    render_anchor,
+    write_beat_shots,
+    validate_vgai,
+    freeform_script_worker,
+]
+
+
+# ---------- minimal-combo: 4 persistence tools (grok sweet-spot test) -------
+
+# Style Preamble canonical prefix — lenient byte match (~first 60 chars).
+# Agents that fail this check in minimal-combo get a soft REJECT.
+_STYLE_PREAMBLE_PREFIX = (
+    "Modern Japanese seinen manga / anime illustration"
+)
+
+
+@function_tool(strict_mode=False)
+async def save_shot_prompt(
+    ctx: RunContextWrapper[AgentState],
+    beat_id: str,
+    shot_id: str,
+    final_prompt: str,
+    aspect_ratio: str = "16:9",
+    anchor_ref: str | None = None,
+) -> str:
+    """Persist one shot's final_prompt to bundle/shots/<beat_id>/<shot_id>.json.
+
+    Lenient validation — only checks that final_prompt begins with the
+    canonical Style Preamble prefix (no Direction Layer / framing /
+    occlusion checks). Designed for minimal-combo architecture where the
+    agent is kept close to a tool-driven multi-turn cadence without
+    overly strict validation pulling outputs short.
+    """
+    state = ctx.context
+    if not final_prompt.lstrip().startswith(_STYLE_PREAMBLE_PREFIX):
+        return (
+            f"REJECTED shots/{beat_id}/{shot_id}.json — final_prompt must "
+            "begin with the canonical Style Preamble ("
+            f"\"{_STYLE_PREAMBLE_PREFIX}...\"). Re-emit with the preamble "
+            "prepended byte-for-byte."
+        )
+    shot_dir = state.bundle_writer.out_dir / "shots" / beat_id
+    shot_dir.mkdir(parents=True, exist_ok=True)
+    (shot_dir / f"{shot_id}.json").write_text(
+        json.dumps(
+            {
+                "beat_id": beat_id,
+                "shot_id": shot_id,
+                "final_prompt": final_prompt,
+                "aspect_ratio": aspect_ratio,
+                "anchor_ref": anchor_ref,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    state.beats_with_shots.add(beat_id)
+    return f"OK shots/{beat_id}/{shot_id}.json saved ({len(final_prompt)} chars)"
+
+
+# Minimal-combo mode: 4 persistence tools. Prose via worker, shots saved
+# with lenient Style Preamble check, anchors + images via existing tools.
+MINIMAL_COMBO_TOOLS = [
+    freeform_script_worker,
+    save_shot_prompt,
+    render_anchor,
+    render_image,
 ]

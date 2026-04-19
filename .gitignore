@@ -22,3 +22,20 @@ dist/
 
 # Secrets & artifacts
 bundles/
+
+# Pipeline-simulation iteration artifacts (keep only curated 3 below)
+research/pipeline-simulation/anime-experiment/
+research/pipeline-simulation/director-legs-feet-e2e/
+research/pipeline-simulation/director-legs-feet-v12/
+research/pipeline-simulation/director-legs-feet-v2/
+research/pipeline-simulation/director-skill-e2e/
+research/pipeline-simulation/director-test/
+research/pipeline-simulation/fal-experiment/
+research/pipeline-simulation/gpt-image-test/
+research/pipeline-simulation/grok-methodology-test/
+research/pipeline-simulation/shots-v2/
+research/pipeline-simulation/skill-generalization-test/
+research/pipeline-simulation/vgating-v2-validation/
+research/pipeline-simulation/vgating-v3-scenes/
+research/pipeline-simulation/vgating-v4-narrative/
+research/pipeline-simulation/vgating-v5-legboundary/

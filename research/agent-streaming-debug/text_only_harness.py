@@ -54,6 +54,37 @@ async def main():
     ap.add_argument("out_dir", nargs="?",
                     default="/tmp/crpg-text-only")
     ap.add_argument("--max-turns", type=int, default=400)
+    ap.add_argument("--profile", default="minimax-baseline",
+                    help="model profile: minimax-baseline | grok-xai | "
+                         "grok-xai-reasoning | gpt-oss-120b-nitro | "
+                         "m25-nitro | qwen3-32b-nitro")
+    ap.add_argument("--skip-director", action="store_true",
+                    help="Load TEXT_ONLY_INSTRUCTIONS: stop after Script "
+                         "phase, skip anchor/shots/vgai/render_image. Pure "
+                         "text pipeline benchmark.")
+    ap.add_argument("--combo", action="store_true",
+                    help="Load COMBO_INSTRUCTIONS: reasoning orchestrator + "
+                         "fast worker (invoke_script_worker for prose).")
+    ap.add_argument("--freeform", action="store_true",
+                    help="FREEFORM SOLO mode: only render_image tool; "
+                         "everything else output as markdown text. Capture "
+                         "agent text to freeform_output.md.")
+    ap.add_argument("--freeform-combo", action="store_true",
+                    help="FREEFORM COMBO mode: render_image + "
+                         "freeform_script_worker; main writes non-prose "
+                         "sections as markdown; worker writes prose.")
+    ap.add_argument("--hybrid", action="store_true",
+                    help="HYBRID SOLO mode: prose as markdown + structured "
+                         "Director tools (render_anchor, write_beat_shots, "
+                         "validate_vgai, render_image).")
+    ap.add_argument("--hybrid-combo", action="store_true",
+                    help="HYBRID COMBO mode: freeform_script_worker for "
+                         "prose + structured Director tools.")
+    ap.add_argument("--minimal-combo", action="store_true",
+                    help="MINIMAL COMBO mode: 4 tools total — "
+                         "freeform_script_worker + save_shot_prompt + "
+                         "render_anchor + render_image. Lenient Style "
+                         "Preamble check, no other validation.")
     args = ap.parse_args()
 
     cfg = load_config()
@@ -68,17 +99,39 @@ async def main():
         xai_client=StubXaiImageClient(),
         brief=brief,
     )
-    agent = build_main_agent(cfg)
+    agent = build_main_agent(
+        cfg,
+        project_root=PROJECT,
+        profile=args.profile,
+        skip_director=args.skip_director,
+        combo=args.combo,
+        freeform=args.freeform,
+        freeform_combo=args.freeform_combo,
+        hybrid=args.hybrid,
+        hybrid_combo=args.hybrid_combo,
+        minimal_combo=args.minimal_combo,
+    )
     T0 = time.time()
-    log(f"starting text-only run; brief={args.brief}; max_turns={args.max_turns}", T0)
+    log(f"starting run; profile={args.profile}; "
+        f"skip_director={args.skip_director}; combo={args.combo}; "
+        f"freeform={args.freeform}; freeform_combo={args.freeform_combo}; "
+        f"hybrid={args.hybrid}; hybrid_combo={args.hybrid_combo}; "
+        f"brief={args.brief}; max_turns={args.max_turns}", T0)
 
+    # Brief is injected as the first user message (skill corpus is already
+    # pre-loaded into the system prompt by build_main_agent).
+    initial_input = (
+        "# Brief\n\n" + brief.strip() + "\n\n"
+        "Follow the workflow and emit a complete bundle."
+    )
     run = Runner.run_streamed(
         agent,
-        input="Begin. Read the brief, follow the workflow, emit a complete bundle.",
+        input=initial_input,
         context=state,
         max_turns=args.max_turns,
     )
     tool_counts: dict[str, int] = {}
+    freeform_chunks: list[str] = []
     async for event in run.stream_events():
         if type(event).__name__ != "RunItemStreamEvent":
             continue
@@ -91,13 +144,38 @@ async def main():
             log(f"CALL {name}  {args_snippet}", T0)
         elif it_name == "ToolCallOutputItem":
             out = str(item.output)[:180]
-            # highlight failures / rejections
             marker = ""
             for m in ("REJECT", "VALIDATION_ERROR", "DIRTY", "MODERATION", "ERROR"):
                 if m in out:
                     marker = f" ← {m}"
                     break
             log(f"  RESULT {out}{marker}", T0)
+        elif it_name == "MessageOutputItem":
+            # Assistant message text — capture for freeform modes.
+            raw = getattr(item, "raw_item", None)
+            content = getattr(raw, "content", None) if raw else None
+            text = ""
+            if isinstance(content, str):
+                text = content
+            elif isinstance(content, list):
+                for block in content:
+                    t = getattr(block, "text", None)
+                    if t:
+                        text += t
+            if text:
+                freeform_chunks.append(text)
+                log(f"MSG ({len(text)} chars): {text[:80]!r}…", T0)
+
+    # In freeform modes, dump captured assistant text to bundle for review.
+    if (args.freeform or args.freeform_combo) and freeform_chunks:
+        out_path = out_dir / "freeform_output.md"
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(
+            "\n\n---\n\n".join(freeform_chunks), encoding="utf-8"
+        )
+        total_chars = sum(len(c) for c in freeform_chunks)
+        log(f"=== FREEFORM OUTPUT written to {out_path} "
+            f"({len(freeform_chunks)} chunks, {total_chars} chars total)", T0)
 
     log(f"=== DONE finished={state.finished}", T0)
     log(f"beats_with_prose={sorted(state.beats_with_prose)}", T0)
