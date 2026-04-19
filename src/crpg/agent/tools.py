@@ -122,16 +122,27 @@ def read_brief(ctx: RunContextWrapper[AgentState]) -> str:
 def write_story(ctx: RunContextWrapper[AgentState], story: Any) -> str:
     """Persist the Skeleton-stage story skeleton to bundle/story.json.
 
+    **PASS AS NATIVE JSON OBJECT — do NOT stringify with JSON.stringify first.**
+    The tool accepts both dict and JSON-string but string mode risks MiniMax
+    truncation on long content. Native dict is ~30-90s faster per call.
+
     Args:
         story: a dict matching the crpg Story schema (meta + beats + edges).
-            A JSON-encoded string is also accepted. See
-            skills/skeleton/SKILL.md for the exact shape including the
+            See skills/skeleton/SKILL.md for the exact shape including the
             required `poeticMode` field in meta.
 
     Returns a short success/error summary. On validation error, the full
     pydantic message is included so you can fix and retry.
     """
     story = _coerce_to_obj(story)
+    if isinstance(story, str):
+        # We got a string that failed JSON parse — likely truncated from double-encoding
+        return (
+            f"VALIDATION_ERROR: the `story` argument arrived as a string, and that "
+            f"string did not parse as JSON (likely truncated at MiniMax output token "
+            f"limit because double-encoding doubles the character count). "
+            f"RETRY by passing `story` as a NATIVE JSON object, not a stringified JSON."
+        )
     if not isinstance(story, dict):
         return f"VALIDATION_ERROR: story must be an object, got {type(story).__name__}"
     try:
@@ -155,12 +166,14 @@ def write_story(ctx: RunContextWrapper[AgentState], story: Any) -> str:
 def write_characters(ctx: RunContextWrapper[AgentState], characters: Any) -> str:
     """Persist ALL named characters' sheets to bundle/characters.json in ONE call.
 
+    **PASS AS NATIVE JSON OBJECT — do NOT stringify with JSON.stringify first.**
+    Double-encoding doubles the character count, risking output truncation.
+
     Args:
         characters: dict mapping character_name → character data. Include
             EVERY named character appearing in the story (POV + all NPCs
             referenced in beats), in a SINGLE call — do not call this tool
-            twice to add characters one-at-a-time. A JSON-encoded string is
-            also accepted.
+            twice to add characters one-at-a-time.
 
     Each wardrobe_states[*].items[*] MUST populate `visual_description`
     (verbatim canonical string, no paraphrasing — Visual DNA Layer 3). For
@@ -170,6 +183,12 @@ def write_characters(ctx: RunContextWrapper[AgentState], characters: Any) -> str
     Returns success/error summary with pydantic error detail on failure.
     """
     characters = _coerce_to_obj(characters)
+    if isinstance(characters, str):
+        return (
+            f"VALIDATION_ERROR: the `characters` argument arrived as a string that "
+            f"failed JSON parse (likely truncation from double-encoding). "
+            f"RETRY with `characters` as a NATIVE JSON object, not a stringified JSON."
+        )
     if not isinstance(characters, dict):
         return f"VALIDATION_ERROR: characters must be an object, got {type(characters).__name__}"
     state = ctx.context
@@ -234,19 +253,44 @@ def write_beat_prose(
     if target is not None:
         low = int(target * 0.9)
         high = int(target * 1.1)
+        # Track retry history per beat so we can escalate guidance.
+        hist = state.prose_retry_history.setdefault(beat_id, [])
+        hist.append(length)
+        retry_count = len(hist)
         if length < low:
+            deficit = low - length
+            pct = int(length / target * 100)
+            # Build an escalating, directive error message
+            reasons = [
+                f"你还需要至少 {deficit} 字（中文字符）才进窗口 [{low}, {high}]。"
+                f"当前 {length}/{target}={pct}%，目标下限是 {low}。",
+                "具体扩展方向（挑 2-3 个一起加）：",
+                f"  - 对话：多 {max(1, deficit // 40)} 次 2-3 行的信息性/张力性对话交换（每行 ~30-50 字）",
+                f"  - 感官锚：多 {max(1, deficit // 35)} 个具体的可触感官细节（气味 / 温度 / 质地 / 声音）——贴在动作里，不要独立段落",
+                f"  - 动作锚：多 {max(1, deficit // 30)} 个 protagonist 做具体事情的动词瞬间（按灭屏幕 / 翻开某物 / 手指停顿）",
+                "注意：不要用形容词堆砌或无效过渡词凑数；每一句必须推进情节、揭示人物、或建立张力。",
+            ]
+            if retry_count >= 3 and hist[-1] < hist[-2]:
+                reasons.append(
+                    "⚠ 你本轮比上轮还短了（oscillating）。请 STOP incrementing — 把上一版整段拿出来，"
+                    "在里面 **加** 内容（上述 2-3 方向），不要重写。"
+                )
+            if retry_count >= 4:
+                reasons.append(
+                    f"⚠ 已 {retry_count} 次尝试。下次务必跨过 {low}；目标是一次到位 ~{int(target * 0.95)}，"
+                    "避免无限重试。"
+                )
             return (
-                f"REJECTED prose/{beat_id}.md — length {length} chars is below target "
-                f"window [{low}, {high}] (targetWordCount={target}). Expand the scene "
-                f"with more sensory detail / dialogue / action ticks until you hit the "
-                f"window. Do NOT pad with filler; add meaningful beats per daisy V6 "
-                f"Game Writing Rules. Then call write_beat_prose again with the longer prose."
+                f"REJECTED prose/{beat_id}.md (attempt {retry_count}): "
+                + " ".join(reasons)
             )
         if length > high:
+            excess = length - high
             return (
-                f"REJECTED prose/{beat_id}.md — length {length} chars exceeds upper bound "
-                f"{high} (targetWordCount={target}). Trim to ≤ {high} while preserving "
-                f"the value shift; cut adjective vomit and unnecessary transitions."
+                f"REJECTED prose/{beat_id}.md (attempt {retry_count}): "
+                f"length {length} 超过上限 {high}，多了 {excess} 字。"
+                f"Trim 而不是 rewrite：删掉重复的形容词、无效过渡（然后 / 接着 / 此时）、"
+                f"和不推进情节的感官赘述。保留 value shift 关键句。目标 ~{int(target * 1.02)}。"
             )
     path = state.bundle_writer.write_beat_prose(beat_id=beat_id, prose=prose)
     state.beats_with_prose.add(beat_id)
@@ -278,6 +322,12 @@ def write_beat_shots(
     and re-emit.
     """
     shots = _coerce_to_obj(shots)
+    if isinstance(shots, str):
+        return (
+            f"VALIDATION_ERROR: `shots` arrived as a string that failed JSON parse "
+            f"(likely truncated from double-encoding). RETRY with `shots` as a "
+            f"NATIVE JSON array of objects."
+        )
     if not isinstance(shots, list):
         return f"VALIDATION_ERROR: shots must be a list, got {type(shots).__name__}"
     state = ctx.context
@@ -287,10 +337,69 @@ def write_beat_shots(
             parsed.append(Shot.model_validate(s))
         except ValidationError as e:
             return f"VALIDATION_ERROR shot[{i}]:\n{e.json(indent=2)[:1500]}"
+
+    # Principle 0 enforcement: every shot's final_prompt MUST start with the
+    # canonical style preamble (first ~40 chars are a stable fingerprint). We
+    # load the canonical block once from skills/director/references/style-preamble.md
+    # and require each shot's prompt to contain its signature opening.
+    canonical_prefix = _canonical_style_preamble_signature(ctx)
+    if canonical_prefix:
+        drift: list[tuple[int, str]] = []
+        for i, s in enumerate(parsed):
+            if canonical_prefix not in s.final_prompt[:400]:
+                drift.append((i, s.final_prompt[:80]))
+        if drift:
+            bad = "\n".join(f"    shot[{i}] starts: {preview!r}" for i, preview in drift)
+            return (
+                f"REJECTED shots/{beat_id}/shots.json — {len(drift)} shot(s) do NOT begin "
+                f"with the canonical Style Preamble (Principle 0). Every final_prompt must "
+                f"start with the exact string found in skills/director/references/style-preamble.md "
+                f"(verbatim, byte-for-byte — read it again if unsure).\n{bad}"
+            )
+
     path = state.bundle_writer.write_beat_shots(beat_id=beat_id, shots=parsed)
     state.beats_with_shots.add(beat_id)
     rel = path.relative_to(state.bundle_writer.out_dir)
     return f"OK wrote {rel}  ({len(parsed)} shots)"
+
+
+# cache to avoid re-reading the file on every shot
+_STYLE_SIG_CACHE: dict[Path, str] = {}
+
+
+def _canonical_style_preamble_signature(ctx: RunContextWrapper[AgentState]) -> str:
+    """Extract a stable signature substring of the Style Preamble — the first
+    meaningful line inside the ```...``` block in style-preamble.md. If any
+    shot's final_prompt contains this signature, the preamble was copied.
+    """
+    path = ctx.context.project_root / "skills" / "director" / "references" / "style-preamble.md"
+    if path in _STYLE_SIG_CACHE:
+        return _STYLE_SIG_CACHE[path]
+    if not path.exists():
+        _STYLE_SIG_CACHE[path] = ""
+        return ""
+    text = path.read_text(encoding="utf-8")
+    # Grab the first fenced code block after "## The preamble (copy this exact string)"
+    marker = "## The preamble"
+    idx = text.find(marker)
+    if idx < 0:
+        _STYLE_SIG_CACHE[path] = ""
+        return ""
+    block_start = text.find("```", idx)
+    if block_start < 0:
+        _STYLE_SIG_CACHE[path] = ""
+        return ""
+    block_start = text.find("\n", block_start) + 1
+    block_end = text.find("```", block_start)
+    if block_end < 0:
+        _STYLE_SIG_CACHE[path] = ""
+        return ""
+    block = text[block_start:block_end].strip()
+    # Use the first ~60 chars as signature — long enough to be specific,
+    # short enough to survive minor whitespace variants.
+    sig = " ".join(block.split())[:60]
+    _STYLE_SIG_CACHE[path] = sig
+    return sig
 
 
 # ---------- VGAI self-audit --------------------------------------------------

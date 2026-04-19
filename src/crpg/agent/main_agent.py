@@ -101,9 +101,15 @@ continue the rest of the bundle — but surface the problem in
 
 def build_main_agent(cfg: ProjectConfig) -> Agent[AgentState]:
     """Construct the main Agent with MiniMax as the underlying model."""
+    import httpx
+    # MiniMax's "thinking" mode (M2.7) can spend 60-180s reasoning before the
+    # first SSE token; default httpx read timeout of 5s makes streaming mode
+    # (Runner.run_streamed) throw ReadTimeout. Bump all phases generously.
+    timeout = httpx.Timeout(connect=30.0, read=600.0, write=60.0, pool=30.0)
     openai_client = AsyncOpenAI(
         api_key=cfg.minimax_key,
         base_url=cfg.minimax_endpoint,
+        timeout=timeout,
     )
     model = OpenAIChatCompletionsModel(
         model=cfg.minimax_model,

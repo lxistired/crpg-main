@@ -39,3 +39,7 @@ class AgentState:
     # all retries). Each entry: {beat_id, shot_id, reason}. Surfaced in
     # finish_bundle's summary so the user knows what's missing.
     failed_shots: list[dict[str, str]] = field(default_factory=list)
+
+    # Per-beat prose length history (for directive reject messages that can
+    # detect oscillation and escalate guidance on 3rd+ retry).
+    prose_retry_history: dict[str, list[int]] = field(default_factory=dict)

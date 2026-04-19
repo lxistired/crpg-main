@@ -6,14 +6,35 @@ from crpg.types import Shot, Character
 # torso_back is treated as satisfying torso for wrap-around wardrobe items
 # like pencil skirts that are visible both front and back.
 REGION_MAP: dict[str, set[str]] = {
-    "cu_face": {"face", "ear", "neck"},
-    "ms_waist_up": {"face", "ear", "neck", "torso", "hand"},
-    "three_quarter_knee_up": {"face", "ear", "neck", "torso", "hand", "leg_upper"},
-    "full_body_standing": {"face", "ear", "neck", "torso", "hand", "leg", "foot"},
-    "feet_ecu": {"foot"},
-    "hand_ecu": {"hand"},
-    "back_reveal_walking": {"torso", "torso_back", "hand", "leg", "foot"},
+    # Core crops (from smallest subject to largest)
     "ws_establishing": set(),
+    "ls_full_scene": set(),  # alias for WS — whole scene, subject small
+    "full_body_standing": {"face", "ear", "neck", "torso", "hand", "leg", "foot"},
+    "full_body_seated": {"face", "ear", "neck", "torso", "hand", "leg_upper", "leg"},
+    "three_quarter_knee_up": {"face", "ear", "neck", "torso", "hand", "leg_upper"},
+    "ms_waist_up": {"face", "ear", "neck", "torso", "hand"},
+    "ms_thigh_up": {"face", "ear", "neck", "torso", "hand", "leg_upper"},  # alias between 3/4 and waist-up
+    "cu_chest_up": {"face", "ear", "neck", "torso"},  # tight torso + face
+    "cu_face": {"face", "ear", "neck"},
+    "ecu_face": {"face"},  # extreme face close-up (eyes / lips only)
+    # ECU body parts
+    "hand_ecu": {"hand"},
+    "feet_ecu": {"foot"},
+    "leg_ecu": {"leg", "leg_upper"},
+    # Back / reverse angles
+    "back_reveal_walking": {"torso", "torso_back", "hand", "leg", "foot"},
+    "back_reveal_standing": {"torso", "torso_back", "hand"},
+    "over_the_shoulder": {"face", "ear", "neck", "torso", "hand"},  # OTS — POV-character's shoulder in foreground, other character's face/body across
+    "ots": {"face", "ear", "neck", "torso", "hand"},  # alias
+    # POV / angle variants (treat as the crop they functionally are)
+    "pov_first_person": {"hand", "torso", "leg", "foot"},  # protagonist's own body from within
+    "low_angle_full": {"face", "ear", "neck", "torso", "hand", "leg", "foot"},  # same visible set as full-body
+    "high_angle_full": {"face", "ear", "neck", "torso", "hand", "leg", "foot"},
+    "low_angle_ms": {"face", "ear", "neck", "torso", "hand"},
+    "high_angle_ms": {"face", "ear", "neck", "torso", "hand"},
+    # Two-shot / group
+    "two_shot_ms": {"face", "ear", "neck", "torso", "hand"},
+    "two_shot_full": {"face", "ear", "neck", "torso", "hand", "leg", "foot"},
 }
 
 @dataclass(slots=True)
