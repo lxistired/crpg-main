@@ -575,6 +575,48 @@ def _safe(name: str) -> str:
     return re.sub(r"[^A-Za-z0-9_-]", "_", name)
 
 
+async def _do_render_anchor(
+    state: AgentState,
+    character_name: str,
+    anchor_type: str,
+    prompt: str,
+) -> str:
+    """Plain-async helper that Python code and tool wrappers both call."""
+    if anchor_type not in ("body", "face"):
+        return f"ERROR: anchor_type must be 'body' or 'face', got {anchor_type!r}"
+    if state.characters_data is None:
+        return (
+            "ERROR: characters not yet emitted — call write_characters or "
+            "save_characters_markdown first"
+        )
+    if state.characters_data and character_name not in state.characters_data:
+        return (
+            f"ERROR: character {character_name!r} not found in characters_data. "
+            f"Known: {sorted(state.characters_data.keys())}"
+        )
+    if state.xai_client is None:
+        return "ERROR: xai_client not initialized"
+    anchors_dir = state.bundle_writer.out_dir / "_anchors"
+    anchors_dir.mkdir(exist_ok=True)
+    png_path = anchors_dir / f"{_safe(character_name)}_{anchor_type}.png"
+    aspect = "9:16" if anchor_type == "body" else "3:4"
+    try:
+        png_bytes = await state.xai_client.generate(
+            prompt=prompt,
+            aspect_ratio=aspect,
+            resolution="2k",
+        )
+    except Exception as e:
+        return f"RENDER_ERROR: {type(e).__name__}: {e}"
+    png_path.write_bytes(png_bytes)
+    state.anchors.setdefault(character_name, {})[anchor_type] = png_path
+    rel = png_path.relative_to(state.bundle_writer.out_dir)
+    return (
+        f"OK anchor saved to {rel} ({len(png_bytes)} bytes). "
+        f"Use anchor_ref='{character_name}:{anchor_type}' in render_image."
+    )
+
+
 @function_tool
 async def render_anchor(
     ctx: RunContextWrapper[AgentState],
@@ -603,39 +645,11 @@ async def render_anchor(
 
     Returns relative path + size, or an error.
     """
-    state = ctx.context
-    if anchor_type not in ("body", "face"):
-        return f"ERROR: anchor_type must be 'body' or 'face', got {anchor_type!r}"
-    if state.characters_data is None or character_name not in state.characters_data:
-        return (
-            f"ERROR: character {character_name!r} not found — call write_characters first"
-        )
-    if state.xai_client is None:
-        return "ERROR: xai_client not initialized"
-    anchors_dir = state.bundle_writer.out_dir / "_anchors"
-    anchors_dir.mkdir(exist_ok=True)
-    png_path = anchors_dir / f"{_safe(character_name)}_{anchor_type}.png"
-    aspect = "9:16" if anchor_type == "body" else "3:4"
-    try:
-        png_bytes = await state.xai_client.generate(
-            prompt=prompt,
-            aspect_ratio=aspect,
-            resolution="2k",
-        )
-    except Exception as e:
-        return f"RENDER_ERROR: {type(e).__name__}: {e}"
-    png_path.write_bytes(png_bytes)
-    state.anchors.setdefault(character_name, {})[anchor_type] = png_path
-    rel = png_path.relative_to(state.bundle_writer.out_dir)
-    return (
-        f"OK anchor saved to {rel} ({len(png_bytes)} bytes). "
-        f"Use anchor_ref='{character_name}:{anchor_type}' in render_image."
-    )
+    return await _do_render_anchor(ctx.context, character_name, anchor_type, prompt)
 
 
-@function_tool
-async def render_image(
-    ctx: RunContextWrapper[AgentState],
+async def _do_render_image(
+    state: AgentState,
     beat_id: str,
     shot_id: str,
     prompt: str,
@@ -643,31 +657,14 @@ async def render_image(
     resolution: str = "2k",
     anchor_ref: str | None = None,
 ) -> str:
-    """Render one shot via Grok Imagine Pro and save to the bundle.
-
-    Args:
-        beat_id: beat this shot belongs to.
-        shot_id: unique shot id.
-        prompt: final_prompt string.
-        aspect_ratio: 1:1 / 3:2 / 4:3 / 16:9 / 19.5:9 / 9:16 / 3:4.
-        resolution: "1k" or "2k".
-        anchor_ref: optional "<character>:<body|face>" to pass that anchor's
-            PNG as image_url (identity lock). Skip for ws_establishing
-            shots (subject too small for anchor to matter). For cu_face /
-            ms_waist_up prefer <char>:face; for full_body /
-            three_quarter_knee_up / back_reveal_walking prefer <char>:body.
-
-    Auto-retries up to 3 times on Grok moderation blocks. On final moderation
-    failure, records the shot in state.failed_shots and returns a MODERATION
-    status — the agent continues the bundle without this image.
-    """
-    state = ctx.context
+    """Plain-async helper — same body as render_image tool, callable by Python."""
     if state.xai_client is None:
         return "ERROR: xai_client not initialized in agent state"
     shots_dir = state.bundle_writer.shots_dir(beat_id=beat_id)
     png_path = shots_dir / f"{_safe(shot_id)}.png"
 
-    # Resolve anchor_ref → base64 data URI if present
+    if isinstance(anchor_ref, str) and anchor_ref.strip().lower() in ("null", "none", ""):
+        anchor_ref = None
     image_url: str | None = None
     if anchor_ref is not None:
         if ":" not in anchor_ref:
@@ -704,10 +701,8 @@ async def render_image(
             last_err = f"{type(e).__name__}: {e}"
             if not _looks_like_moderation(last_err):
                 return f"RENDER_ERROR: {last_err}"
-            # moderation → brief backoff + retry
             import asyncio
             await asyncio.sleep(0.5 * (attempt + 1))
-    # all retries exhausted on moderation
     state.failed_shots.append({
         "beat_id": beat_id,
         "shot_id": shot_id,
@@ -717,6 +712,34 @@ async def render_image(
         f"MODERATION_BLOCKED {beat_id}/{shot_id} after 3 retries. "
         f"Marked failed in state.failed_shots; continue with next shot. "
         f"Last error: {last_err[:200]}"
+    )
+
+
+@function_tool
+async def render_image(
+    ctx: RunContextWrapper[AgentState],
+    beat_id: str,
+    shot_id: str,
+    prompt: str,
+    aspect_ratio: str = "16:9",
+    resolution: str = "2k",
+    anchor_ref: str | None = None,
+) -> str:
+    """Render one shot via Grok Imagine Pro and save to the bundle.
+
+    Args:
+        beat_id: beat this shot belongs to.
+        shot_id: unique shot id.
+        prompt: final_prompt string.
+        aspect_ratio: 1:1 / 3:2 / 4:3 / 16:9 / 19.5:9 / 9:16 / 3:4.
+        resolution: "1k" or "2k".
+        anchor_ref: optional "<character>:<body|face>" to pass that anchor's
+            PNG as image_url (identity lock). Skip for ws_establishing
+            shots (subject too small for anchor to matter).
+    """
+    return await _do_render_image(
+        ctx.context, beat_id, shot_id, prompt,
+        aspect_ratio=aspect_ratio, resolution=resolution, anchor_ref=anchor_ref,
     )
 
 
@@ -916,29 +939,14 @@ async def invoke_script_worker(
 
 # ---------- free-form mode worker (no state dependency) ---------------------
 
-@function_tool(strict_mode=False)
-async def freeform_script_worker(
-    ctx: RunContextWrapper[AgentState],
+async def _do_freeform_script_worker(
+    state: AgentState,
     beat_id: str,
     target_chars: int,
     worker_prompt: str,
 ) -> str:
-    """Free-form-combo worker. No story.json / state lookups. Accepts
-    `target_chars` and `worker_prompt` directly from the main agent. Calls
-    the fast worker model with the script skill in its system prompt,
-    writes the returned Chinese prose to bundle/prose/<beat_id>.md, and
-    returns a compact OK line ({length}/{target_chars}={pct}%). No
-    validation is performed — the main agent decides if the length is
-    acceptable or if another call is needed.
-
-    Args:
-        beat_id: beat id used as the prose filename stem.
-        target_chars: target CJK character count for the worker.
-        worker_prompt: brief for the worker. Include synopsis verbatim
-            (with any 「」/『』 quoted lines), value shift, wardrobe
-            state, prior-beat cues, tone, and target_chars.
-    """
-    state = ctx.context
+    """Plain-async helper — same body as freeform_script_worker tool,
+    callable by Python for parallel fan-out via asyncio.gather."""
     script_skill = (
         state.project_root / "skills" / "script" / "SKILL.md"
     ).read_text(encoding="utf-8")
@@ -977,6 +985,21 @@ async def freeform_script_worker(
     return (
         f"OK worker wrote {rel} ({length}/{target_chars}="
         f"{int(length/target_chars*100)}%)"
+    )
+
+
+@function_tool(strict_mode=False)
+async def freeform_script_worker(
+    ctx: RunContextWrapper[AgentState],
+    beat_id: str,
+    target_chars: int,
+    worker_prompt: str,
+) -> str:
+    """Free-form-combo worker. Delegates Chinese prose writing for one beat
+    to the fast worker model. Writes to bundle/prose/<beat_id>.md.
+    """
+    return await _do_freeform_script_worker(
+        ctx.context, beat_id, target_chars, worker_prompt,
     )
 
 
@@ -1035,24 +1058,15 @@ _STYLE_PREAMBLE_PREFIX = (
 )
 
 
-@function_tool(strict_mode=False)
-async def save_shot_prompt(
-    ctx: RunContextWrapper[AgentState],
+def _do_save_shot_prompt(
+    state: AgentState,
     beat_id: str,
     shot_id: str,
     final_prompt: str,
     aspect_ratio: str = "16:9",
     anchor_ref: str | None = None,
 ) -> str:
-    """Persist one shot's final_prompt to bundle/shots/<beat_id>/<shot_id>.json.
-
-    Lenient validation — only checks that final_prompt begins with the
-    canonical Style Preamble prefix (no Direction Layer / framing /
-    occlusion checks). Designed for minimal-combo architecture where the
-    agent is kept close to a tool-driven multi-turn cadence without
-    overly strict validation pulling outputs short.
-    """
-    state = ctx.context
+    """Plain helper — same body as save_shot_prompt tool, callable by Python."""
     if not final_prompt.lstrip().startswith(_STYLE_PREAMBLE_PREFIX):
         return (
             f"REJECTED shots/{beat_id}/{shot_id}.json — final_prompt must "
@@ -1060,6 +1074,8 @@ async def save_shot_prompt(
             f"\"{_STYLE_PREAMBLE_PREFIX}...\"). Re-emit with the preamble "
             "prepended byte-for-byte."
         )
+    if isinstance(anchor_ref, str) and anchor_ref.strip().lower() in ("null", "none", ""):
+        anchor_ref = None
     shot_dir = state.bundle_writer.out_dir / "shots" / beat_id
     shot_dir.mkdir(parents=True, exist_ok=True)
     (shot_dir / f"{shot_id}.json").write_text(
@@ -1080,6 +1096,26 @@ async def save_shot_prompt(
     return f"OK shots/{beat_id}/{shot_id}.json saved ({len(final_prompt)} chars)"
 
 
+@function_tool(strict_mode=False)
+async def save_shot_prompt(
+    ctx: RunContextWrapper[AgentState],
+    beat_id: str,
+    shot_id: str,
+    final_prompt: str,
+    aspect_ratio: str = "16:9",
+    anchor_ref: str | None = None,
+) -> str:
+    """Persist one shot's final_prompt to bundle/shots/<beat_id>/<shot_id>.json.
+
+    Lenient validation — only checks that final_prompt begins with the
+    canonical Style Preamble prefix.
+    """
+    return _do_save_shot_prompt(
+        ctx.context, beat_id, shot_id, final_prompt,
+        aspect_ratio=aspect_ratio, anchor_ref=anchor_ref,
+    )
+
+
 # Minimal-combo mode: 4 persistence tools. Prose via worker, shots saved
 # with lenient Style Preamble check, anchors + images via existing tools.
 MINIMAL_COMBO_TOOLS = [
@@ -1087,4 +1123,112 @@ MINIMAL_COMBO_TOOLS = [
     save_shot_prompt,
     render_anchor,
     render_image,
+]
+
+
+# ---------- handoff-mode persistence tools (Path B two-agent split) ---------
+
+
+@function_tool(strict_mode=False)
+def save_story_markdown(
+    ctx: RunContextWrapper[AgentState],
+    markdown: str,
+) -> str:
+    """Persist the story structure (beats, edges, controlling idea, etc.)
+    as free-form markdown to bundle/story_markdown.md. Lenient — no schema
+    validation. Flips state.story_emitted=True so finish_handoff_bundle
+    knows this phase is done.
+    """
+    state = ctx.context
+    path = state.bundle_writer.out_dir / "story_markdown.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(markdown, encoding="utf-8")
+    state.story_emitted = True
+    return f"OK story_markdown.md saved ({len(markdown)} chars)"
+
+
+@function_tool(strict_mode=False)
+def save_characters_markdown(
+    ctx: RunContextWrapper[AgentState],
+    markdown: str,
+) -> str:
+    """Persist the character sheet (base identity, persistent_grooming,
+    wardrobe_states, mutex, covers) as free-form markdown to
+    bundle/characters_markdown.md. Lenient — no schema validation. Flips
+    state.characters_emitted=True AND sets state.characters_data to an
+    empty dict so render_anchor knows this phase completed (handoff-mode
+    sentinel: empty dict = "characters emitted, names not schema-gated").
+    """
+    state = ctx.context
+    path = state.bundle_writer.out_dir / "characters_markdown.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(markdown, encoding="utf-8")
+    state.characters_emitted = True
+    if state.characters_data is None:
+        state.characters_data = {}
+    return f"OK characters_markdown.md saved ({len(markdown)} chars)"
+
+
+@function_tool
+def finish_handoff_bundle(
+    ctx: RunContextWrapper[AgentState],
+    summary: str,
+) -> str:
+    """Signal the bundle is complete for the handoff architecture. Does NOT
+    require state.story_data (which only write_story sets); instead checks
+    that story_markdown + characters_markdown have been saved and that at
+    least one beat has shots. Sets state.finished=True.
+    """
+    state = ctx.context
+    missing: list[str] = []
+    if not state.story_emitted:
+        missing.append("story_markdown")
+    if not state.characters_emitted:
+        missing.append("characters_markdown")
+    if not state.beats_with_shots:
+        missing.append("shots (no beat has any shot saved)")
+    # Coverage gate: every beat that has prose must also have shots.
+    # Prevents the "declare victory after 2 beats" failure mode where the
+    # director summarises success while 4+ beats remain shotless.
+    beats_missing_shots = sorted(state.beats_with_prose - state.beats_with_shots)
+    if beats_missing_shots:
+        missing.append(
+            f"shots for beats with prose but no shots: {beats_missing_shots} "
+            f"(shot coverage {len(state.beats_with_shots)}/{len(state.beats_with_prose)})"
+        )
+    if missing:
+        return (
+            "REJECTED finish_handoff_bundle — still missing: "
+            + "; ".join(missing)
+            + ". Complete those first, then retry finish_handoff_bundle."
+        )
+    state.finish_summary = summary
+    state.finished = True
+    failed_note = (
+        f" failed={len(state.failed_shots)}"
+        if state.failed_shots else ""
+    )
+    return (
+        f"OK handoff bundle finished. "
+        f"beats_prose={len(state.beats_with_prose)}, "
+        f"beats_shots={len(state.beats_with_shots)}, "
+        f"anchors={sum(len(v) for v in state.anchors.values())}, "
+        f"images={state.images_rendered}{failed_note}. "
+        f"Summary: {summary}"
+    )
+
+
+# Handoff mode: skeleton_script_agent's 3 tools (+ auto-injected handoff).
+HANDOFF_SKELETON_SCRIPT_TOOLS = [
+    save_story_markdown,
+    save_characters_markdown,
+    freeform_script_worker,
+]
+
+# Handoff mode: director_agent's 4 tools.
+HANDOFF_DIRECTOR_TOOLS = [
+    save_shot_prompt,
+    render_anchor,
+    render_image,
+    finish_handoff_bundle,
 ]

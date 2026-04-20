@@ -5,7 +5,12 @@ not push to GitHub without sanitising if you paste actual key values.
 
 ---
 
-## 🏆 Winner
+## Current best-known — tentatively usable, still too slow
+
+**Status (2026-04-20)**: This is the best full-completeness configuration
+we found among the 6 rounds, but **10:54 on the short demo brief is
+still too slow for production**. Treat it as "tentatively usable while
+we keep searching for a faster orchestrator," not a final decision.
 
 **Configuration**: m2.5-nitro main + grok-4-1-fast-non-reasoning worker,
 minimal-combo architecture (4 tools).
@@ -197,7 +202,21 @@ rm -rf /tmp/crpg-bench-m25 /tmp/crpg-bench-m25.log
 
 ---
 
-## Next steps (not blocking this decision)
+## Next steps
+
+**The speed bar is not yet met.** Keep searching for a faster
+orchestrator before treating `m25-nitro + --minimal-combo` as the
+final choice. Candidate directions:
+
+- Try newer/faster reasoning models as they ship (Sonnet 4.6 +,
+  GPT-5 class, Gemini 2.5 Pro variants, Grok 5) on `--minimal-combo`.
+- Try `grok-xai --minimal-combo` (2:47 on short brief, 5/8 strict
+  prose) paired with a secondary shots-only pass, to see if decoupling
+  prose and shots beats the single-agent approach on wall time.
+- Investigate whether the 13-tool default's speed-win (m25-nitro 7:59)
+  can be reconstructed without its prose-window regression.
+
+**Non-blocking follow-ups on the current best-known config:**
 
 1. Implement `b5a` (回家分支结尾) retry logic — main agent should
    re-call worker when a beat is missing at finish time.
@@ -206,5 +225,14 @@ rm -rf /tmp/crpg-bench-m25 /tmp/crpg-bench-m25.log
 3. Add a second pass that turns freeform_output markdown into
    `story.json` / `characters.json` so downstream image pipeline can
    consume it (one-off conversion, not a tool call).
-4. Test long brief (`tests/fixtures/medium_detailed_brief.md`) with the
-   winning configuration to verify scaling.
+
+**Scaling test brief — do NOT use the民国谍战 fixture.**
+`tests/fixtures/medium_detailed_brief.md` and
+`tests/fixtures/skeleton_briefs/shanghai_1930s.md` are 1930s-Shanghai
+political-thriller period pieces and do not match crpg's project
+positioning (modern-urban adult-oriented anime visuals). They remain
+in the repo as historical skeleton-generalization artifacts only.
+Before running a long-brief scaling test, author a new fixture that
+sits inside the product style: contemporary setting, adult-oriented
+(Literotica/AO3-adjacent, not explicit political history), compatible
+with the locked anime Style Preamble.

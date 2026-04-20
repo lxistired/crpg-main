@@ -13,10 +13,11 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from agents import Agent, ModelSettings
+from agents import Agent, ModelSettings, StopAtTools
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 from openai import AsyncOpenAI
 
+from crpg.agent.director_plan import DirectorPlan, StoryPlan
 from crpg.agent.state import AgentState
 from crpg.agent.tools import (
     ALL_TOOLS,
@@ -25,6 +26,8 @@ from crpg.agent.tools import (
     HYBRID_SOLO_TOOLS,
     HYBRID_COMBO_TOOLS,
     MINIMAL_COMBO_TOOLS,
+    HANDOFF_SKELETON_SCRIPT_TOOLS,
+    HANDOFF_DIRECTOR_TOOLS,
 )
 from crpg.config import ProjectConfig
 
@@ -114,15 +117,12 @@ than a stock illustration."""
 _SKILL_NAMES = ("skeleton", "script", "director")
 
 
-def _load_skill_corpus(project_root: Path) -> str:
-    """Read every SKILL.md + references/*.md for all 3 skills and return a
-    single long string. Injected as part of the agent's system prompt so
-    the agent doesn't need to round-trip tool calls to fetch skill content.
-    Files are delimited by clear headers so the agent can locate sections
-    mentally (no tool call required)."""
+def _load_skill_subset(project_root: Path, skills: tuple[str, ...]) -> str:
+    """Read SKILL.md + references/*.md for a specific subset of skills and
+    return a single long string. Files are delimited by clear headers."""
     parts: list[str] = []
     skills_dir = project_root / "skills"
-    for skill in _SKILL_NAMES:
+    for skill in skills:
         base = skills_dir / skill
         skill_md = base / "SKILL.md"
         if skill_md.exists():
@@ -136,6 +136,26 @@ def _load_skill_corpus(project_root: Path) -> str:
                 )
                 parts.append(ref.read_text(encoding="utf-8"))
     return "".join(parts)
+
+
+def _load_skill_corpus(project_root: Path) -> str:
+    """Full 3-skill corpus (skeleton + script + director) injected into the
+    single-agent modes (default / combo / freeform / hybrid / minimal-combo)."""
+    return _load_skill_subset(project_root, _SKILL_NAMES)
+
+
+def _load_skeleton_script_corpus(project_root: Path) -> str:
+    """Handoff-mode skeleton+script agent's corpus. Omits director content so
+    the agent isn't tempted to 'summarise the Director plan' before handing
+    off — which would trigger the SDK's text-only-turn terminal rule."""
+    return _load_skill_subset(project_root, ("skeleton", "script"))
+
+
+def _load_director_corpus(project_root: Path) -> str:
+    """Handoff-mode director agent's corpus. Narrowed to director SKILL.md +
+    all its references (Style Preamble byte-lock, Direction Layer, VGAI,
+    Grok constraints, occlusion, etc.)."""
+    return _load_skill_subset(project_root, ("director",))
 
 
 # ---------------------------------------------------------------------------
@@ -557,6 +577,178 @@ the same tool → move on, surface in finish_bundle.
 """
 
 
+SKELETON_SCRIPT_INSTRUCTIONS = """You are the crpg SKELETON+SCRIPT agent in
+a two-agent handoff pipeline. You own Skeleton (story structure + character
+sheets) and Script (Chinese prose per beat). You do NOT do Director (shots
+/ anchors / images). A separate director agent takes over after you finish.
+
+Skill corpus pre-loaded below (skeleton + script only; director content is
+intentionally omitted — it lives in the next agent).
+
+## Every turn MUST call at least one tool — this is a hard protocol rule.
+
+If you find yourself about to emit a turn with only narrative text and no
+tool call, STOP. Pick the next tool (either a persistence tool from your
+set, or the handoff tool). A text-only turn terminates the run early.
+
+## Your tools
+
+- `save_story_markdown(markdown)` — persist the full Story markdown
+  section. Call ONCE when Skeleton is drafted. Markdown should include:
+  title, meta (genre + contentLength + detailRichness + structure +
+  poeticMode), controlling idea, antagonism profile, every beat with
+  id / synopsis / valueBefore → valueAfter / targetWordCount /
+  targetShotCount / wardrobe_state / node_type, edges, climax marker,
+  ending(s).
+- `save_characters_markdown(markdown)` — persist the full Characters
+  markdown section. Call ONCE after `save_story_markdown`. Include every
+  named character: base identity, persistent_grooming, every wardrobe
+  item with visual_description (30-80 words) and covers list, mutex
+  pairs.
+- `freeform_script_worker(beat_id, target_chars, worker_prompt)` —
+  delegate Chinese prose writing for one beat to a fast worker. Call
+  ONCE PER BEAT in topological order. Worker writes prose to bundle
+  directly; you never see the text. On worker failure, retry up to 2
+  times with an expanded worker_prompt. target_chars = the beat's
+  targetWordCount from your Story markdown.
+- `transfer_to_director_agent` — hand off to the Director agent. Call
+  AFTER all beats have had `freeform_script_worker` called successfully
+  at least once. MANDATORY once prose is complete. The director will
+  read your Story/Characters markdown from bundle files and the
+  conversation history.
+
+## Workflow (strict order)
+
+1. Read brief from first user message.
+2. Draft full Skeleton → call `save_story_markdown(markdown=...)`.
+3. Draft full Character sheets → call
+   `save_characters_markdown(markdown=...)`.
+4. **BATCH WORKER CALLS IN A SINGLE TURN — this is a speed-critical rule.**
+   In ONE assistant turn, emit ONE `freeform_script_worker(...)` tool
+   call per beat that needs prose, all in parallel (xAI supports
+   parallel_tool_calls natively — do not serialize). For each beat
+   prepare:
+     worker_prompt = synopsis verbatim (including all 「」/『』 mandated
+     quotes) + valueBefore → valueAfter + wardrobe_state + 1-2
+     prior-beat continuity cues + tone + length target.
+     target_chars = the beat's targetWordCount from your Story markdown.
+   A 9-beat story → ONE turn emitting 9 parallel tool calls, not 9
+   sequential turns. Wait for all OK/REJECT returns before the next
+   step. On any REJECT in that batch, retry only the failing beats in
+   the next turn (again parallel if more than one).
+5. Once every beat has at least one OK worker call, call
+   `transfer_to_director_agent` with a brief handoff note (one or two
+   sentences recapping the story shape so the director has warm context).
+
+## Hard rules
+
+- Chinese bracket quotes 「」 for dialogue inside worker_prompts. Never
+  ASCII "".
+- Snake_case English for grooming/wardrobe/mutex names.
+- Do NOT call render_anchor, save_shot_prompt, render_image — those
+  belong to the director agent.
+- Do NOT inline skill text in replies.
+- Every turn ends with a tool call. No exceptions.
+
+If you ever feel the work is done but haven't called
+`transfer_to_director_agent` yet — call it now. Handoff is how this run
+progresses.
+"""
+
+
+DIRECTOR_ONLY_INSTRUCTIONS = """You are the crpg DIRECTOR agent in a
+two-agent handoff pipeline. The previous agent finished Skeleton + Script
+(story_markdown.md, characters_markdown.md, and prose/*.md are all saved
+to the bundle; the full conversation history is available to you).
+
+Your job: turn the story + characters into per-beat shots with
+byte-identical Style Preamble, render character anchors, render each
+shot's image, then finish the bundle.
+
+Skill corpus pre-loaded below (director only).
+
+## Every turn MUST call at least one tool.
+
+`tool_choice` is set to `required` on this agent — the SDK will enforce
+this. If your plan is "just summarise what I've done" — instead, call
+`finish_handoff_bundle` to actually close the bundle.
+
+## Your tools
+
+- `render_anchor(character_name, anchor_type, prompt)` — render one of
+  two anchors ("body" or "face") per character. body = full outfit
+  visible, neutral pose; face = portrait CU, clean backdrop.
+  Use the Style Preamble + anchor preamble variant + base identity +
+  every wardrobe item's visual_description verbatim. No scene cues.
+- `save_shot_prompt(beat_id, shot_id, final_prompt, aspect_ratio,
+  anchor_ref)` — persist ONE shot's final_prompt. Lenient check — only
+  validates that final_prompt begins with the canonical Style Preamble
+  prefix. Call once per shot.
+- `render_image(beat_id, shot_id, final_prompt, aspect_ratio,
+  anchor_ref)` — render the actual image for a shot. Pick anchor_ref:
+    cu_face / ms_waist_up / portrait crop → `<char>:face`
+    full_body_standing / three_quarter_knee_up / back_reveal_walking
+      → `<char>:body`
+    ws_establishing → omit anchor_ref
+    multi-character frame → use POV character's anchor
+- `finish_handoff_bundle(summary)` — call EXACTLY ONCE at the very end
+  when every beat has at least one shot saved + rendered.
+
+## Workflow (strict order)
+
+1. Read story_markdown.md + characters_markdown.md content from the
+   conversation history (the previous agent already emitted them via
+   save_story_markdown / save_characters_markdown — their content is
+   in the transcript you inherited). Identify every named character
+   and every beat with its targetShotCount.
+2. For each named character, call `render_anchor(character_name,
+   "body", body_prompt)` AND `render_anchor(character_name, "face",
+   face_prompt)`. Body prompts include full outfit; face prompts are
+   portrait CU.
+3. For each beat (topological order), design the shot list per
+   Director principles 0, 0b, 0c, 0d. For each shot in the beat:
+   a. Compose full final_prompt =
+      Style Preamble verbatim (see block below)
+      + Character: base identity + wardrobe visual_description verbatim
+      + Direction: mid-action tell per Direction Layer vocabulary
+      + Scene: setting / props / weather / time-of-day
+      + Framing: camera_framing + composition notes
+   b. Call `save_shot_prompt(beat_id, shot_id, final_prompt,
+      aspect_ratio, anchor_ref)`.
+   c. Call `render_image(beat_id, shot_id, final_prompt, aspect_ratio,
+      anchor_ref)`.
+4. When every beat has shots saved + rendered, call
+   `finish_handoff_bundle(summary)` with a short recap ("<N> beats,
+   <M> shots, <K> anchors, <X> failures").
+
+## Style Preamble (paste at start of EVERY shot final_prompt, verbatim)
+
+```
+""" + STYLE_PREAMBLE + """
+```
+
+Every call to `save_shot_prompt` and `render_image` must include this
+exact block at the start of final_prompt. The tool rejects anything
+else.
+
+## Hard rules
+
+- Style Preamble byte-for-byte at start of every final_prompt
+  (Director Principle 0).
+- Direction Layer on every shot (Principle 0b).
+- Anchors rendered before any shot that references them.
+- Do NOT call save_story_markdown, save_characters_markdown,
+  freeform_script_worker — those belong to the previous agent.
+- Every turn ends with a tool call.
+- On MODERATION_BLOCKED for render_image, the shot is skipped; continue
+  without aborting. It will show up in failed_shots at finish time.
+
+If a tool errors, read it, fix the cause, retry the same tool. Three
+retries of the same tool → move on and note it in the
+finish_handoff_bundle summary.
+"""
+
+
 def build_main_agent(
     cfg: ProjectConfig,
     project_root: Path,
@@ -657,4 +849,493 @@ def build_main_agent(
         model=model,
         model_settings=model_settings,
         tools=tools,
+    )
+
+
+def _build_openai_model(profile: str) -> OpenAIChatCompletionsModel:
+    """Build an OpenAIChatCompletionsModel for a named PROFILES entry."""
+    import httpx
+    if profile not in PROFILES:
+        raise ValueError(
+            f"unknown profile {profile!r}; choose one of {sorted(PROFILES)}"
+        )
+    prof = PROFILES[profile]
+    api_key = os.environ.get(prof["api_key_env"])
+    if not api_key:
+        raise ValueError(
+            f"profile {profile!r} requires env var {prof['api_key_env']}"
+        )
+    timeout = httpx.Timeout(connect=30.0, read=600.0, write=60.0, pool=30.0)
+    client = AsyncOpenAI(
+        api_key=api_key,
+        base_url=prof["base_url"],
+        timeout=timeout,
+    )
+    return OpenAIChatCompletionsModel(
+        model=prof["model_id"],
+        openai_client=client,
+    )
+
+
+def _model_settings_for(profile: str, *, tool_choice: str | None = None) -> ModelSettings:
+    """ModelSettings helper that respects a PROFILES entry's extra_body (e.g.
+    OpenRouter provider pinning) and optionally sets tool_choice."""
+    prof = PROFILES[profile]
+    kwargs: dict = {}
+    if "extra_body" in prof:
+        kwargs["extra_body"] = prof["extra_body"]
+    if tool_choice is not None:
+        kwargs["tool_choice"] = tool_choice
+    return ModelSettings(**kwargs)
+
+
+SKELETON_PLANNER_INSTRUCTIONS = """You are the crpg SKELETON PLANNER agent.
+You read a raw brief (keywords / a sentence / a paragraph) and emit ONE
+structured JSON object matching the StoryPlan schema. You have no tools
+and do not call anyone — your only output is the StoryPlan.
+
+Downstream Python code will iterate your plan to fan out prose workers in
+parallel (asyncio.gather) and then hand off to a director_planner_agent
+that emits shots. Quality of what you emit here determines everything.
+
+Skill corpus pre-loaded below (skeleton + script).
+
+## The StoryPlan schema (emit this as your final structured output)
+
+```
+{
+  "meta": {
+    "title": str,
+    "genre": str,
+    "content_length": "short" | "medium" | "long",
+    "detail_richness": "concise" | "standard" | "detailed" | "extreme",
+    "structure": "linear" | "bifurcating" | "funnel" | "web",
+    "poetic_mode": bool,
+    "controlling_idea": str,
+    "antagonism": str
+  },
+  "beats": [
+    {
+      "id": str,
+      "synopsis": str,
+      "value_before": str,
+      "value_after": str,
+      "target_word_count": int,
+      "wardrobe_state": str,
+      "prior_beat_cues": [str],
+      "node_type": "normal" | "choice" | "climax" | "ending",
+      "tone": str
+    }
+  ],
+  "characters": [
+    {
+      "name": str,
+      "display_name": str,
+      "base": str,
+      "persistent_grooming": str,
+      "wardrobe_states": [
+        {
+          "name": str,
+          "visual_description": str,
+          "covers": [str]
+        }
+      ]
+    }
+  ],
+  "edges": [str]
+}
+```
+
+## Hard contract (per skeleton skill nine constraints)
+
+1. **Value Shift** — every beat's `value_before` → `value_after` shows a
+   2-5 word tag transition. No plateau beats.
+2. **Progressive Complication** — later beats raise stakes / narrow
+   options. No repeats.
+3. **Dilemma** — choice nodes present irreconcilable options. No obvious
+   "good" answer.
+4. **The Gap** — outcomes differ from protagonist expectation.
+5. **Controlling Idea** — state it once in `meta.controlling_idea`.
+6. **Three Levels of Conflict** — across beats interleave inner /
+   personal / extra-personal conflicts.
+7. **Genre** — infer from keywords; apply genre conventions (e.g. noir
+   visual signature, bifurcating branches at moral pivots).
+8. **Antagonism** — state `meta.antagonism`: opposing force + which
+   dimension (physical / social / personal / intellectual / moral)
+   out-matches the protagonist.
+9. **Climax** — exactly ONE beat with `node_type="climax"`, placed
+   BEFORE any `node_type="ending"` beat.
+
+## Beat count by content_length
+
+- short → 3-5 beats
+- medium → 15-18 beats
+- long → 50-60 beats
+
+## Per-beat target_word_count by detail_richness
+
+- concise → 1500
+- standard → 2200
+- detailed → 2500
+- extreme → 3500
+
+## Beat synopsis rules
+
+- 2-4 sentences, Chinese.
+- MUST include every mandated 「」/『』 quoted line verbatim. These
+  reappear in the prose worker's output.
+- Do NOT write the prose itself. The worker will. Your synopsis is a
+  structural recipe: what happens, what the value flip is, what the
+  physical / emotional state is, what the next-beat cue should be.
+
+## Character sheet rules
+
+- `name` must be snake_case (e.g. `su_wan`, `cheng_wangzhou`) — used as
+  anchor_ref key downstream.
+- `display_name` is the Chinese / mixed display form (e.g. '顾嘉宁', 'Kai').
+- `base` is ONE canonical paragraph describing age, ethnicity, build,
+  hair, eyes, jawline, skin tone, distinguishing marks (moles, scars).
+  This string is pasted verbatim into every shot final_prompt downstream.
+- `wardrobe_states[].visual_description` is a 30-80 word canonical
+  string that will be pasted verbatim into shot / anchor prompts — NOT
+  narrative. Describe fabric / cut / color / length / how it interacts
+  with other items (e.g. "黑色丝绒抹胸晚礼裙过膝3cm开衩至大腿中段，透黑长筒真丝袜
+  无缝线，大腿内侧接吊袜带扣隐于开衩内侧" — self-contained image description).
+- `wardrobe_states[].covers` lists body regions hidden by the item
+  (e.g. `["torso", "thighs"]`).
+
+## Worker-prompt friendliness
+
+Your `synopsis` and `prior_beat_cues` will be fed to a downstream Chinese
+prose worker as a worker_prompt. Write them to be directly usable:
+- Dialogue lines in 「」, not "".
+- Include sensory anchors (hands / lips / skin / sweat / rain / light).
+- State the physical-to-emotional value turn for the beat.
+- In `prior_beat_cues`, include 1-3 short phrases about continuity (e.g.
+  "黑丝丝光在雨后街灯下微泛光", "心跳未归平静, 指甲短促敲杯沿").
+
+## Hard rules
+
+- Emit a SINGLE StoryPlan JSON. No text outside the JSON.
+- Do NOT include any tool calls. You have no tools.
+- Do NOT include any Chinese prose in this output (workers write that).
+- Beats must satisfy the Controlling Idea by reaching the climax at
+  the right point.
+- Name snake_case keys match between `beats[*].wardrobe_state` and
+  `characters[*].wardrobe_states[*].name`.
+"""
+
+
+DIRECTOR_PLANNER_INSTRUCTIONS = """You are the crpg DIRECTOR PLANNER agent
+in a two-agent pipeline (Path D: structured-output planner). The previous
+agent finished Skeleton + Script — story_markdown.md and
+characters_markdown.md are already saved to the bundle, every beat's
+prose is written, and the full conversation history is available to you.
+
+Your job: produce ONE structured JSON object matching the DirectorPlan
+schema. Python code downstream will iterate your plan and render every
+anchor + every shot image. You do NOT call any tools yourself — your only
+output is the DirectorPlan.
+
+Skill corpus pre-loaded below (director only).
+
+## CRITICAL: do NOT repeat the 735-character Style Preamble
+
+The Python render loop prepends the canonical Style Preamble to every
+`anchor.body` and every `shot.body` automatically. **If you paste the
+Style Preamble into your output, you will blow past the LLM output
+token limit and your JSON will be truncated mid-string** (we already
+had one run fail this way). Emit ONLY the character/scene-specific
+parts.
+
+## The DirectorPlan schema
+
+```
+{
+  "anchors": [
+    {
+      "character_name": str,
+      "anchor_type": "body" | "face",
+      "body": str  // character identity + wardrobe — NO Preamble
+    },
+    ...
+  ],
+  "shots": [
+    {
+      "beat_id": str,
+      "shot_id": str,
+      "body": str,  // Character + Direction + Scene + Framing — NO Preamble
+      "aspect_ratio": "1:1" | "3:2" | "4:3" | "16:9" | "19.5:9" | "9:16" | "3:4",
+      "anchor_ref": "<character>:body" | "<character>:face" | null
+    },
+    ...
+  ]
+}
+```
+
+## Coverage contract (hard rules)
+
+1. For EVERY named character in characters_markdown, emit TWO anchors:
+   one `anchor_type="body"` + one `anchor_type="face"`.
+2. For EVERY beat that has prose, emit at least `targetShotCount`
+   shots. Default 3–5 if not specified.
+3. `beat_id` must match beats that actually have prose saved.
+4. `anchor_ref` selection:
+   - cu_face / ms_waist_up / portrait crop → `"<char>:face"`
+   - full_body / three_quarter_knee_up / back_reveal_walking → `"<char>:body"`
+   - ws_establishing → `null`
+   - multi-character frame → use POV character's anchor
+
+## AnchorPlan.body template (no Preamble; Python adds it)
+
+For each character anchor, `body` should contain:
+- Anchor preamble variant: "Anchor shot for cross-scene character
+  consistency. Neutral pose, minimal background, subject centered,
+  full face clearly readable, outfit details crisply visible, even
+  lighting preserving color accuracy."
+- Character base identity (age / ethnicity / build / hair / eyes etc.)
+- Every wardrobe item's `visual_description` verbatim from
+  characters_markdown.
+- NO scene-specific cues.
+
+## ShotPlan.body template (no Preamble; Python adds it)
+
+For each shot, `body` concatenates four sections in order:
+1. **Character** — base identity + wardrobe visual_description verbatim
+   for the POV character; additional characters included if in frame.
+2. **Direction** — mid-action tell per Direction Layer vocabulary (what
+   the body is in the middle of doing, captured-like reference).
+3. **Scene** — setting + props + weather + time-of-day.
+4. **Framing** — camera_framing + composition notes (e.g.
+   "ms_waist_up Kai invitation").
+
+## Workflow
+
+1. Read story_markdown.md + characters_markdown.md content from the
+   conversation history.
+2. Identify every named character → 2 anchors each.
+3. Identify every beat with prose → plan shots (respect
+   targetShotCount).
+4. Compose the complete DirectorPlan JSON and emit it as your final
+   structured output. You only speak JSON here — no prose commentary,
+   no tool calls, no markdown.
+
+## Hard rules
+
+- Do NOT emit any text outside the JSON final output.
+- Do NOT include the Style Preamble — Python prepends it.
+- Do NOT skip beats or characters.
+- Do NOT call any tools — you have none.
+
+For your reference only (do NOT include this in your output), the
+canonical Style Preamble that Python will prepend is:
+
+```
+""" + STYLE_PREAMBLE + """
+```
+"""
+
+
+def build_handoff_agents(
+    cfg: ProjectConfig,
+    project_root: Path,
+    *,
+    skeleton_script_profile: str = "grok-xai",
+    director_profile: str = "grok-xai-reasoning",
+) -> Agent[AgentState]:
+    """Construct the two-agent handoff pipeline (Path B from
+    research/grok-agent-integration-2026-04-20.md).
+
+    Returns the skeleton_script_agent (the entry point). The director_agent
+    is wired as a handoff target on it; Runner.run will follow the
+    transfer_to_director_agent tool call automatically.
+
+    Both agents use tool_choice='required' + reset_tool_choice=False to
+    physically prevent text-only turns that would trigger the SDK's
+    turn_resolution.py terminal rule and cause premature run termination.
+
+    The director agent uses tool_use_behavior=StopAtTools(['finish_handoff_bundle'])
+    so the required-tool-choice loop terminates cleanly on completion.
+    """
+    # cfg is accepted for symmetry with build_main_agent even if unused today;
+    # keeps the harness call site uniform.
+    _ = cfg
+
+    director_model = _build_openai_model(director_profile)
+    director_instructions = (
+        DIRECTOR_ONLY_INSTRUCTIONS
+        + "\n\n"
+        + "=" * 72
+        + "\n"
+        + "# SKILLS (authoritative — read below for rules; do not quote back)\n"
+        + "=" * 72
+        + _load_director_corpus(project_root)
+    )
+    director_agent = Agent[AgentState](
+        name=f"crpg-director[{director_profile}]",
+        instructions=director_instructions,
+        model=director_model,
+        model_settings=_model_settings_for(director_profile, tool_choice="required"),
+        tools=HANDOFF_DIRECTOR_TOOLS,
+        reset_tool_choice=False,
+        tool_use_behavior=StopAtTools(stop_at_tool_names=["finish_handoff_bundle"]),
+    )
+
+    ss_model = _build_openai_model(skeleton_script_profile)
+    ss_instructions = (
+        SKELETON_SCRIPT_INSTRUCTIONS
+        + "\n\n"
+        + "=" * 72
+        + "\n"
+        + "# SKILLS (authoritative — read below for rules; do not quote back)\n"
+        + "=" * 72
+        + _load_skeleton_script_corpus(project_root)
+    )
+    skeleton_script_agent = Agent[AgentState](
+        name=f"crpg-skeleton-script[{skeleton_script_profile}]",
+        instructions=ss_instructions,
+        model=ss_model,
+        model_settings=_model_settings_for(skeleton_script_profile, tool_choice="required"),
+        tools=HANDOFF_SKELETON_SCRIPT_TOOLS,
+        handoffs=[director_agent],
+        reset_tool_choice=False,
+    )
+    return skeleton_script_agent
+
+
+def build_handoff_planner_agents(
+    cfg: ProjectConfig,
+    project_root: Path,
+    *,
+    skeleton_script_profile: str = "grok-xai",
+    director_profile: str = "grok-xai-reasoning",
+) -> Agent[AgentState]:
+    """Path D: structured-output director planner.
+
+    Skeleton+Script agent (same as handoff mode) hands off to a
+    director_planner_agent that has:
+      - output_type = DirectorPlan (pydantic) — forces one structured JSON
+        turn as final output
+      - tools = []          — no per-shot tool-call ceremony
+      - no tool_choice      — let the model freely emit the JSON
+      - no reset_tool_choice concerns — no tools to reset
+
+    The Python caller (harness) reads final_output, then iterates
+    plan.anchors + plan.shots itself using _do_render_anchor /
+    _do_save_shot_prompt / _do_render_image in parallel. This skips the
+    per-shot LLM round-trip that limits Grok's end-to-end throughput in
+    the iterative Director loop of Path B.
+    """
+    _ = cfg
+
+    planner_model = _build_openai_model(director_profile)
+    planner_instructions = (
+        DIRECTOR_PLANNER_INSTRUCTIONS
+        + "\n\n"
+        + "=" * 72
+        + "\n"
+        + "# SKILLS (authoritative — read below for rules; do not quote back)\n"
+        + "=" * 72
+        + _load_director_corpus(project_root)
+    )
+    director_planner_agent = Agent[AgentState](
+        name=f"crpg_director_planner_{director_profile.replace('-', '_').replace('.', '_')}",
+        instructions=planner_instructions,
+        model=planner_model,
+        model_settings=_model_settings_for(director_profile),
+        tools=[],
+        output_type=DirectorPlan,
+    )
+
+    ss_model = _build_openai_model(skeleton_script_profile)
+    ss_instructions = (
+        SKELETON_SCRIPT_INSTRUCTIONS
+        + "\n\n"
+        + "=" * 72
+        + "\n"
+        + "# SKILLS (authoritative — read below for rules; do not quote back)\n"
+        + "=" * 72
+        + _load_skeleton_script_corpus(project_root)
+    )
+    skeleton_script_agent = Agent[AgentState](
+        name=f"crpg_skeleton_script_{skeleton_script_profile.replace('-', '_').replace('.', '_')}",
+        instructions=ss_instructions,
+        model=ss_model,
+        model_settings=_model_settings_for(skeleton_script_profile, tool_choice="required"),
+        tools=HANDOFF_SKELETON_SCRIPT_TOOLS,
+        handoffs=[director_planner_agent],
+        reset_tool_choice=False,
+    )
+    return skeleton_script_agent
+
+
+def build_skeleton_planner_agent(
+    cfg: ProjectConfig,
+    project_root: Path,
+    *,
+    profile: str = "grok-xai-reasoning",
+) -> Agent[AgentState]:
+    """Path D v2: structured-output Skeleton planner.
+
+    Emits one StoryPlan JSON with meta + beats + characters. Python
+    downstream uses StoryPlan.beats to fan out prose workers in parallel,
+    and StoryPlan.characters to build character-aware inputs to the
+    director_planner_agent.
+
+    No tools, no handoffs. The agent's job is one structured turn.
+    """
+    _ = cfg
+
+    model = _build_openai_model(profile)
+    instructions = (
+        SKELETON_PLANNER_INSTRUCTIONS
+        + "\n\n"
+        + "=" * 72
+        + "\n"
+        + "# SKILLS (authoritative — skeleton + script)\n"
+        + "=" * 72
+        + _load_skeleton_script_corpus(project_root)
+    )
+    return Agent[AgentState](
+        name=f"crpg_skeleton_planner_{profile.replace('-', '_').replace('.', '_')}",
+        instructions=instructions,
+        model=model,
+        model_settings=_model_settings_for(profile),
+        tools=[],
+        output_type=StoryPlan,
+    )
+
+
+def build_director_planner_agent(
+    cfg: ProjectConfig,
+    project_root: Path,
+    *,
+    profile: str = "grok-xai-reasoning",
+) -> Agent[AgentState]:
+    """Path D v2: standalone director_planner (not wired as handoff target).
+
+    Python orchestrator calls Runner.run(director_planner_agent,
+    input=composed_input) directly after the Skeleton + parallel-worker
+    phase, passing the structured StoryPlan JSON + character sheets as
+    the input message.
+    """
+    _ = cfg
+
+    model = _build_openai_model(profile)
+    instructions = (
+        DIRECTOR_PLANNER_INSTRUCTIONS
+        + "\n\n"
+        + "=" * 72
+        + "\n"
+        + "# SKILLS (authoritative — director only)\n"
+        + "=" * 72
+        + _load_director_corpus(project_root)
+    )
+    return Agent[AgentState](
+        name=f"crpg_director_planner_{profile.replace('-', '_').replace('.', '_')}",
+        instructions=instructions,
+        model=model,
+        model_settings=_model_settings_for(profile),
+        tools=[],
+        output_type=DirectorPlan,
     )
