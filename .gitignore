@@ -39,3 +39,7 @@ research/pipeline-simulation/vgating-v2-validation/
 research/pipeline-simulation/vgating-v3-scenes/
 research/pipeline-simulation/vgating-v4-narrative/
 research/pipeline-simulation/vgating-v5-legboundary/
+
+# Session handoffs and strategic docs — keep local only, not in public repo
+SESSION-HANDOFF-*.md
+docs/archive/
